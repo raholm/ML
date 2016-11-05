@@ -91,6 +91,9 @@ for (i in 1:length(threshold)) {
     kknn_specificity[i] <- specificity(kknn_prediction)
 }
 
+1- kknn_specificity
+kknn_sensitivity
+
 knearest_data <- data.frame(x=(1 - knearest_specificity), y=knearest_sensitivity,
                             label=as.character(threshold))
 knearest_data
@@ -99,11 +102,39 @@ kknn_data <- data.frame(x=(1 - kknn_specificity), y=kknn_sensitivity,
                         label=as.character(threshold))
 kknn_data
 
+x1 <- cumsum(kknn_data$x)
+x1 <- x1 / max(x1)
+x1
+
+y1 <- cumsum(kknn_data$y)
+y1 <- y1 / max(y1)
+y1
+
+
+x2 <- cumsum(knearest_data$x)
+x2 <- x2 / max(x2)
+x2
+
+y2 <- cumsum(knearest_data$y)
+y2 <- y2 / max(y2)
+y2
+
+
+data <- data.frame(x1=c(0, x1), y1=c(0, y1),
+                   x2=c(0, x2), y2=c(0, y2),
+                   x3=seq(0, 0.95, 0.05), y3=seq(0, 0.95, 0.05))
+
+ggplot() +
+    geom_line(data=data, aes(x1, y1), color="green") +
+    geom_line(data=data, aes(x2, y2), color="blue") +
+    geom_line(data=data, aes(x3, y3), color="red") +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits=c(0, 1))
+
 ggplot() + ggtitle("ROC Curve") +
     xlab("False Positive Rate (1 - specificity)") +
     ylab("True Positive Rate (sensitivity)") +
-    geom_line(data=knearest_data, aes(x, y), color="red") +
-    geom_line(data=kknn_data, aes(x, y), color="blue") +
+    geom_point(data=knearest_data, aes(x, y), color="red") +
+    geom_point(data=kknn_data, aes(x, y), color="blue") +
     scale_x_continuous(limits = c(0, 1)) + scale_y_continuous(limits=c(0, 1)) +
     theme(plot.title=element_text(hjust=0.5))
-
