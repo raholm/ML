@@ -83,7 +83,7 @@ threshold <- seq(0.05, 0.95, by=0.05)
 predicted_knearest <- knearest(train, 5, test)
 
 kknn.fit <- kknn(Spam ~ ., train=train, test=test, distance=2, k=5)
-predicted_kknn<- fitted(kknn.fit)
+predicted_kknn <- fitted(kknn.fit)
 
 knearest_sensitivity <- rep(0, length(threshold))
 knearest_specificity <- rep(0, length(threshold))
@@ -101,10 +101,10 @@ for (i in 1:length(threshold)) {
     kknn_specificity[i] <- specificity(kknn_prediction)
 }
 
-knearest_x <- c(0, rev((1 - knearest_specificity)), 1)
+knearest_x <- c(0, rev(1 - knearest_specificity), 1)
 knearest_y <- c(0, rev(knearest_sensitivity), 1)
 
-kknn_x <- c(0, rev((1 - kknn_specificity)), 1)
+kknn_x <- c(0, rev(1 - kknn_specificity), 1)
 kknn_y <- c(0, rev(kknn_sensitivity), 1)
 
 knearest_data <- data.frame(x=knearest_x, y=knearest_y,
