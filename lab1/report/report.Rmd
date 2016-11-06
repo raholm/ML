@@ -30,22 +30,22 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-init>>
 ```
 
-## 2.3
+## 1.3
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-table>>
 ```
 
-## 2.4
+## 1.4
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-4-table>>
 ```
 
-## 2.5
+## 1.5
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-5-table>>
 ```
 
-## 2.6
+## 1.6
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-6-init>>
 ```
@@ -105,3 +105,33 @@ knitr::read_chunk("../assignment2/solution.R")
 ```{r distribution5, echo=FALSE, fig.cap="Likelihoods."}
 <<assign2-5-plot-distribution>>
 ```
+
+\newpage
+
+# Appendix
+
+## Code for Assignment 1
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1-init>>
+<<assign1-3-table>>
+<<assign1-4-table>>
+<<assign1-5-table>>
+<<assign1-6-init>>
+<<assign1-6-ROC>>
+```
+
+## Code for Assignment 2
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2-2-init>>
+<<assign2-2-plot-distribution>>
+<<assign2-2-plot-likelihoods>>
+<<assign2-3-init>>
+<<assign2-3-plot-likelihoods>>
+<<assign2-3-plot-likelihoods-6>>
+<<assign2-4-init>>
+<<assign2-4-plot-posteriors>>
+<<assign2-5-init>>
+<<assign2-5-plot-distribution>>
+```
+
+

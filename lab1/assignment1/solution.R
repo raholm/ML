@@ -2,6 +2,7 @@
 library(kknn)
 library(caret)
 library(ggplot2)
+library(reshape)
 
 data <- read.csv("../data/spambase.csv", sep=",", header=TRUE)
 
@@ -107,21 +108,24 @@ kknn_x <- c(0, rev((1 - kknn_specificity)), 1)
 kknn_y <- c(0, rev(kknn_sensitivity), 1)
 
 knearest_data <- data.frame(x=knearest_x, y=knearest_y,
-                            label=as.character(c(0, threshold, 1)))
+                            label=rep("knearest", length(knearest_x)))
 
 kknn_data <- data.frame(x=kknn_x, y=kknn_y,
-                        label=as.character(c(0, threshold, 1)))
+                        label=rep("kknn", length(kknn_x)))
 
-reference_line <- data.frame(x=seq(0, 1, 0.05), y=seq(0, 1, 0.05))
+reference_line <- data.frame(x=seq(0, 1, 0.05), y=seq(0, 1, 0.05),
+                             label=rep("random", length(knearest_x)))
+
+
+complete_data <- melt(rbind(knearest_data, kknn_data, reference_line), id=c("x", "y"))
+names(complete_data)[4] <- "Algorithm"
 ## ---- end-of-assign1-6-init
 
 ## ---- assign1-6-ROC
 ggplot() + ggtitle("ROC Curve") +
     xlab("False Positive Rate (1 - specificity)") +
     ylab("True Positive Rate (sensitivity)") +
-    geom_line(data=knearest_data, aes(x, y), color="red") +
-    geom_line(data=kknn_data, aes(x, y), color="blue") +
-    geom_line(data=reference_line, aes(x, y), color="green", linetype="dashed") +
+    geom_line(data=complete_data, aes(x=x, y=y, color=Algorithm), size=1) +
     scale_x_continuous(limits = c(0, 1)) + scale_y_continuous(limits=c(0, 1)) +
     theme(plot.title=element_text(hjust=0.5))
 ## ---- end-of-assign1-6-ROC
