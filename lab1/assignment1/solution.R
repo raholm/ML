@@ -1,8 +1,8 @@
+## ---- assign1-init
 library(kknn)
 library(caret)
 library(ggplot2)
 
-## 1
 data <- read.csv("../data/spambase.csv", sep=",", header=TRUE)
 
 n <- nrow(data)
@@ -15,9 +15,8 @@ test <- data[-id,]
 train_labels <- factor(train[, ncol(train)], levels=c(0, 1), labels=c("non-spam", "spam"))
 test_labels <- factor(test[, ncol(test)], levels=c(0, 1), labels=c("non-spam", "spam"))
 
-threshold <- 0.5
+single_threshold <- 0.5
 
-## 2
 knearest <- function(data, k, newdata) {
     stopifnot(k > 0)
     
@@ -46,28 +45,38 @@ predicted_result <- function(predicted, actual, threshold) {
     predicted <- factor(predicted, levels=c(0, 1), labels=c("non-spam", "spam"))
     table(actual, predicted)
 }
+## ---- end-of-assign1-init
 
 ## Testing that the implementation seems to be correct
+## ---- assign1-test
 predicted <- knearest(train, 1, train)
-predicted_result(predicted, train_labels, threshold)
+predicted_result(predicted, train_labels, single_threshold)
 
 predicted <- knearest(test, 1, test)
-predicted_result(predicted, test_labels, threshold)
+predicted_result(predicted, test_labels, single_threshold)
+## ---- end-of-assign1-test
 
 ## 3
+## ---- assign1-3-table
 predicted <- knearest(train, 5, test)
-predicted_result(predicted, test_labels, threshold)
+predicted_result(predicted, test_labels, single_threshold)
+## ---- end-of-assign1-3-table
 
 ## 4
+## ---- assign1-4-table
 predicted <- knearest(train, 1, test)
-predicted_result(predicted, test_labels, threshold)
+predicted_result(predicted, test_labels, single_threshold)
+## ---- end-of-assign1-4-table
 
 ## 5
+## ---- assign1-5-table
 kknn.fit <- kknn(Spam ~ ., train=train, test=test, distance=2, k=5)
 predicted <- fitted(kknn.fit)
-predicted_result(predicted, test_labels, threshold)
+predicted_result(predicted, test_labels, single_threshold)
+## ---- end-of-assign1-5-table
 
 ## 6
+## ---- assign1-6-init
 threshold <- seq(0.05, 0.95, by=0.05)
 
 predicted_knearest <- knearest(train, 5, test)
@@ -91,7 +100,6 @@ for (i in 1:length(threshold)) {
     kknn_specificity[i] <- specificity(kknn_prediction)
 }
 
-
 knearest_x <- c(0, rev((1 - knearest_specificity)), 1)
 knearest_y <- c(0, rev(knearest_sensitivity), 1)
 
@@ -100,19 +108,20 @@ kknn_y <- c(0, rev(kknn_sensitivity), 1)
 
 knearest_data <- data.frame(x=knearest_x, y=knearest_y,
                             label=as.character(c(0, threshold, 1)))
-knearest_data
 
 kknn_data <- data.frame(x=kknn_x, y=kknn_y,
                         label=as.character(c(0, threshold, 1)))
-kknn_data
 
 reference_line <- data.frame(x=seq(0, 1, 0.05), y=seq(0, 1, 0.05))
+## ---- end-of-assign1-6-init
 
+## ---- assign1-6-ROC
 ggplot() + ggtitle("ROC Curve") +
     xlab("False Positive Rate (1 - specificity)") +
     ylab("True Positive Rate (sensitivity)") +
     geom_line(data=knearest_data, aes(x, y), color="red") +
     geom_line(data=kknn_data, aes(x, y), color="blue") +
-    geom_line(data=reference_line, aes(x, y), color="green") +
+    geom_line(data=reference_line, aes(x, y), color="green", linetype="dashed") +
     scale_x_continuous(limits = c(0, 1)) + scale_y_continuous(limits=c(0, 1)) +
     theme(plot.title=element_text(hjust=0.5))
+## ---- end-of-assign1-6-ROC

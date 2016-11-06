@@ -2,6 +2,7 @@
 
 ## ---- assign2-init
 data <- read.csv("../data/machines.csv", sep=",", header=TRUE)
+data$Length <- as.numeric(data$Length)
 ## ---- end-of-assign2-init
 
 ## 2
@@ -33,7 +34,8 @@ lines(length_density, col="blue", lwd=2)
 ## ---- end-of-assign2-2-plot-distribution
 
 ## ---- assign2-2-plot-likelihoods
-plot(thetas, log_likelihoods, main="Log-Likelihood", xlab="Theta", ylab="Log-Likelihood", type="l")
+plot(thetas, log_likelihoods, main="Log-Likelihood",
+     xlab="Theta", ylab="Log-Likelihood", type="l", lwd=2)
 ## ---- end-of-assign2-2-plot-likelihoods
 
 ## 3
@@ -48,8 +50,9 @@ ylim <- c(min(min(log_likelihoods), min(log_likelihoods_6)),
 
 ## ---- assign2-3-plot-likelihoods
 plot(thetas, log_likelihoods, col="orange",
-     main="Log-Likelihood", xlab="Theta", ylab="Log-Likelihood", type="l", ylim=ylim)
-lines(thetas, log_likelihoods_6, col="blue")
+     main="Log-Likelihood", xlab="Theta", ylab="Log-Likelihood",
+     type="l", ylim=ylim, lwd=2)
+lines(thetas, log_likelihoods_6, col="blue", lwd=2)
 ## ---- end-of-assign2-3-plot-likelihoods
 
 ## ---- assign2-3-plot-likelihoods-6
@@ -62,22 +65,15 @@ prior <- function(theta, lambda=10) {
     lambda * exp(-lambda * theta)
 }
 
-likelihood <- function(x, theta) {
-    theta * exp(-theta * x)
-}
-
-log_posterior <- function(x, theta) {
-    log(likelihood(x, theta)) +  log(prior(theta))
-}
-
-log_posteriors <- sapply(thetas, function(x) {
-    sum(log_posterior(x=data$Length, theta=x))
+log_posteriors <- sapply(1:length(thetas), function(i) {
+    log_likelihoods[i] + log(prior(thetas[i]))
 })
 ## ---- end-of-assign2-4-init
 
 ## ---- assign2-4-plot-posteriors
 plot(thetas, log_posteriors, col="orange",
-     main="Log-Posterior", xlab="Theta", ylab="Log-Posterior", type="l")
+     main="Log-Posterior", xlab="Theta", ylab="Log-Posterior",
+     type="l", lwd=2)
 ## ---- end-of-assign2-4-plot-posteriors
 
 ## 5

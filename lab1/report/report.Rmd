@@ -18,6 +18,40 @@ output:
 ```{r global-options, echo = FALSE, eval=TRUE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
+
+knitr::read_chunk("../assignment1/solution.R")
+knitr::read_chunk("../assignment2/solution.R")
+```
+
+\newpage
+
+\section{Assignment 1}
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-init>>
+```
+
+## 2.3
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3-table>>
+```
+
+## 2.4
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-4-table>>
+```
+
+## 2.5
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-5-table>>
+```
+
+## 2.6
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-6-init>>
+```
+
+```{r ROC, echo=FALSE, fig.cap="Receiver operating characteristic curves."}
+<<assign1-6-ROC>>
 ```
 
 \newpage
@@ -25,7 +59,6 @@ knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 \section{Assignment 2}
 
 ```{r, echo=FALSE, eval=TRUE}
-knitr::read_chunk("../assignment2/solution.R")
 <<assign2-init>>
 ```
 

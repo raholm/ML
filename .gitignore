@@ -3,3 +3,4 @@
 *.tex
 report_files/
 *.log
+*.Rhistory
