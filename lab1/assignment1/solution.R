@@ -3,7 +3,7 @@ library(caret)
 library(ggplot2)
 
 ## 1
-data <- read.csv("../../data/spambase.csv", sep=",", header=TRUE)
+data <- read.csv("../data/spambase.csv", sep=",", header=TRUE)
 
 n <- nrow(data)
 set.seed(12345)

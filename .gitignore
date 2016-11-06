@@ -1,1 +1,5 @@
 *~
+*.md
+*.tex
+report_files/
+*.log
