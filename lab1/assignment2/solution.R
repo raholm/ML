@@ -26,7 +26,7 @@ best_theta <- thetas[which.max(log_likelihoods)]
 ## ---- end-of-assign2-2-init
 
 ## ---- assign2-2-plot-distribution
-plot(length_histogram, col="orange", main="Lifetime Distribution",
+plot(length_histogram, col="orange", main="Machine Distribution",
      xlab="Lifetime", ylab="Frequency", xlim=c(0, 5))
 lines(length_density, col="blue", lwd=2)
 ## ---- end-of-assign2-2-plot-distribution
@@ -55,7 +55,7 @@ lines(thetas, log_likelihoods_6, col="blue", lwd=2)
 
 ## ---- assign2-3-plot-likelihoods-6
 plot(thetas, log_likelihoods_6, type="l", main="Log-Likelihood",
-     xlab="Theta", ylab="Log-Likelihood", col="blue")
+     xlab="Theta", ylab="Log-Likelihood", col="blue", lwd=2)
 ## ---- end-of-assign2-3-plot-likelihoods-6
 
 ## 4
@@ -83,8 +83,8 @@ new_data <- rexp(50, best_theta)
 
 ## ---- assign2-5-plot-distribution
 par(mfrow=c(1, 2))
-hist(new_data, main="Distrubtion of Generated Data",
+hist(new_data, breaks=14, main="Distrubtion of Generated Data",
      xlab="Lifetime", ylab="Frequency", xlim=c(0, 5), col="orange")
-hist(data$Length, main="Distrubtion of Machine Data",
+hist(data$Length, breaks=8, main="Distrubtion of Machine Data",
      xlab="Lifetime", ylab="Frequency", col="orange")
 ## ---- end-of-assign2-5-plot-distribution

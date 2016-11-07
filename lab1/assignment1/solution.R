@@ -121,11 +121,8 @@ for (i in 1:length(threshold)) {
 knearest_x <- c(1, 1 - knearest_specificity, 0)
 knearest_y <- c(1, knearest_sensitivity, 0)
 
-knearest_y
-
 kknn_x <- c(1, 1 - kknn_specificity, 0)
 kknn_y <- c(1, kknn_sensitivity, 0)
-kknn_y
 
 knearest_data <- data.frame(x=knearest_x, y=knearest_y,
                             label=rep("knearest", length(knearest_x)))

@@ -30,8 +30,8 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-init>>
 ```
 
-In this assignment I have used the spambase data set that contains word frequencies for mails classified either as spam or non-spam. The data set contains 2740 observations.
-In order to test the $k$-nearest neighbor algorithm, I have separated the data set into two sets, training and test sets, of equal size. In the first couple of exercises I have used a threshold = 0.5 and used the cosine distance to compute dissimilarities.
+In this assignment I have used the spambase data set that contains word frequencies for mails classified as either spam or non-spam. The data set contains 2740 observations.
+In order to test the $k$-nearest neighbor algorithm, I have separated the data set into two sets, training and test sets, of equal size. In the first couple of exercises I have used a threshold = 0.5 and the cosine distance to compute dissimilarities.
 
 ## 1.3
 Here I used the training set to predict the test set using $k=5$ and the resulting confusion matrix can be seen below.
@@ -72,6 +72,7 @@ The misclassification rate is calculated as
 $\frac{298 + 178}{639 + 298 + 178 + 255} = \frac{238}{685} \approx 34.7\%.$
 \end{center}
 
+The performance have degraded compared to $k = 5$ which is not suprising since using $k = 1$ results in  a more complex model since the number of effective parameters are $\frac{\text{\# of training samples}}{k}$ and it overfits the training data.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-4-traintable>>
@@ -82,6 +83,8 @@ The misclassification rate is calculated as
 \begin{center}
 $\frac{6 + 2}{939 + 6 + 2 + 423} = \frac{4}{685} \approx 0.6\%.$
 \end{center}
+
+As expected, the number of errors are very low but I would have even expected 0 errors. Maybe the errors are due to numerical precision but we can at least see that using $k = 1$ entail in very low error rate compared to $k = 5$ on the training data.
 
 ## 1.5
 Here I have used algorithm from the kknn package with $k = 5$ and used the Euclidean distance instead of the cosine distance. Below is the result from classifying the test set.
@@ -96,7 +99,7 @@ The misclassification rate is calculated as
 $\frac{291 + 186}{646 + 291 + 186 + 247} = \frac{477}{1370} \approx 34.8\%.$
 \end{center}
 
-The misclassification rate is very similar to the one using $k = 1$ with cosine distance and a few percentage points above $k = 5$ with cosine distance. This indicates that the Euclidean distance is not a particular good dissimilarity measure in this case and the cosine distance should be favored.
+The misclassification rate is very similar to the one using $k = 1$ with cosine distance and a few percentage points above $k = 5$ with cosine distance. This indicates that the Euclidean distance is not a particular good dissimilarity measure in this case and the cosine distance should be favored which further support why the cosine similarity/distance is widely used in text mining.
 
 
 ## 1.6
@@ -104,13 +107,13 @@ The misclassification rate is very similar to the one using $k = 1$ with cosine 
 <<assign1-6-init>>
 ```
 
-In order to compare the performance of the classifiers and how it changes with the threshold, I have fixed $k = 5$ and classified the test data with both cosine and Euclidean distance. The threshold that have been used are $0.05, 0.1, \ldots, 0.95$ and figure \ref{fig:ROC} shows the performance comparison using ROC curves. As the false positive rate increases, the threshold decreases.
+In order to compare the performance of the classifiers and how it changes with the threshold, I have fixed $k = 5$ and classified the test data with both cosine and Euclidean distance. The threshold that have been used are $0.05, 0.1, \ldots, 0.95$ and figure \ref{fig:ROC} shows the performance comparison using ROC curves. As the false positive rate increases, the threshold increases.
 
 ```{r ROC, echo=FALSE, fig.cap="Receiver operating characteristic curves."}
 <<assign1-6-ROC>>
 ```
 
-We can see that using cosine distance, i.e. the red curve, yield in general better performance than Euclidean distance, the green curve. The points which have the lowest false positive rate, around 0.25,  in the red curve have a threshold $\ge 0.8$ while the point with false positive rate around 0.4 in the green curve have a threshold $= 0.95$.
+We can see that using cosine distance, i.e. the red curve, yield in general better performance than Euclidean distance, the green curve. The point on the red curve at around 0.25 false positive rate have a threshold $\in [0.45, 0.6]$ which contains $0.5$. I would expect it to be the optimal threshold and the ROC curves support that.
 
 \newpage
 
@@ -134,17 +137,17 @@ From the given formula the lifetime of the machines is an exponential distributi
 
 To compute the maximum likelihood estimate, the following formula is used
 
-\begin{equation}
+\begin{equation*}
 L(\theta) = f(x | \theta) = \prod_{i = 1}^{m}{f(x_{i} | \theta)}
-\end{equation}
+\end{equation*}
 
 and it is equivalent to maximize the log-likelihood which is given by
 
-\begin{equation}
+\begin{equation*}
 l(\theta) = \log{L(\theta)} = \sum_{i = 1}^{m}{\log{f(x_{i} | \theta)}}.
-\end{equation}
+\end{equation*}
 
-Figure \ref{fig:likelihood2} shows the log-likelihood over various thetas and the maximum likelihood estimate is given by $\theta \in [ 1.0, 1.2 ]$.
+Figure \ref{fig:likelihood2} shows the log-likelihood over various $\theta$ and the maximum likelihood estimate is given by $\theta \in [ 1.0, 1.2 ]$.
 
 ```{r likelihood2, echo=FALSE, fig.cap="The log-likelihoods over various thetas using the complete data set."}
 <<assign2-2-plot-likelihoods>>
@@ -155,7 +158,7 @@ Figure \ref{fig:likelihood2} shows the log-likelihood over various thetas and th
 <<assign2-3-init>>
 ```
 
-Figure \ref{fig:likelihood3} shows the log-likelihoods when using the complete data set but also when using only 6 observations. Figure \ref{fig:likelihood36} shows the log-likelihoods using 6 observations on it own and the maximum $\theta \in [1.5, 2]$ which is not the same as found using the complete data set. However, using the complete data set is more reliable because we do not lose any available information which cannot be said when picking just a handful of observations. We should therefore be more confident in the estimate using the complete data set, i.e. $\theta \in [ 1.0, 1.2 ]$.
+Figure \ref{fig:likelihood3} shows the log-likelihoods when using the complete data set but also when using only 6 observations. Figure \ref{fig:likelihood36} shows the log-likelihoods using 6 observations on its own and the maximum $\theta \in [1.5, 2]$ which is not the same as found using the complete data set. However, using the complete data set is more reliable because we do not lose any available information which cannot be said when picking just a handful of observations and the choice of those observations have a large impact on the result. We should therefore be more confident in the estimate from the complete data set, i.e. $\theta \in [ 1.0, 1.2 ]$.
 
 ```{r likelihood3, echo=FALSE, fig.cap="The log-likelihoods over various thetas. Orange line uses the complete data set while the blue line uses only 6 data points.", fig.width=4.5, fig.height=3.5}
 <<assign2-3-plot-likelihoods>>
@@ -170,7 +173,7 @@ Figure \ref{fig:likelihood3} shows the log-likelihoods when using the complete d
 <<assign2-4-init>>
 ```
 
-Here I have computed the log-posterior using all the observations and figure \ref{fig:posterior} shows the result for various $\theta$. The optimal $\theta \in [ 0.8, 1.0 ]$ which is close to the ones found previously.
+Here I have computed the log-posterior using all the observations and figure \ref{fig:posterior} shows the result for various $\theta$. The optimal $\theta \in [ 0.8, 1.0 ]$ which is close to the one found previously by the maximum log-likelihood estimate.
 
 ```{r posterior, echo=FALSE, fig.cap="The log-posterior oover various thetas using all observations."}
 <<assign2-4-plot-posteriors>>
@@ -181,7 +184,7 @@ Here I have computed the log-posterior using all the observations and figure \re
 <<assign2-5-init>>
 ```
 
-I used the optimal $\theta = 1.1$ found by the maximum log-likelihood and generated a new data set consisting of 50 observations. Figure \ref{fig:distribution5} shows the machine data set and the generated data as histograms and we can see both have similar distributions as expected.
+I used the  maximum log-likelihood estimate $\theta_{\text{MLE}} = 1.1$ and generated a new data set consisting of 50 observations. Figure \ref{fig:distribution5} shows the machine data set and the generated data as histograms and we can see both have similar distributions as expected.
 
 ```{r distribution5, echo=FALSE, fig.cap="Left: Histogram of the generated data. Right: Histogram  of the machine data."}
 <<assign2-5-plot-distribution>>
