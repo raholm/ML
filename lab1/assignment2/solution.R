@@ -32,7 +32,7 @@ lines(length_density, col="blue", lwd=2)
 ## ---- end-of-assign2-2-plot-distribution
 
 ## ---- assign2-2-plot-likelihoods
-plot(thetas, log_likelihoods, main="Log-Likelihood",
+plot(thetas, log_likelihoods, main="Log-Likelihood", col="orange",
      xlab="Theta", ylab="Log-Likelihood", type="l", lwd=2)
 ## ---- end-of-assign2-2-plot-likelihoods
 
@@ -54,7 +54,8 @@ lines(thetas, log_likelihoods_6, col="blue", lwd=2)
 ## ---- end-of-assign2-3-plot-likelihoods
 
 ## ---- assign2-3-plot-likelihoods-6
-plot(thetas, log_likelihoods_6, type="l", main="Log-Likelihood", xlab="Theta", ylab="Log-Likelihood")
+plot(thetas, log_likelihoods_6, type="l", main="Log-Likelihood",
+     xlab="Theta", ylab="Log-Likelihood", col="blue")
 ## ---- end-of-assign2-3-plot-likelihoods-6
 
 ## 4
@@ -69,7 +70,7 @@ log_posteriors <- sapply(1:length(thetas), function(i) {
 ## ---- end-of-assign2-4-init
 
 ## ---- assign2-4-plot-posteriors
-plot(thetas, log_posteriors, col="orange",
+plot(thetas, log_posteriors, col="green",
      main="Log-Posterior", xlab="Theta", ylab="Log-Posterior",
      type="l", lwd=2)
 ## ---- end-of-assign2-4-plot-posteriors

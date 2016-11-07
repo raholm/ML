@@ -93,7 +93,7 @@ Here I have used algorithm from the kknn package with $k = 5$ and used the Eucli
 The misclassification rate is calculated as
 
 \begin{center}
-$\frac{297 + 177}{640 + 297 + 177 + 256} = \frac{237}{685} \approx 34.6\%.$
+$\frac{291 + 186}{646 + 291 + 186 + 247} = \frac{477}{1370} \approx 34.8\%.$
 \end{center}
 
 The misclassification rate is very similar to the one using $k = 1$ with cosine distance and a few percentage points above $k = 5$ with cosine distance. This indicates that the Euclidean distance is not a particular good dissimilarity measure in this case and the cosine distance should be favored.
@@ -216,5 +216,3 @@ I used the optimal $\theta = 1.1$ found by the maximum log-likelihood and genera
 <<assign2-5-init>>
 <<assign2-5-plot-distribution>>
 ```
-
-
