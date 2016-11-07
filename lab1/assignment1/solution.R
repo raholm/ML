@@ -58,16 +58,26 @@ predicted_result(predicted, test_labels, single_threshold)
 ## ---- end-of-assign1-test
 
 ## 3
-## ---- assign1-3-table
+## ---- assign1-3-testtable
 predicted <- knearest(train, 5, test)
 predicted_result(predicted, test_labels, single_threshold)
-## ---- end-of-assign1-3-table
+## ---- end-of-assign1-3-testtable
+
+## ---- assign1-3-traintable
+predicted <- knearest(train, 5, train)
+predicted_result(predicted, train_labels, single_threshold)
+## ---- end-of-assign1-3-traintable
 
 ## 4
-## ---- assign1-4-table
+## ---- assign1-4-testtable
 predicted <- knearest(train, 1, test)
 predicted_result(predicted, test_labels, single_threshold)
-## ---- end-of-assign1-4-table
+## ---- end-of-assign1-4-testtable
+
+## ---- assign1-4-traintable
+predicted <- knearest(train, 1, train)
+predicted_result(predicted, train_labels, single_threshold)
+## ---- end-of-assign1-4-traintable
 
 ## 5
 ## ---- assign1-5-table
