@@ -84,7 +84,7 @@ The misclassification rate is calculated as
 $\frac{6 + 2}{939 + 6 + 2 + 423} = \frac{4}{685} \approx 0.6\%.$
 \end{center}
 
-As expected, the number of errors are very low but I would have even expected 0 errors. Maybe the errors are due to numerical precision but we can at least see that using $k = 1$ entail in very low error rate compared to $k = 5$ on the training data.
+As expected, the number of errors are very low but I would have even expected 0 errors. Maybe the errors are due to numerical precision, but we can at least see that using $k = 1$ entail in very low error rate compared to $k = 5$ on the training data.
 
 ## 1.5
 Here I have used algorithm from the kknn package with $k = 5$ and used the Euclidean distance instead of the cosine distance. Below is the result from classifying the test set.
@@ -100,7 +100,6 @@ $\frac{291 + 186}{646 + 291 + 186 + 247} = \frac{477}{1370} \approx 34.8\%.$
 \end{center}
 
 The misclassification rate is very similar to the one using $k = 1$ with cosine distance and a few percentage points above $k = 5$ with cosine distance. This indicates that the Euclidean distance is not a particular good dissimilarity measure in this case and the cosine distance should be favored which further support why the cosine similarity/distance is widely used in text mining.
-
 
 ## 1.6
 ```{r, echo=FALSE, eval=TRUE}

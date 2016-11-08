@@ -131,9 +131,9 @@ names(complete_data)[4] <- "Algorithm"
 ## ---- end-of-assign1-6-init
 
 ## ---- assign1-6-ROC
-ggplot() + ggtitle("ROC Curve") +
+ggplot(data=complete_data) + ggtitle("ROC Curve") +
     xlab("False Positive Rate (1 - specificity)") +
     ylab("True Positive Rate (sensitivity)") +
-    geom_line(data=complete_data, aes(x=x, y=y, color=Algorithm), size=1) +
-    geom_point(data=complete_data, aes(x=x, y=y, color=Algorithm), size=1.25)
+    geom_line(aes(x=x, y=y, color=Algorithm), size=1) +
+    geom_point(aes(x=x, y=y, color=Algorithm), size=1.25)
 ## ---- end-of-assign1-6-ROC
