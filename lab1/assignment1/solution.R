@@ -47,15 +47,6 @@ predicted_result <- function(predicted, actual, threshold) {
 }
 ## ---- end-of-assign1-init
 
-## Testing that the implementation seems to be correct
-## ---- assign1-test
-predicted <- knearest(train, 1, train)
-predicted_result(predicted, train_labels, single_threshold)
-
-predicted <- knearest(test, 1, test)
-predicted_result(predicted, test_labels, single_threshold)
-## ---- end-of-assign1-test
-
 ## 3
 ## ---- assign1-3-testtable
 predicted <- knearest(train, 5, test)
@@ -144,7 +135,5 @@ ggplot() + ggtitle("ROC Curve") +
     xlab("False Positive Rate (1 - specificity)") +
     ylab("True Positive Rate (sensitivity)") +
     geom_line(data=complete_data, aes(x=x, y=y, color=Algorithm), size=1) +
-    geom_point(data=complete_data, aes(x=x, y=y, color=Algorithm), size=1.25) +
-    scale_x_continuous(limits = c(0, 1)) + scale_y_continuous(limits=c(0, 1)) +
-    theme(plot.title=element_text(hjust=0.5))
+    geom_point(data=complete_data, aes(x=x, y=y, color=Algorithm), size=1.25)
 ## ---- end-of-assign1-6-ROC
