@@ -26,8 +26,8 @@ knitr::read_chunk("../assignment1/solution.R")
 <<assign1-init>>
 ```
 
-In this assignment we have used the spambase data set that contains word frequencies for mails classified as either spam or non-spam. The data set contains 2740 observations.
-In order to test the $k$-nearest neighbor algorithm, we have separated the data set into two sets, training and test sets, of equal size. In the first couple of exercises we have set the threshold = 0.5 and the cosine distance to compute dissimilarities.
+In this assignment we have used the spambase data set containing word frequencies for mails classified as either spam or non-spam. The data set contains 2740 observations.
+In order to test the $k$-nearest neighbor algorithm, we have separated the data set into two sets, train and test, of equal size. In the first couple of exercises we have set the threshold = 0.5 and the cosine distance to compute dissimilarities.
 
 ## 1.3
 Here we used the training set to predict the test set using $k=5$ and the resulting confusion matrix can be seen below.
@@ -80,7 +80,7 @@ The misclassification rate is calculated as
 $\frac{6 + 2}{939 + 6 + 2 + 423} = \frac{4}{685} \approx 0.6\%.$
 \end{center}
 
-As expected, the number of errors are very low but unexpectedly not 0 errors. This has probably to do with numerical precision, but we can at least see that using $k = 1$ entail in very low error rate compared to $k = 5$ on the training data.
+As expected, the number of errors are very low but unexpectedly not 0. This has probably to do with numerical precision, but we can at least see that using $k = 1$ entail in very low error rate compared to $k = 5$ on the training data.
 
 ## 1.5
 Here we used the $k$-nearest neighbor algorithm from the kknn package with $k = 5$ and used the Euclidean distance instead of the cosine distance. Below is the result from classifying the test set.
@@ -108,11 +108,11 @@ In order to compare the performance of the classifiers and how it changes with t
 <<assign1-6-ROC>>
 ```
 
-We can see that using cosine distance, i.e. the red curve, yield in general better performance than Euclidean distance, the green curve. The point on the red curve at around 0.25 false positive rate have a threshold $\in [0.45, 0.6]$ which contains $0.5$. We would expect it to be the optimal threshold given that the errors, FPs and FNs, have equal cost and the ROC curves support that.
+We can see that using cosine distance, i.e. the red curve, yield in general better results than Euclidean distance, the green curve. The point on the red curve at around 0.25 false positive rate have a threshold $\in [0.45, 0.6]$ which contains $0.5$. We would expect it to be the optimal threshold given that the errors, FPs and FNs, have equal cost and the ROC curves support that.
 
 \newpage
 
-## Assignment 2
+# Assignment 2
 
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -123,7 +123,7 @@ machines <- as.vector(unlist(machines$Length))
 ### 2.2 
 
 #### What is the distrubution type of x?
-The distrubution given is a exponential distrubution. 
+The distrubution given is a exponential distrubution.
 
 #### Write a function that computes the log-likelihood for a given $\theta$ and data vector x 
 
@@ -168,7 +168,7 @@ p + geom_line(data = plotData, aes(x=x,y=y2,col="6 observations"))
 
 ```
 
-The light red line shows the likelihood function of different theta using six observations and the light blue line shows the estimate using all observations. Both lines increases at the starting values of theta and reaches their peaks at about the same time. The light red line has a higher intercept than the light blue curve, they differ with about 300 units. 
+The light red line shows the likelihood function of different $\theta$ using six observations and the light blue line shows the estimate using all observations. Both lines increases at the starting values of theta and reaches their peaks at about the same time. The light red line has a higher intercept than the light blue curve, they differ with about 300 units. 
 
 The difference is that the estimate using all observations dies down at a much faster rate than the one using six observations and displays a much clearer max-value than the one with six observations. This shows a large dependence of data that the Maximum Likelihood estimators use. 
 
@@ -176,7 +176,9 @@ The difference is that the estimate using all observations dies down at a much f
 
 ## 2.4
 
-```{r, echo=FALSE}
+The measurement that have been computed is the log-posterior using all the observations. The figure below shows that the optimal $\theta \approx 0.91$ which is similar to our previous finding of the maximum log-likelihood estimate.
+
+```{r posterior, echo=FALSE}
 
 postBayes <- function(data,theta){ 
   lambda <- 10 
@@ -203,15 +205,15 @@ library(gridExtra)
 
 
 #extract the exact theta for the  ML-estimate
-maxTheta <- theta[thetaML == max(thetaML)] 
+maxTheta <- theta[thetaML == max(thetaML)]
 # Generate 50 random variables from the exponential distrubution with
 # the ML-estimate extracted  
 set.seed(12345)
 randomExpData<- data.frame(x=rexp(50,rate = maxTheta))
 
 #Plotting
-ab<- ggplot(data = randomExpData,aes(x=x)) + geom_histogram(bins = 10)
-abc<- ggplot(data =data.frame(x=machines),aes(x=x)) + geom_histogram(bins = 10)
+ab <- ggplot(data = randomExpData,aes(x=x)) + geom_histogram(bins = 10)
+abc <- ggplot(data =data.frame(x=machines),aes(x=x)) + geom_histogram(bins = 10)
 
  grid.arrange( ab, abc, ncol=2)
 
@@ -290,3 +292,7 @@ abc<- ggplot(data =data.frame(x=machines),aes(x=x)) + geom_histogram(bins = 10)
 
 grid.arrange( ab, abc, ncol=2)
 ```
+
+## Contributions
+
+We decided to divide us into groups of twos and assigned the assignments between the groups. Anton and Rasmus was responsible for discussing and compile assignment 1, and Emil and Mattias was responsible discussing and compile assigmnent 2. Then we all discussed our findings together as a whole group and checked that everyone had similar/understood the results.
