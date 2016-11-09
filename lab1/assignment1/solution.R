@@ -125,7 +125,6 @@ reference_line <- data.frame(x=as.numeric(seq(0, 1, 0.05) > 0.5),
                              y=as.numeric(seq(0, 1, 0.05) > 0.5),
                              label=rep("random", length(knearest_x)))
 
-
 complete_data <- melt(rbind(knearest_data, kknn_data, reference_line), id=c("x", "y"))
 names(complete_data)[4] <- "Algorithm"
 ## ---- end-of-assign1-6-init
