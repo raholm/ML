@@ -51,11 +51,14 @@ cross_validation_sets <- function(n, folds) {
     idx
 }
 
-linear_regression <- function(X_train, y_train, X_test, y_test) {   
+linear_regression <- function(X_train, y_train, X_test, y_test) {
+    X_train <- cbind(rep(1, nrow(X_train)), X_train)
+    X_test <- cbind(rep(1, nrow(X_test)), X_test)
+
     coefficients <- solve(t(X_train) %*% X_train) %*% t(X_train) %*% y_train
     coefficients <- as.vector(coefficients)
     fitted_values <- X_test %*% coefficients
-    SSE <- sum((y_test- fitted_values)^2)
+    SSE <- sum((y_test - fitted_values)^2)
     list(coefficients=coefficients, fitted_values=fitted_values, SSE=SSE)
 }
 
