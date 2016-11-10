@@ -54,7 +54,7 @@ plot_data <- melt(coefficients, id=rownames, varnames=c("feature", "lambda"))
 ggplot(plot_data, aes(x=lambda, y=value, colour=feature)) + geom_line(show.legend=FALSE)
 
 ## 7
-
+cv.glmnet(response, target, alpha=1)
 
 ## 8
 
