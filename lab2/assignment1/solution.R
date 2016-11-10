@@ -1,10 +1,14 @@
+library(ggplot2)
+
 best_subset_selection <- function(X, y, folds) {
     n <- nrow(X)
     p <- ncol(X)
 
     sampled_idx <- sample(1:n, n)
     sets <- cross_validation_sets(n, folds)
+
     best_features <- list()
+    cv_scores <- rep(list(c()), p)
 
     for (j in 1:p) {
         feature_combinations <- combinations(p, j)
@@ -22,12 +26,13 @@ best_subset_selection <- function(X, y, folds) {
                 current_errors <- c(current_errors, lmfit$SSE)
             }
             errors <- c(errors, mean(current_errors))
+            cv_scores[[j]] <- c(cv_scores[[j]], current_errors)
         }
         best_features[[j]] <- list(features=feature_combinations[which.min(errors),],
                                    SSE=min(errors))
     }
 
-    best_features
+    list(bf=best_features, cvs=cv_scores)
 }
 
 cross_validation_sets <- function(n, folds) {
@@ -55,7 +60,7 @@ linear_regression <- function(X_train, y_train, X_test, y_test) {
     coefficients <- solve(t(X_train) %*% X_train) %*% t(X_train) %*% y_train
     coefficients <- as.vector(coefficients)
     fitted_values <- X_test %*% coefficients
-    SSE <- sum((y_test- fitted_values)^2)
+    SSE <- sum((y_test - fitted_values)^2)
     list(coefficients=coefficients, fitted_values=fitted_values, SSE=SSE)
 }
 
@@ -69,11 +74,25 @@ y <- data[, 1]
 folds <- 5
 set.seed(12345)
 result <- best_subset_selection(x, y, folds)
-result
+best_features <- result$bf
+cv_scores <- result$cvs
 
-best_setting <- result[[which.min(sapply(result, function(x) x$SSE))]]
+best_features
+
+best_setting <- best_features[[which.min(sapply(best_features, function(x) x$SSE))]]
 colnames(x)[best_setting$features == 1]
 
 lmfit <- linear_regression(as.matrix(x[, best_setting$features == 1]), y,
                            as.matrix(x[, best_setting$features == 1]), y)
 lmfit$coefficients
+
+coordinates <- lapply(1:length(cv_scores), function(feature_count) cbind(x=feature_count,
+                                                                         y=cv_scores[[feature_count]]))
+plot_data <- as.data.frame(do.call(rbind, coordinates))
+
+ggplot(plot_data) +
+    ggtitle("Cross-validation Errors") +
+    xlab("Number of Features") +
+    ylab("Sum of Squared Error") +
+    geom_point(aes(x=x, y=y), color="orange") +
+    theme(plot.title = element_text(hjust=0.5))
