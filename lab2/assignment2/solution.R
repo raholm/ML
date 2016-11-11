@@ -58,7 +58,8 @@ feature_selection_count <- length(aic$coefficients) - 1
 
 ## 5
 ## ---- assign2-5
-response <- as.matrix(data[, setdiff(names(data), c("Sample", "Protein", "Moisture", "Fat"))])
+response <- as.matrix(data[, setdiff(names(data), c("Sample", "Protein",
+                                                    "Moisture", "Fat"))])
 target <- data[, "Fat"]
 
 ## Ridge Regression
@@ -91,14 +92,14 @@ ggplot(plot_data, aes(x=log(lambda), y=value, colour=feature)) +
 
 ## 7
 ## ---- assign2-7
-lasso_model_cv <- cv.glmnet(response, target, alpha=1, keep=TRUE)
+lasso_model_cv <- cv.glmnet(response, target, alpha=1)
 optimal_lambda <- lasso_model_cv$lambda.min
 feature_selection_count <- sum(as.matrix(coef(lasso_model_cv)) != 0) - 1
 
 plot_data <- data.frame(x=lasso_model_cv$lambda, y=lasso_model_cv$cvm)
 
-ggplot(plot_data, aes(x=x, y=y)) + geom_point() +
+ggplot(plot_data, aes(x=log(x), y=y)) + geom_point() +
     ggtitle("Cross-validation Scores") +
-    xlab(expression(lambda)) +
+    xlab(expression(log(lambda))) +
     ylab("Mean Squared Error")
 ## ---- end-of-assign2-7
