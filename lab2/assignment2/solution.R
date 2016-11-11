@@ -54,7 +54,11 @@ plot_data <- melt(coefficients, id=rownames, varnames=c("feature", "lambda"))
 ggplot(plot_data, aes(x=lambda, y=value, colour=feature)) + geom_line(show.legend=FALSE)
 
 ## 7
-cv.glmnet(response, target, alpha=1)
+lasso_model_cv <- cv.glmnet(response, target, alpha=1)
+lasso_model_cv$lambda
+lasso_model_cv$glmnet.fit
+lasso_model_cv$lambda.min
+lasso_model_cv$name
 
 ## 8
 

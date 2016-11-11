@@ -22,3 +22,30 @@ knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 knitr::read_chunk("../assignment1/solution.R")
 knitr::read_chunk("../assignment2/solution.R")
 ```
+
+\newpage
+
+# Assignment 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-init>>
+```
+
+```{r SSE, echo=FALSE, eval=TRUE}
+<<assign1-plot-sse>>
+```
+
+\newpage
+
+# Assignment 2
+
+\newpage
+
+# Appendix
+
+## Code for Assignment 1
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1-init>>
+<<assign1-plot-sse>>
+```
+
+## Code for Assignment 2

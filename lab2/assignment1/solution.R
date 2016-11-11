@@ -1,11 +1,17 @@
+## ---- assign1-init
 library(ggplot2)
 
 best_subset_selection <- function(X, y, folds) {
     n <- nrow(X)
     p <- ncol(X)
 
+    stopifnot(folds <= n)
+
     sampled_idx <- sample(1:n, n)
     sets <- cross_validation_sets(n, folds)
+
+    X <- X[sampled_idx,]
+    y <- y[sampled_idx]
 
     best_features <- list()
     cv_scores <- rep(list(c()), p)
@@ -18,15 +24,17 @@ best_subset_selection <- function(X, y, folds) {
             current_errors <- c()
             for (i in 1:folds) {
                 test_validation_idx <- sets[i, 1]:sets[i, 2]
-                test_idx <- sampled_idx[test_validation_idx]
-                training_idx <- sampled_idx[(1:n)[-test_validation_idx]]
+                test_idx <- test_validation_idx
+                training_idx <- (1:n)[-test_validation_idx]
 
-                lmfit <- linear_regression(as.matrix(X[training_idx, features]), y[training_idx],
-                                           as.matrix(X[test_idx, features]), y[test_idx])
+                lmfit <- linear_regression(as.matrix(X[training_idx, features]),
+                                           y[training_idx],
+                                           as.matrix(X[test_idx, features]),
+                                           y[test_idx])
                 current_errors <- c(current_errors, lmfit$SSE)
             }
             errors <- c(errors, mean(current_errors))
-            cv_scores[[j]] <- c(cv_scores[[j]], current_errors)
+            cv_scores[[j]] <- c(cv_scores[[j]], mean(current_errors))
         }
         best_features[[j]] <- list(features=feature_combinations[which.min(errors),],
                                    SSE=min(errors))
@@ -80,22 +88,31 @@ result <- best_subset_selection(x, y, folds)
 best_features <- result$bf
 cv_scores <- result$cvs
 
-best_features
-
 best_setting <- best_features[[which.min(sapply(best_features, function(x) x$SSE))]]
-colnames(x)[best_setting$features == 1]
 
 lmfit <- linear_regression(as.matrix(x[, best_setting$features == 1]), y,
                            as.matrix(x[, best_setting$features == 1]), y)
-lmfit$coefficients
+## lmfit$coefficients
+## colnames(x)[best_setting$features == 1]
+## ---- end-of-assign1-init
 
-coordinates <- lapply(1:length(cv_scores), function(feature_count) cbind(x=feature_count,
-                                                                         y=cv_scores[[feature_count]]))
+## ---- assign1-plot-sse
+coordinates <- lapply(1:length(cv_scores), function(feature_count) {
+    cbind(x=feature_count, y=cv_scores[[feature_count]])
+})
 plot_data <- as.data.frame(do.call(rbind, coordinates))
+
+best_coordinates <- lapply(1:length(cv_scores), function(feature_count) {
+    cbind(x=feature_count, y=min(cv_scores[[feature_count]]))
+})
+plot_line <- as.data.frame(do.call(rbind, best_coordinates))
 
 ggplot(plot_data) +
     ggtitle("Cross-validation Errors") +
     xlab("Number of Features") +
     ylab("Sum of Squared Error") +
-    geom_point(aes(x=x, y=y), color="orange") +
-    theme(plot.title = element_text(hjust=0.5))
+    geom_point(aes(x=x, y=y)) +
+    geom_line(data=plot_line, aes(x=x, y=y), color="red") +
+    theme(plot.title = element_text(hjust=0.5)) +
+    scale_y_continuous(limits=c(0, max(plot_data$y)))
+## ---- end-of-assign1-plot-sse
