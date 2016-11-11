@@ -30,6 +30,8 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-init>>
 ```
 
+## 2
+
 ```{r SSE, echo=FALSE, eval=TRUE}
 <<assign1-plot-sse>>
 ```
@@ -37,6 +39,50 @@ knitr::read_chunk("../assignment2/solution.R")
 \newpage
 
 # Assignment 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-init>>
+```
+
+## 1
+```{r 2, echo=FALSE, eval=TRUE}
+<<assign2-2-plot>>
+```
+
+## 2
+
+\begin{equation*}
+\text{E}[y(x, w)] = \sum_{i=0}^{p} w_{i} \phi_{i}(x) + \epsilon_{i}
+\end{equation*}
+
+where $\phi_{i}(x) = x^{i}$. SEE Pattern Recognition 3.1.1
+
+## 3
+```{r 3, echo=FALSE, eval=TRUE}
+<<assign2-3>>
+```
+
+## 4
+```{r 4, echo=FALSE, eval=TRUE}
+<<assign2-4>>
+```
+
+## 5
+```{r 5, echo=FALSE, eval=TRUE}
+<<assign2-5>>
+```
+
+
+## 6
+```{r 6, echo=FALSE, eval=TRUE}
+<<assign2-6>>
+```
+
+## 7
+```{r 7, echo=FALSE, eval=TRUE}
+<<assign2-7>>
+```
+
+## 8
 
 \newpage
 
@@ -49,3 +95,12 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ## Code for Assignment 2
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2-init>>
+<<assign2-2-plot>>
+<<assign2-3>>
+<<assign2-4>>
+<<assign2-5>>
+<<assign2-6>>
+<<assign2-7>>
+```
