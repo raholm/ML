@@ -60,7 +60,7 @@ feature_selection_count <- length(aic$coefficients) - 1
 ## ---- assign2-5
 response <- as.matrix(data[, setdiff(names(data), c("Sample", "Protein",
                                                     "Moisture", "Fat"))])
-target <- data[, "Fat"]
+target <- data$Fat
 
 ## Ridge Regression
 ridge_model <- glmnet(x=response, y=target, alpha=0, nlambda=100)

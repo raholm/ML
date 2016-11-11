@@ -30,11 +30,35 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-init>>
 ```
 
+In this assignment I have used the swiss data set containing information about fertility in various provinces of Switzerland at about 1888, 47 observations in total. The features are
+\begin{itemize}
+\item Fertility: common standardizedfertility measure
+\item Agriculture: \% of males involved in agriculture as occupation
+\item Examination: \% draftees receiving highest mark on army examination
+\item Education: \% education beyond primary school for draftees
+\item Catholic: \% ‘catholic’ (as opposed to ‘protestant’)
+\item Infant Mortality: live births who live less than 1 year
+\end{itemize}
+
+and I am interesting in predicting the fertility.
+
 ## 2
+In order to find the best set of features in terms of sum of squared error (SSE) for linear regression I used cross-validation with 5 folds. Figure \ref{fig:SSE} shows that 4 features yield the least SSE out of all models.
 
 ```{r SSE, echo=FALSE, eval=TRUE}
 <<assign1-plot-sse>>
 ```
+
+With the knowledge gained from cross-validation I trained the final linear regression model on the complete data set. The model resulted in
+\begin{equation*}
+\begin{aligned}
+\hat{y} = & \text{ intercept} * 62.1013116 - \text{Agriculture} * 0.1546175 \\
+& - \text{ Education} * 0.9802638 + \text{Catholic} * 0.1246664\\
+& + \text{ Infant Mortality} * 1.0784422.
+\end{aligned}
+\end{equation*}
+
+We can see that education decreases the fertility measure which is unsurprising and is present in today's world where industrial countries have in general lower fertility rate compared to developing countries. That infant mortality increases the fertility measure is not surprising either, survival is the key as with all species of animals and that means reproduction and if children dies more have to be born to balance it out. Agriculture and Catholic variables do not have as much affect on the fertility measure and it is not obvious why they are important. A lot of males occupied in agriculture probably means that food is available and it is therefore less requiring for extra sons to be born to provide it. A population with big portion being catholic are perhaps more happy in general and feel like reproducing serves a purpose.
 
 \newpage
 
@@ -43,7 +67,11 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-init>>
 ```
 
+In this assignment I have used the tecator data set.
+
 ## 1
+Figure \ref{fig:2} clearly shows a linear correlation between moisture and protein with a few observations deviating from the overall pattern.
+
 ```{r 2, echo=FALSE, eval=TRUE}
 <<assign2-2-plot>>
 ```

@@ -92,6 +92,7 @@ best_setting <- best_features[[which.min(sapply(best_features, function(x) x$SSE
 
 lmfit <- linear_regression(as.matrix(x[, best_setting$features == 1]), y,
                            as.matrix(x[, best_setting$features == 1]), y)
+
 ## lmfit$coefficients
 ## colnames(x)[best_setting$features == 1]
 ## ---- end-of-assign1-init
