@@ -111,7 +111,7 @@ plot_line <- as.data.frame(do.call(rbind, best_coordinates))
 ggplot(plot_data) +
     ggtitle("Cross-validation Errors") +
     xlab("Number of Features") +
-    ylab("Sum of Squared Error") +
+    ylab("Average Sum of Squared Error") +
     geom_point(aes(x=x, y=y)) +
     geom_line(data=plot_line, aes(x=x, y=y), color="red") +
     theme(plot.title = element_text(hjust=0.5)) +

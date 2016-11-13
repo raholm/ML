@@ -45,8 +45,10 @@ ggplot(plot_data) +
     geom_line(aes(x=x, y=value, color=Set), lwd=2) +
     geom_point(aes(x=x, y=value, color=Set), size=4) +
     ggtitle("Polynomial Function") +
-    xlab("Polynomial Terms") + ylab("Mean Squared Error") +
-    scale_x_continuous(breaks=1:power)
+    xlab("Polynomial Terms") +
+    ylab("Mean Squared Error") +
+    scale_x_continuous(breaks=1:power) +
+    theme(plot.title=element_text(hjust=0.5))
 ## ---- end-of-assign2-3
 
 ## 4
@@ -72,7 +74,10 @@ plot_data <- melt(coefficients, id=rownames, varnames=c("feature", "lambda"))
 
 ggplot(plot_data, aes(x=log(lambda), y=value, colour=feature)) +
     geom_line(show.legend=FALSE) +
-    xlab(expression(log(lambda)))
+    ggtitle("Ridge Regression") +
+    xlab(expression(log(lambda))) +
+    ylab("Coefficient Value") +
+    theme(plot.title=element_text(hjust=0.5))
 ## ---- end-of-assign2-5
 
 ## 6
@@ -87,19 +92,25 @@ plot_data <- melt(coefficients, id=rownames, varnames=c("feature", "lambda"))
 
 ggplot(plot_data, aes(x=log(lambda), y=value, colour=feature)) +
     geom_line(show.legend=FALSE) +
-    xlab(expression(log(lambda)))
+    ggtitle("Lasso Regression") +
+    xlab(expression(log(lambda))) +
+    ylab("Coefficient Value") +
+    theme(plot.title=element_text(hjust=0.5))
 ## ---- end-of-assign2-6
 
 ## 7
 ## ---- assign2-7
+set.seed(12345)
 lasso_model_cv <- cv.glmnet(response, target, alpha=1)
 optimal_lambda <- lasso_model_cv$lambda.min
 feature_selection_count <- sum(as.matrix(coef(lasso_model_cv)) != 0) - 1
 
 plot_data <- data.frame(x=lasso_model_cv$lambda, y=lasso_model_cv$cvm)
 
-ggplot(plot_data, aes(x=log(x), y=y)) + geom_point() +
+ggplot(plot_data, aes(x=log(x), y=y)) +
+    geom_point() +
     ggtitle("Cross-validation Scores") +
     xlab(expression(log(lambda))) +
-    ylab("Mean Squared Error")
+    ylab("Mean Squared Error") +
+    theme(plot.title=element_text(hjust=0.5))
 ## ---- end-of-assign2-7

@@ -31,6 +31,7 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 In this assignment I have used the swiss data set containing information about fertility in various provinces of Switzerland at about 1888, 47 observations in total. The features are
+
 \begin{itemize}
 \item Fertility: common standardizedfertility measure
 \item Agriculture: \% of males involved in agriculture as occupation
@@ -40,25 +41,25 @@ In this assignment I have used the swiss data set containing information about f
 \item Infant Mortality: live births who live less than 1 year
 \end{itemize}
 
-and I am interesting in predicting the fertility.
+and I am interested in predicting the fertility.
 
 ## 2
-In order to find the best set of features in terms of sum of squared error (SSE) for linear regression I used cross-validation with 5 folds. Figure \ref{fig:SSE} shows that 4 features yield the least SSE out of all models.
+In order to find the best set of features in terms of sum of squared error (SSE) for linear regression I used cross-validation with 5 folds and averaged the SSE over the folds. Figure \ref{fig:SSE} shows that a model with 4 features yield the least average SSE out of all models.
 
-```{r SSE, echo=FALSE, eval=TRUE}
+```{r SSE, echo=FALSE, eval=TRUE, fig.cap="SSE"}
 <<assign1-plot-sse>>
 ```
 
 With the knowledge gained from cross-validation I trained the final linear regression model on the complete data set. The model resulted in
 \begin{equation*}
 \begin{aligned}
-\hat{y} = & \text{ intercept} * 62.1013116 - \text{Agriculture} * 0.1546175 \\
+\hat{y} = & \text{ } 62.1013116 - \text{Agriculture} * 0.1546175 \\
 & - \text{ Education} * 0.9802638 + \text{Catholic} * 0.1246664\\
 & + \text{ Infant Mortality} * 1.0784422.
 \end{aligned}
 \end{equation*}
 
-We can see that education decreases the fertility measure which is unsurprising and is present in today's world where industrial countries have in general lower fertility rate compared to developing countries. That infant mortality increases the fertility measure is not surprising either, survival is the key as with all species of animals and that means reproduction and if children dies more have to be born to balance it out. Agriculture and Catholic variables do not have as much affect on the fertility measure and it is not obvious why they are important. A lot of males occupied in agriculture probably means that food is available and it is therefore less requiring for extra sons to be born to provide it. A population with big portion being catholic are perhaps more happy in general and feel like reproducing serves a purpose.
+We can see that education decreases the fertility measure which is unsurprising and is present in today's world where industrial countries have in general lower fertility rate compared to developing countries. That infant mortality increases the fertility measure is not surprising either, survival is the key as with all species of animals and that means reproduction and if children die more have to be born in order to balance it out. Agriculture and Catholic variables do not have as much affect on the fertility measure and it is not obvious why they are important. A lot of males occupied in agriculture probably means that food is available and it is therefore less requiring for extra sons to be born to provide it for the family. A population with big portion being catholic are perhaps more happy in general and feel like reproducing serves a purpose.
 
 \newpage
 
@@ -67,12 +68,12 @@ We can see that education decreases the fertility measure which is unsurprising 
 <<assign2-init>>
 ```
 
-In this assignment I have used the tecator data set.
+In this assignment I have used the tecator data set that contains information used to investigate if infrared absorbance spectrum can be used to predict the fat content of samples of meat. For each meat sample the data consists of a 100 channel spectrum of absorbance records and the levels of moisture (water), fat and protein.
 
 ## 1
-Figure \ref{fig:2} clearly shows a linear correlation between moisture and protein with a few observations deviating from the overall pattern.
+Figure \ref{fig:2} clearly shows a linear correlation between moisture and protein with a few observations deviating from the overall pattern. A linear model should therefore fit the data well.
 
-```{r 2, echo=FALSE, eval=TRUE}
+```{r 2, echo=FALSE, eval=TRUE, fig.cap="Moisture against Protein."}
 <<assign2-2-plot>>
 ```
 
@@ -85,32 +86,43 @@ Figure \ref{fig:2} clearly shows a linear correlation between moisture and prote
 where $\phi_{i}(x) = x^{i}$. SEE Pattern Recognition 3.1.1
 
 ## 3
-```{r 3, echo=FALSE, eval=TRUE}
+To fit different polynomial models where \textit{Moisture} is the target and \textit{Protein} is the response, I created two data sets, train and test, of equal size. I fit models up to 6 polynomial terms and figure \ref{fig:3} shows how the train/test mean squared error (MSE) changed with increasing terms. We can see that using only 1 term yield the best test MSE and then is starts to overfit the training data as more polynomial terms are added to the model, i.e. the variance increases. In this case the linear model is the optimal in terms of test MSE and it has a high bias but low variance. The result follows from figure \ref{fig:2}.
+
+```{r 3, echo=FALSE, eval=TRUE, fig.cap="How the mean squared error changes with increasing polynomial terms."}
 <<assign2-3>>
 ```
+
+In the following exercises I will fit linear models where \textit{Fat} is the target and the \textit{channels} are the response variables (100 of those).
 
 ## 4
 ```{r 4, echo=FALSE, eval=TRUE}
 <<assign2-4>>
 ```
+Using Akaike information criterion (AIC) in both directions the optimal model contains 63 response variables, i.e. 37 were found redundant.
 
 ## 5
-```{r 5, echo=FALSE, eval=TRUE}
+Here I have used ridge regression and from figure \ref{fig:5} we can see that the coefficient values decay towards 0 as $\lambda$ increases as expected from the regularization term.
+
+```{r 5, echo=FALSE, eval=TRUE, fig.cap="How the coefficients in the model changes with increasing lambda."}
 <<assign2-5>>
 ```
 
-
 ## 6
-```{r 6, echo=FALSE, eval=TRUE}
+Here I have used lasso regression and from figure \ref{fig:6} we can see that the coefficient values becomes exactly 0 as lambda increases as expected from the regularization term. The coefficient values goes toward 0 in ridge regression while lasso regression sets the values to exactly 0, i.e. removes coefficients completely.
+
+```{r 6, echo=FALSE, eval=TRUE, fig.cap="How the coefficients in the model changes with increasing lambda."}
 <<assign2-6>>
 ```
 
 ## 7
-```{r 7, echo=FALSE, eval=TRUE}
+Here I have used 10-folds cross-validation to find the optimal $\lambda$ for lasso regression and the optimal $\lambda$ found was $0.02985605$ which resulted in only 9 features with non-zero values excluding the intercept. Figure \ref{fig:7} shows how the cross-validation score varies with $\lambda$ and we can see that it increases as $\lambda$ increases. This indicates that the model starts to underfit the data with greater values of $\lambda$, i.e. too many coefficients get a value of 0.
+
+```{r 7, echo=FALSE, eval=TRUE, fig.cap="How the mean squared error changes with lambda."}
 <<assign2-7>>
 ```
 
 ## 8
+By using lasso regression, the optimal number of features are significantly less than found by AIC (9 compared to 663). 
 
 \newpage
 
