@@ -59,7 +59,7 @@ With the knowledge gained from cross-validation I trained the final linear regre
 \end{aligned}
 \end{equation*}
 
-We can see that education decreases the fertility measure which is unsurprising and is present in today's world where industrial countries have in general lower fertility rate compared to developing countries. That infant mortality increases the fertility measure is not surprising either, survival is the key as with all species of animals and that means reproduction and if children die more have to be born in order to balance it out. Agriculture and Catholic variables do not have as much affect on the fertility measure and it is not obvious why they are important. A lot of males occupied in agriculture probably means that food is available and it is therefore less requiring for extra sons to be born to provide it for the family. A population with big portion being catholic are perhaps more happy in general and feel like reproducing serves a purpose.
+We can see that education decreases the fertility measure which is unsurprising and is present in today's world where industrial countries have in general lower fertility rate compared to developing countries. That infant mortality increases the fertility measure is not surprising either, survival is the key as with all species of animals and that means reproduction and if children die more have to be born in order to balance it out. Agriculture and Catholic variables have lower coefficients but higher values in their measurement so they are still important, but it is not obvious why they are important. A lot of males occupied in agriculture probably means that food is available and it is therefore less requiring for extra sons to be born to provide for the family. A population with big portion being catholic are perhaps more happy in general and have healthier relationships which results in more children.
 
 \newpage
 
@@ -78,12 +78,37 @@ Figure \ref{fig:2} clearly shows a linear correlation between moisture and prote
 ```
 
 ## 2
+In this polynomial model we have that the target is $y = \textit{Moisture}$ and the response is $x = \textit{Protein}$. We assume that
 
 \begin{equation*}
-\text{E}[y(x, w)] = \sum_{i=0}^{p} w_{i} \phi_{i}(x) + \epsilon_{i}
+y \sim \mathcal{N}(\mu, \sigma^{2}).
 \end{equation*}
 
-where $\phi_{i}(x) = x^{i}$. SEE Pattern Recognition 3.1.1
+We know from the law of large numbers that the mean can be approximated by
+
+\begin{equation*}
+\hat{\mu} = \frac{1}{n} \sum_{i=1}^{n} x_{i}
+\end{equation*}
+
+and the mean squared error (MSE) of an estimator $\hat{\mu}$ is
+
+\begin{equation*}
+\text{MSE}(\hat{\mu}) = \text{var}(\hat{\mu}) + \left[ \text{bias}(\hat{\mu}) \right]^{2}.
+\end{equation*}
+
+It turns out that
+
+\begin{equation*}
+\text{MSE}(\hat{\mu}) = \text{E}\left[ (\hat{\mu} - \mu)^{2} \right] = \frac{\sigma^{2}}{n}
+\end{equation*}
+
+is the best unbiased estimator for a Gaussian distribution, i.e. having the lowest MSE out of all unbiased estimators. That is the reason why it is reasonable to use the MSE to fit our model to the training data. The model will look like
+
+\begin{equation*}
+\text{E}[y(x, w)] = \sum_{i=0}^{p} w_{i} \phi_{i}(x)
+\end{equation*}
+
+where $\phi_{i}(x) = x^{i}$.
 
 ## 3
 To fit different polynomial models where \textit{Moisture} is the target and \textit{Protein} is the response, I created two data sets, train and test, of equal size. I fit models up to 6 polynomial terms and figure \ref{fig:3} shows how the train/test mean squared error (MSE) changed with increasing terms. We can see that using only 1 term yield the best test MSE and then is starts to overfit the training data as more polynomial terms are added to the model, i.e. the variance increases. In this case the linear model is the optimal in terms of test MSE and it has a high bias but low variance. The result follows from figure \ref{fig:2}.
@@ -122,7 +147,7 @@ Here I have used 10-folds cross-validation to find the optimal $\lambda$ for las
 ```
 
 ## 8
-By using lasso regression, the optimal number of features are significantly less than found by AIC (9 compared to 663). 
+By using lasso regression, the optimal number of features are significantly less than found by AIC (9 compared to 663).
 
 \newpage
 
