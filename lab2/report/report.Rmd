@@ -51,6 +51,7 @@ In order to find the best set of features in terms of sum of squared error (SSE)
 ```
 
 With the knowledge gained from cross-validation I trained the final linear regression model on the complete data set. The model resulted in
+
 \begin{equation*}
 \begin{aligned}
 \hat{y} = & \text{ } `r coefs[1]` + `r features[1]` * `r coefs[2]` \\
