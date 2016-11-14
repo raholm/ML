@@ -32,7 +32,7 @@ train_mse <- rep(0, power)
 test_mse <- rep(0, power)
 
 for (i in 1:power) {
-    model <- lm(Moisture ~ poly(Protein, i), data=train)
+    model <- lm(Moisture ~ poly(Protein, i, raw=TRUE), data=train)
 
     train_mse[i] <- mean((train$Moisture - predict(model, train))^2)
     test_mse[i] <- mean((test$Moisture - predict(model, test))^2)
@@ -55,14 +55,14 @@ ggplot(plot_data) +
 ## ---- assign2-4
 linear_model <- lm(Fat ~ . - Protein - Moisture - Sample, data=data)
 aic <- stepAIC(linear_model, direction="both", trace=FALSE)
-feature_selection_count <- length(aic$coefficients) - 1
+AIC_feature_selection_count <- length(aic$coefficients) - 1
 ## ---- end-of-assign2-4
 
 ## 5
 ## ---- assign2-5
-response <- as.matrix(data[, setdiff(names(data), c("Sample", "Protein",
-                                                    "Moisture", "Fat"))])
-target <- data$Fat
+response <- scale(as.matrix(data[, setdiff(names(data), c("Sample", "Protein",
+                                                    "Moisture", "Fat"))]))
+target <- scale(data$Fat)
 
 ## Ridge Regression
 ridge_model <- glmnet(x=response, y=target, alpha=0, nlambda=100)
@@ -101,16 +101,18 @@ ggplot(plot_data, aes(x=log(lambda), y=value, colour=feature)) +
 ## 7
 ## ---- assign2-7
 set.seed(12345)
-lasso_model_cv <- cv.glmnet(response, target, alpha=1)
-optimal_lambda <- lasso_model_cv$lambda.min
-feature_selection_count <- sum(as.matrix(coef(lasso_model_cv)) != 0) - 1
+lasso_model_cv <- cv.glmnet(response, target, alpha=1, type.measure="mse")
+lasso_optimal_lambda <- lasso_model_cv$lambda.min
+lasso_feature_selection_count <- length(coef(lasso_model_cv, s="lambda.min")@x) - 1
 
 plot_data <- data.frame(x=lasso_model_cv$lambda, y=lasso_model_cv$cvm)
+## ---- end-of-assign2-7
 
+## ---- assign2-7-plot
 ggplot(plot_data, aes(x=log(x), y=y)) +
     geom_point() +
     ggtitle("Cross-validation Scores") +
     xlab(expression(log(lambda))) +
     ylab("Mean Squared Error") +
     theme(plot.title=element_text(hjust=0.5))
-## ---- end-of-assign2-7
+## ---- end-of-assign2-7-plot

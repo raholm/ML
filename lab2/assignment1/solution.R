@@ -80,8 +80,8 @@ combinations <- function(n, m) {
 }
 
 data <- swiss
-x <- data[, -1]
-y <- data[, 1]
+x <- scale(data[, -1])
+y <- scale(data[, 1])
 folds <- 5
 set.seed(12345)
 result <- best_subset_selection(x, y, folds)
@@ -92,9 +92,8 @@ best_setting <- best_features[[which.min(sapply(best_features, function(x) x$SSE
 
 lmfit <- linear_regression(as.matrix(x[, best_setting$features == 1]), y,
                            as.matrix(x[, best_setting$features == 1]), y)
-
-## lmfit$coefficients
-## colnames(x)[best_setting$features == 1]
+coefs <- lmfit$coefficients
+features <- names(data)[-1][best_setting$features == 1]
 ## ---- end-of-assign1-init
 
 ## ---- assign1-plot-sse
