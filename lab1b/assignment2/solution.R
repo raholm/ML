@@ -28,7 +28,8 @@ ggplot(plot_data) +
 ## gamfit$smooth
 ## coef(gamfit)
 ## gamfit$terms
-
+?gam
+?s
 ## 4
 
 

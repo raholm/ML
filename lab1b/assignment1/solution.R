@@ -41,7 +41,7 @@ ggplot(plot_data) +
 ## 3
 ## ---- assign1-3
 smooth_fit <- smooth.spline(x=data$x, y=data$y)
-yhat <- predict(smooth_fit, data$x)$y
+yhat <- fitted(smooth_fit)
 
 ## plot(smooth_fit, col="blue")
 ## points(data$x, data$y, col="red")
