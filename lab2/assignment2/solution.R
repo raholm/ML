@@ -15,8 +15,6 @@ ggplot(data) +
     geom_point(aes(x=Protein, y=Moisture))
 ## ---- end-of-assign2-2-plot
 
-## 2
-
 ## 3
 ## ---- assign2-3
 set.seed(12345)
