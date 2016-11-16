@@ -315,15 +315,17 @@ modelRidge <- glmnet::glmnet(x = as.matrix(trainAllScale[,-101]),
 
 ### Present a plot showing how model coefficients depend on the log of the penalty factor $\lambda$ and report how the coefficients change with $\lambda$
 
-As $\lambda$ increases the coefficients approaches zero. We can see that the coefficients decrease at different rates which indicate that those do not contribute as much to the model. We can also see that the number of features used are uniform for all lambdas, i.e. 100 in this case, which is to be expected from the regularization term used by ridge regression.
-
 ```{r, A25b, echo=FALSE}
 plot(modelRidge, xvar = "lambda",
      main = "Ridge Regression", label = TRUE,
      xlab = bquote(plain("Log(")~lambda~plain(")")))
 ```
 
+As $\lambda$ increases the coefficients approaches zero. We can see that the coefficients decrease at different rates which indicate that those do not contribute as much to the model. We can also see that the number of features used are uniform for all lambdas, i.e. 100 in this case, which is to be expected from the regularization term used by ridge regression.
+
 ## 6
+### Repeat step 5 but fit LASSO instead of the Ridge regression and compare the plots from steps 6 and 5. Conclusions?
+
 ```{r, A26, echo=FALSE}
 modelLasso <- glmnet::glmnet(x = as.matrix(trainAllScale[,-101]),
                              y = trainAllScale[,101],
@@ -331,13 +333,13 @@ modelLasso <- glmnet::glmnet(x = as.matrix(trainAllScale[,-101]),
                              alpha = 1)
 ```
 
-In lasso regression, the $\lambda$ changes the values of the coefficients differently from ridge regression. The coefficients can both increase and decrease as $\lambda$ increases but coefficient values converges to exactly zero, i.e. feature selection, which is not true for ridge regression.
-
 ```{r, A26b, echo=FALSE}
 plot(modelLasso, xvar = "lambda",
      main = "Lasso Regression", label = TRUE,
      xlab = bquote(plain("Log(")~lambda~plain(")")))
 ```
+
+In lasso regression, the $\lambda$ changes the values of the coefficients differently from ridge regression. The coefficients can both increase and decrease as $\lambda$ increases but coefficient values converges to exactly zero, i.e. feature selection, which is not true for ridge regression.
 
 ## 7
 ```{r, A27, echo=FALSE}
@@ -353,15 +355,14 @@ nVar <- length(coef(modelLassoCV, s = 'lambda.min')@x)-1
 
 The optimal $\lambda = 0.002338$ for lasso regression resulted in 14 variables and was found by cross-validation using 10-folds. We can see that the lasso regularization term punishes complex models and since the lambda is relatively low in this case it seems that many of the variables are redundant.
 
-
-As $\lambda$ increases the CV-score increases exponentially up to the point where the model contains one variable. Then it restarts the CV-score increase at a different rate.
-
 ```{r, A27b,warning=FALSE, echo=FALSE}
 plotMain <- bquote(plain("Dependency between") ~ lambda ~ plain("\nand Cross-Validation score"))
 
 plot(modelLassoCV, main = plotMain,
      xlab = bquote(plain("Log(")~lambda~plain(")")))
 ```
+
+As $\lambda$ increases the CV-score increases exponentially up to the point where the model contains one variable. Then it restarts the CV-score increase at a different rate.
 
 ## 8
 ```{r, A28, warning=FALSE, eval = FALSE, echo=FALSE}
