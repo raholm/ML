@@ -58,17 +58,22 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ## 3
-```{r, echo=FALSE, eval=TRUE}
-
-```
-
-```{r name, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+```{r plot23, echo=FALSE, eval=TRUE, fig.cap="Caption."}
 <<assign2-3-plot>>
 ```
 
+```{r, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+<<assign2-3-summary>>
+```
+
+```{r spline, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+<<assign2-3-spline>>
+```
+
+
 ## 4
 ```{r, echo=FALSE, eval=TRUE}
-
+<<assign2-4>>
 ```
 
 ## 5
@@ -78,11 +83,7 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## 6
 ```{r, echo=FALSE, eval=TRUE}
-
-```
-
-```{r name, echo=FALSE, eval=TRUE, fig.cap="Caption."}
-
+<<assign2-6>>
 ```
 
 \newpage
@@ -98,4 +99,13 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## Code for Assignment 2
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2-init>>
+<<assign2-1>>
+<<assign2-2>>
+<<assign2-3-plot>>
+<<assign2-3-summary>>
+<<assign2-3-spline>>
+<<assign2-4>>
+<<assign2-5>>
+<<assign2-6>>
 ```
