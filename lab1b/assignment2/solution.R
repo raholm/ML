@@ -77,16 +77,18 @@ ggplot(plot_data) +
 ## ---- end-of-assign2-5
 
 ## 6
-## ---- assign2-6
+## ---- assign2-6-summary
 gamfit <- gam(Mortality ~ s(Year, k=length(unique(data$Year)) - 1) +
                   s(Week, k=length(unique(data$Week)) - 1) +
                   s(Influenza, k=length(unique(data$Influenza))),
               data=data)
 summary(gamfit)
+## ---- end-of-assign2-6-summary
 
+## ---- assign2-6-plot
 plot_data <- data.frame(Time=data$Time, Actual=data$Mortality, Estimate=fitted(gamfit))
 plot_data <- melt(plot_data, id="Time", value.name="Value", variable.name="Data")
 
 ggplot(plot_data) +
     geom_line(aes(x=Time, y=Value, color=Data))
-## ---- end-of-assign2-6
+## ---- end-of-assign2-6-plot

@@ -83,7 +83,11 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## 6
 ```{r, echo=FALSE, eval=TRUE}
-<<assign2-6>>
+<<assign2-6-summary>>
+```
+
+```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+<<assign2-6-plot>>
 ```
 
 \newpage
@@ -107,5 +111,6 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-3-spline>>
 <<assign2-4>>
 <<assign2-5>>
-<<assign2-6>>
+<<assign2-6-summary>>
+<<assign2-6-plot>>
 ```
