@@ -53,7 +53,8 @@ w0 <- result$w0[2] - result$w0[1]
 
 intercept <- -w0 / w1[2]
 slope <- -w1[1] / w1[2]
-predicted <- factor(as.numeric((w0 + w1 %*% t(X)) > 0), levels=c(0, 1), labels=c("Female", "Male"))
+predicted <- as.numeric((w0 + w1 %*% t(X)) > 0)
+predicted <- factor(predicted, levels=c(0, 1), labels=c("Female", "Male"))
 
 ## Actual Data
 plot_data <- data.frame(RW=data$RW, CL=data$CL, class=data$sex)
