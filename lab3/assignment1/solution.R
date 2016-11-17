@@ -11,49 +11,7 @@ ggplot(data) +
 ## ---- end-of-assign1-1-plot
 
 ## 2
-plda <- function(X, y) {
-    n <- nrow(X)
-    p <- ncol(X)
-
-    labels <- unique(y)
-    priors <- table(y) / length(y)
-
-    mean <- colMeans(X[which(y == labels[1]),])
-
-    result <- list()
-    sigmahat <- matrix(0, nrow=length(labels), ncol=length(labels))
-
-    for (i in 1:length(labels)) {
-        data <- X[which(y == labels[i]),]
-        mean <- as.matrix(colMeans(data), nrow=p)
-        sigma <- as.matrix(cov(data), nrow=p)
-
-        result[[i]] <- list(data=data, label=labels[i],
-                            mean=as.matrix(mean, nrow=length(mean)),
-                            sigma=as.matrix(sigma, nrow=length(mean)),
-                            priors=priors[[labels[i]]])
-
-        sigmahat <- sigmahat + sigma * nrow(data)
-    }
-
-    sigmahat <- sigmahat / nrow(X)
-
-    ## Calculate discriminant function
-    for (i in 1:length(result)) {
-        class <- result[[i]]
-
-        w0 <- as.numeric(-(1 / 2) * t(class$mean) %*% solve(sigmahat) %*% class$mean + log(class$priors))
-        w1 <- solve(sigmahat) %*% class$mean
-
-        result[[i]]$discriminant <- w0 + class$data %*% w1
-        result[[i]]$w0 <- w0
-        result[[i]]$w1 <- w1
-    }
-
-    list(result, sigmahat)
-}
-
-plda.new <- function(X, y) {
+LDA <- function(X, y) {
     n <- nrow(X)
     p <- ncol(X)
 
@@ -88,18 +46,7 @@ plda.new <- function(X, y) {
 X <- cbind(data$RW, data$CL)
 y <- data$sex
 
-## fit <- plda(X, y)
-## result <- fit[[1]]
-## sigma <- fit[[2]]
-
-## result[[1]]$w0
-## result[[1]]$w1
-## result[[1]]$mean
-## result[[2]]$w0
-## result[[2]]$w1
-## result[[2]]$mean
-
-result <- plda.new(X, y)
+result <- LDA(X, y)
 
 w1 <- result$w1[, 2] - result$w1[, 1]
 w0 <- result$w0[2] - result$w0[1]
