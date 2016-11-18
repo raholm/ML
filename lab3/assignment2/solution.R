@@ -6,7 +6,7 @@ library(ggplot2)
 library(reshape2)
 library(e1071)
 
-data_division <- function(n, training, test, validation) {
+data_division <- function(n, train, test, validation) {
     indices <- 1:n
 
     train <- sample(indices, floor(n * 0.5))
