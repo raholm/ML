@@ -27,14 +27,139 @@ knitr::read_chunk("../assignment2/solution.R")
 
 # Assignment 1
 ```{r, echo=FALSE, eval=TRUE}
+<<assign1-init>>
 ```
 
+## 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-1>>
+```
+
+## 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2>>
+```
+
+## 3
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3>>
+```
+
+## 4
+```{r, echo=FALSE, eval=TRUE, warning=FALSE}
+<<assign1-4>>
+```
+
+\newpage
+
 # Assignment 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-init>>
+```
+
+## 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-1>>
+```
+
+## 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2-dtree-train>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2-dtree-test>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2-gtree-train>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2-gtree-test>>
+```
+
+## 3
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3-score>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3-optimal>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3-plot>>
+```
+
+## 4
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-4>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-4-train>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-4-test>>
+```
+
+## 5
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-5>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-5-train>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-5-test>>
+```
+
+\newpage
 
 # Appendix
 
 ## Code for Assignment 1
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1-init>>
+<<assign1-1>>
+<<assign1-2>>
+<<assign1-3>>
+<<assign1-4>>
+```
 
 ## Code for Assignment 2
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2-init>>
+<<assign2-1>>
+
+<<assign2-2>>
+<<assign2-2-dtree-train>>
+<<assign2-2-dtree-test>>
+<<assign2-2-gtree-train>>
+<<assign2-2-gtree-test>>
+
+<<assign2-3>>
+<<assign2-3-score>>
+<<assign2-3-optimal>>
+<<assign2-3-plot>>
+
+<<assign2-4>>
+<<assign2-4-train>>
+<<assign2-4-test>>
+
+<<assign2-5>>
+<<assign2-5-train>>
+<<assign2-5-test>>
 ```
