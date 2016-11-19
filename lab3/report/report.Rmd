@@ -103,7 +103,7 @@ We can see from the results that the deviance impurity measurement yield better 
 <<assign2-3>>
 ```
 
-Here I was interested in finding the optimal number of leaves in the tree and here I used the validation set to measure the performance. Figure \ref{fig:plot23} shows how the deviance varies with increasing number of leave nodes in the decision tree. We can see as the number of leaves increases the deviance decreases for the train set which indicate that the model starts overfitting the data. The deviance on the validation set tells a different story and the optimal number of leaves, i.e. yield the lowest deviance, is 4.
+Here I was interested in finding the optimal number of leaves in the tree and here I used the validation set to measure the performance. Figure \ref{fig:score} shows how the deviance varies with increasing number of leave nodes in the decision tree. We can see as the number of leaves increases the deviance decreases for the train set which indicate that the model starts overfitting the data. The deviance on the validation set tells a different story and the optimal number of leaves, i.e. yield the lowest deviance, is 4.
 
 ```{r score, echo=FALSE, eval=TRUE, fig.cap="Deviance score when adjusting the number of leaves (terminal nodes) in the decision tree."}
 <<assign2-3-score>>
