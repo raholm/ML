@@ -31,14 +31,31 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ## 2
-```{r, echo=FALSE, eval=TRUE}
+Figure \ref{fig:plot12} shows that the fit is pretty reasonable, the knot at 4 should probably have been moved to around 5 for an even better fit.
+
+```{r plot12, echo=FALSE, eval=TRUE, fig.cap="Piecewise Linear Model"}
 <<assign1-2>>
 ```
 
+It is a continuous piecewise linear function as it should be due to
+
+\begin{equation*}
+\begin{aligned}
+& h_{3}(X) = (X - \xi_{1})_{+}, \\
+& h_{4}(X) = (X - \xi_{2})_{+}
+\end{aligned}
+\end{equation*}
+
+and it means that there are no derivatives at the knots.
+
 ## 3
-```{r, echo=FALSE, eval=TRUE}
+The fitted line in figure \ref{fig:plot13} is much wigglier and seems to be highly affected by the noise in the data. It is however a much better fit where $x \in \left[ 4, 6 \right]$.
+
+```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Cubic Smooth Spline"}
 <<assign1-3>>
 ```
+
+Overall, I would say this fit is better than the previous one but maybe with a more thought out placement of the knots the piecewise linear may be more appropriate.
 
 \newpage
 
@@ -48,7 +65,9 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ## 1
-```{r, echo=FALSE, eval=TRUE}
+From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline.
+
+```{r plot21, echo=FALSE, eval=TRUE, fig.cap="Influenza and mortality cases as time series between 1995 and 2004"}
 <<assign2-1>>
 ```
 
@@ -57,38 +76,73 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-2>>
 ```
 
+\textbf{TODO}
+
+In this exercise we assume $y \sim \mathcal{N}(\mu, \sigma^{2})$ so the probabilistic model becomes
+
+\begin{equation*}
+g(\mathbf{E} \left[ Y | X \right]) = \alpha + \textit{Year} + f(\textit{Week}),
+\end{equation*}
+
+where $\text{g}(\mu) = \mu$ is the link function and $f$ is a spline with an estimated degrees of freedom of $8.487$.
+
 ## 3
-```{r plot23, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+```{r plot23, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
 <<assign2-3-plot>>
 ```
+
+Figure \ref{fig:plot23} shows that the generalized additive model (GAM) is a decent fit to the data. The true data is very chaotic which the model does not capture, i.e. do not overfit to the noise, but it does underfit the peaks so overall I would say the model underfits the data.
+
+We can also see that the mortality outbreak occurs in the beginning of each year and then decreases until winter is coming again, so the mortality is probably positively correlated with influenza cases which in turn are increased by the colder weather in the late/early months of each year.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="Caption."}
 <<assign2-3-summary>>
 ```
 
-```{r spline, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+From the summary above about the model we can see that the spline component is statistical significant while the intercept and year variable are not. This is not suprising given that the data is non-linear from figure \ref{fig:plot23}.
+
+```{r spline, echo=FALSE, eval=TRUE, fig.cap="The week spline function."}
 <<assign2-3-spline>>
 ```
 
+The fitted \textit{week} spline function can be seen in figure \ref{fig:spline} with the pointwise standard errors included. It shows that the value is high in the early/late weeks and it is at its lowest point in the middle of the year, i.e. the summer months. This correspond to the same analysis as previously that mortality cases increase in the early/late months each year.
 
 ## 4
-```{r, echo=FALSE, eval=TRUE}
+We know that the smoothing penalty factor, $\lambda$, and degrees of freedom for a spline has the following relationship.
+
+\begin{equation*}
+\text{df}_{\lambda} = \sum_{k = 1}^{N} \frac{1}{1 + \lambda d_{k}}
+\end{equation*}
+
+implicates that as $\lambda$ increases the degrees of freedom decreases and vice verse. Figure \ref{fig:plot24} shows how the fit changes with varying penalty factors (sp parameter) with the maximum degrees of freedom set to a fixed value of $51$ (k parameter).
+
+```{r plot24, echo=FALSE, eval=TRUE, fig.cap="Shows how the estimation changes with varying the penalty factor of the GAM."}
 <<assign2-4>>
 ```
 
+As the penalty factor increases the fit becomes less flexible, i.e. the bias increases, which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the models are still underfitting the real underlying data which means that the models are not complex enough. It is not even possible to increase the degrees of freedom when the penalty factor is set to 0 and this indicate that the \textit{week} feature cannot explain the mortality completely so a better model would need to supplement it with further information.
+
 ## 5
-```{r, echo=FALSE, eval=TRUE}
+```{r plot25, echo=FALSE, eval=TRUE, fig.cap="Residuals from the GAM in exercise 2."}
 <<assign2-5>>
 ```
 
+The residuals are usually negative when \textit{influenza} is at 0 and large positive spikes when the \textit{influenza} is above 0 as shown in figure \ref{fig:plot25}. This indicates that the model underestimates during the early/late months and usually overestimates the other months.
+
 ## 6
+In this new model I have modelled \textit{mortality} as an additive function of the spline functions of \textit{year}, \textit{week}, and \textit{influenza}.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-6-summary>>
 ```
 
-```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+The summary of the model above shows that the \textit{influenza} is statistical significant in explaining the mortality.
+
+```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
 <<assign2-6-plot>>
 ```
+
+The new model is fitting the data much better than before as shown in figure \ref{fig:plot26} and from the summary we can conclude that the \textit{week} and \textit{influenza} variables explain most of the mortality cases, roughly $84\%$ of the deviance.
 
 \newpage
 
@@ -106,11 +160,14 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-init>>
 <<assign2-1>>
 <<assign2-2>>
+
 <<assign2-3-plot>>
 <<assign2-3-summary>>
 <<assign2-3-spline>>
+
 <<assign2-4>>
 <<assign2-5>>
+
 <<assign2-6-summary>>
 <<assign2-6-plot>>
 ```

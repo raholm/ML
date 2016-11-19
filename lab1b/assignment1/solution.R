@@ -43,9 +43,6 @@ ggplot(plot_data) +
 smooth_fit <- smooth.spline(x=data$x, y=data$y)
 yhat <- fitted(smooth_fit)
 
-## plot(smooth_fit, col="blue")
-## points(data$x, data$y, col="red")
-
 plot_data <- data.frame(x=data$x, y=data$y, yhat=yhat)
 
 ggplot(plot_data) +

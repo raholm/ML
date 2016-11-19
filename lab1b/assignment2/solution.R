@@ -29,7 +29,8 @@ plot_data <- data.frame(Time=data$Time, Actual=data$Mortality, Estimate=as.numer
 plot_data <- melt(plot_data, id="Time", value.name="Mortality", variable.name="Data")
 
 ggplot(plot_data) +
-    geom_line(aes(x=Time, y=Mortality, color=Data))
+    geom_line(aes(x=Time, y=Mortality, color=Data)) +
+    scale_x_continuous(breaks=data$Year)
 ## ---- end-of-assign2-3-plot
 
 ## ---- assign2-3-summary
@@ -59,7 +60,8 @@ for (i in 1:length(penalty_values)) {
     plots[[i]] <- ggplot(plot_data) +
         geom_line(aes(x=Time, y=Mortality, color=Data), show.legend=FALSE) +
         ggtitle(title) +
-        theme(axis.text=element_blank())
+        theme(axis.text=element_blank(),
+              plot.title=element_text(hjust=0.5))
 }
 
 do.call(grid.arrange, c(plots, list(ncol=2)))
@@ -73,7 +75,8 @@ plot_data <- data.frame(Time=data$Time, Residuals=residuals, Influenza=data$Infl
 plot_data <- melt(plot_data, id="Time", value.name="Value", variable.name="Data")
 
 ggplot(plot_data) +
-    geom_line(aes(x=Time, y=Value, color=Data))
+    geom_line(aes(x=Time, y=Value, color=Data)) +
+    scale_x_continuous(breaks=data$Year)
 ## ---- end-of-assign2-5
 
 ## 6
@@ -90,5 +93,6 @@ plot_data <- data.frame(Time=data$Time, Actual=data$Mortality, Estimate=fitted(g
 plot_data <- melt(plot_data, id="Time", value.name="Value", variable.name="Data")
 
 ggplot(plot_data) +
-    geom_line(aes(x=Time, y=Value, color=Data))
+    geom_line(aes(x=Time, y=Value, color=Data)) +
+    scale_x_continuous(breaks=data$Year)
 ## ---- end-of-assign2-6-plot
