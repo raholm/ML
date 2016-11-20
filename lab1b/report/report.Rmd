@@ -48,16 +48,16 @@ It is a continuous piecewise linear function as it should be due to the constrai
 \end{aligned}
 \end{equation*}
 
-and it means that there are no derivatives at the knots and only derivative of order one elsewhere.
+and it means that there are no derivatives at the knots/end points and only derivative of order one elsewhere.
 
 ## 3
 ```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Cubic Smooth Spline"}
 <<assign1-3>>
 ```
 
-The cubic smooth spline fit in figure \ref{fig:plot13} is much wigglier and seems to follow the noise in the data. It is however a much better fit overall compared to the piecewise linear function.
+The cubic smooth spline fit in figure \ref{fig:plot13} is much wigglier and seems to follow the noise in the data. However, it is a much better fit overall compared to the piecewise linear function.
 
-Overall, I would say this fit is better than the previous one but maybe with a more thought-out placement of the knots, the piecewise linear may be more appropriate since it has higher bias and therefore do not get as affected by the noise as the smooth spline which may lead to better generalization. The data also looks like three linear segments where the observations are spread evenly below/above these imaginary lines.
+I would say the cubic smooth spline fit is better than the previous one but maybe with a more thought-out placement of the knots the piecewise linear may be more appropriate. It has higher bias and therefore do not get as affected by the noise as the smooth spline which may lead to better generalization. The data also looks like three linear segments where the observations are spread evenly below/above these imaginary lines.
 
 \newpage
 
