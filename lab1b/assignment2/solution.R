@@ -13,7 +13,8 @@ data <- read_excel("../data/Influenza.xlsx")
 ## ---- assign2-1
 plot_data <- melt(data[, c("Time", "Mortality", "Influenza")], id="Time")
 ggplot(plot_data) +
-    geom_line(aes(x=Time, y=value, color=variable))
+    geom_line(aes(x=Time, y=value, color=variable)) +
+    scale_x_continuous(breaks=data$Year)
 ## ---- end-of-assign2-1
 
 ## 2

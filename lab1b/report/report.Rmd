@@ -30,14 +30,16 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-init>>
 ```
 
-## 2
-Figure \ref{fig:plot12} shows that the fit is pretty reasonable, the knot at 4 should probably have been moved to around 5 for an even better fit.
+In this assignment I have used the cube data set that contains points in a two-dimensional plane.
 
+## 2
 ```{r plot12, echo=FALSE, eval=TRUE, fig.cap="Piecewise Linear Model"}
 <<assign1-2>>
 ```
 
-It is a continuous piecewise linear function as it should be due to
+Figure \ref{fig:plot12} shows that the fit is pretty reasonable, the location of the knots are not ideal. For instance the knot at $x = 4$ should probably have been moved to around $x = 5$ for an even better fit.
+
+It is a continuous piecewise linear function as it should be due to the constraints
 
 \begin{equation*}
 \begin{aligned}
@@ -46,16 +48,16 @@ It is a continuous piecewise linear function as it should be due to
 \end{aligned}
 \end{equation*}
 
-and it means that there are no derivatives at the knots.
+and it means that there are no derivatives at the knots and only derivative of order one elsewhere.
 
 ## 3
-The fitted line in figure \ref{fig:plot13} is much wigglier and seems to be highly affected by the noise in the data. It is however a much better fit where $x \in \left[ 4, 6 \right]$.
-
 ```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Cubic Smooth Spline"}
 <<assign1-3>>
 ```
 
-Overall, I would say this fit is better than the previous one but maybe with a more thought out placement of the knots the piecewise linear may be more appropriate.
+The cubic smooth spline fit in figure \ref{fig:plot13} is much wigglier and seems to follow the noise in the data. It is however a much better fit overall compared to the piecewise linear function.
+
+Overall, I would say this fit is better than the previous one but maybe with a more thought-out placement of the knots, the piecewise linear may be more appropriate since it has higher bias and therefore do not get as affected by the noise as the smooth spline which may lead to better generalization. The data also looks like three linear segments where the observations are spread evenly below/above these imaginary lines.
 
 \newpage
 
@@ -64,12 +66,14 @@ Overall, I would say this fit is better than the previous one but maybe with a m
 <<assign2-init>>
 ```
 
-## 1
-From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline.
+In the following exercises I have used the influenza data set that contains weekly data on the mortality and the number of laboratory-confirmed cases of influenza in Sweden.
 
+## 1
 ```{r plot21, echo=FALSE, eval=TRUE, fig.cap="Influenza and mortality cases as time series between 1995 and 2004"}
 <<assign2-1>>
 ```
+
+From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline. This indicates that mortality cases are positively correlated with influenza.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE}
@@ -78,10 +82,10 @@ From figure \ref{fig:plot21} we can see that spikes in influenza also resulted i
 
 \textbf{TODO}
 
-In this exercise we assume $y \sim \mathcal{N}(\mu, \sigma^{2})$ so the probabilistic model becomes
+In this exercise I assume $\textit{Mortality} \sim \mathcal{N}(\mu, \sigma^{2})$ so the probabilistic model becomes
 
 \begin{equation*}
-g(\mathbf{E} \left[ Y | X \right]) = \alpha + \textit{Year} + f(\textit{Week}),
+g(\mathbf{E} \left[ \textit{ Mortality } | \textit{ Year}, \textit{Week } \right]) = \alpha + \beta_{1} \textit{Year} + f(\textit{Week}),
 \end{equation*}
 
 where $\text{g}(\mu) = \mu$ is the link function and $f$ is a spline with an estimated degrees of freedom of $8.487$.
@@ -93,13 +97,13 @@ where $\text{g}(\mu) = \mu$ is the link function and $f$ is a spline with an est
 
 Figure \ref{fig:plot23} shows that the generalized additive model (GAM) is a decent fit to the data. The true data is very chaotic which the model does not capture, i.e. do not overfit to the noise, but it does underfit the peaks so overall I would say the model underfits the data.
 
-We can also see that the mortality outbreak occurs in the beginning of each year and then decreases until winter is coming again, so the mortality is probably positively correlated with influenza cases which in turn are increased by the colder weather in the late/early months of each year.
+We can also see that the mortality outbreak occurs in the beginning of each year and then decreases until winter is coming again, so the mortality is positively correlated with influenza cases which in turn are increased by the colder climate in the late/early months of each year.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="Caption."}
 <<assign2-3-summary>>
 ```
 
-From the summary above about the model we can see that the spline component is statistical significant while the intercept and year variable are not. This is not suprising given that the data is non-linear from figure \ref{fig:plot23}.
+From the model summary above we can see that the spline component is statistical significant while the intercept and year variable are not. This is not suprising given that the data is non-linear from figure \ref{fig:plot23}.
 
 ```{r spline, echo=FALSE, eval=TRUE, fig.cap="The week spline function."}
 <<assign2-3-spline>>
@@ -108,7 +112,7 @@ From the summary above about the model we can see that the spline component is s
 The fitted \textit{week} spline function can be seen in figure \ref{fig:spline} with the pointwise standard errors included. It shows that the value is high in the early/late weeks and it is at its lowest point in the middle of the year, i.e. the summer months. This correspond to the same analysis as previously that mortality cases increase in the early/late months each year.
 
 ## 4
-We know that the smoothing penalty factor, $\lambda$, and degrees of freedom for a spline has the following relationship.
+We know that the smoothing penalty factor, $\lambda$, and degrees of freedom for a spline have the following relationship.
 
 \begin{equation*}
 \text{df}_{\lambda} = \sum_{k = 1}^{N} \frac{1}{1 + \lambda d_{k}}
@@ -120,7 +124,7 @@ implicates that as $\lambda$ increases the degrees of freedom decreases and vice
 <<assign2-4>>
 ```
 
-As the penalty factor increases the fit becomes less flexible, i.e. the bias increases, which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the models are still underfitting the real underlying data which means that the models are not complex enough. It is not even possible to increase the degrees of freedom when the penalty factor is set to 0 and this indicate that the \textit{week} feature cannot explain the mortality completely so a better model would need to supplement it with further information.
+As the penalty factor increases the fit becomes less flexible, i.e. the degrees of freedom decreases, which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the models are still underfitting the real underlying data which means that the model is not complex enough. The maximum degrees of freedom possible is used when the penalty factor is set to 0 and therefore indicate the result that the \textit{week} feature cannot explain the mortality completely so a better model would need to incorporate more knowledge.
 
 ## 5
 ```{r plot25, echo=FALSE, eval=TRUE, fig.cap="Residuals from the GAM in exercise 2."}
@@ -136,7 +140,7 @@ In this new model I have modelled \textit{mortality} as an additive function of 
 <<assign2-6-summary>>
 ```
 
-The summary of the model above shows that the \textit{influenza} is statistical significant in explaining the mortality.
+The model summary above shows that the \textit{influenza} is statistical significant in explaining the mortality and so is the \textit{week} variable like before.
 
 ```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
 <<assign2-6-plot>>
