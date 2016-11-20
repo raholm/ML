@@ -14,7 +14,7 @@ data <- read_excel("../data/Influenza.xlsx")
 plot_data <- melt(data[, c("Time", "Mortality", "Influenza")], id="Time")
 ggplot(plot_data) +
     geom_line(aes(x=Time, y=value, color=variable)) +
-    scale_x_continuous(breaks=data$Year)
+    scale_x_discrete(limit=data$Year)
 ## ---- end-of-assign2-1
 
 ## 2
@@ -31,7 +31,7 @@ plot_data <- melt(plot_data, id="Time", value.name="Mortality", variable.name="D
 
 ggplot(plot_data) +
     geom_line(aes(x=Time, y=Mortality, color=Data)) +
-    scale_x_continuous(breaks=data$Year)
+    scale_x_discrete(limit=data$Year)
 ## ---- end-of-assign2-3-plot
 
 ## ---- assign2-3-summary
@@ -46,12 +46,15 @@ plot(gamfit)
 ## ---- assign2-4
 k <- length(unique(data$Week)) - 1
 penalty_values <- c(0, 10, 1000, 100000)
+deviance <- rep(0, length(penalty_values))
 
 plots <- list()
 
 for (i in 1:length(penalty_values)) {
     fit <- gam(Mortality ~ Year + s(Week, k=k, sp=penalty_values[i]),
                family=gaussian, data=data, method="GCV.Cp")
+
+    deviance[i] <- deviance(fit)
 
     title <- paste("Params (k=", k, ",sp=", penalty_values[i], ")", sep="")
 
@@ -68,6 +71,12 @@ for (i in 1:length(penalty_values)) {
 do.call(grid.arrange, c(plots, list(ncol=2)))
 ## ---- end-of-assign2-4
 
+## ---- assign2-4-deviance
+plot_data <- data.frame(Penalty=penalty_values, Deviance=deviance)
+ggplot(plot_data) +
+    geom_line(aes(x=log(Penalty), y=log(Deviance)))
+## ---- end-of-assign2-4-deviance
+
 ## 5
 ## ---- assign2-5
 gamfit <- gam(Mortality ~ Year + s(Week), family=gaussian, data=data, method="GCV.Cp")
@@ -77,7 +86,7 @@ plot_data <- melt(plot_data, id="Time", value.name="Value", variable.name="Data"
 
 ggplot(plot_data) +
     geom_line(aes(x=Time, y=Value, color=Data)) +
-    scale_x_continuous(breaks=data$Year)
+    scale_x_discrete(limit=data$Year)
 ## ---- end-of-assign2-5
 
 ## 6
@@ -95,5 +104,5 @@ plot_data <- melt(plot_data, id="Time", value.name="Value", variable.name="Data"
 
 ggplot(plot_data) +
     geom_line(aes(x=Time, y=Value, color=Data)) +
-    scale_x_continuous(breaks=data$Year)
+    scale_x_discrete(limit=data$Year)
 ## ---- end-of-assign2-6-plot
