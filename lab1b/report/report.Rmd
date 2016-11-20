@@ -48,7 +48,7 @@ It is a continuous piecewise linear function as it should be due to the constrai
 \end{aligned}
 \end{equation*}
 
-and it means that there are no derivatives at the knots/end points and only derivative of order one elsewhere.
+and it means that there are no derivatives at the knots/end points and only derivatives of order one elsewhere.
 
 ## 3
 ```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Cubic Smooth Spline"}
@@ -122,14 +122,14 @@ implicates that as $\lambda$ increases the degrees of freedom decreases and vice
 <<assign2-4>>
 ```
 
-As the penalty factor increases the fit becomes less flexible, i.e. the degrees of freedom decreases, which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the models are still underfitting the real underlying data which means that the model is not complex enough. The maximum degrees of freedom possible is used when the penalty factor is set to 0 and therefore indicate the result that the \textit{week} feature cannot explain the mortality completely so a better model would need to incorporate more knowledge.
+As the penalty factor increases the fit becomes less flexible due to a decrease in the degrees of freedom which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the model is still underfitting the real underlying data which means that the model is not complex enough. The maximum degrees of freedom possible is used when the penalty factor is set to 0 and therefore indicates the result that the \textit{week} feature cannot explain the mortality completely so a better model would need to incorporate more knowledge.
 
 
 ```{r deviance, echo=FALSE, eval=TRUE, fig.cap="Deviance versus penalty factor."}
 <<assign2-4-deviance>>
 ```
 
-Figure \ref{fig:deviance} shows that as the penalty factor increases so does the estimated deviance of the model.
+Figure \ref{fig:deviance} shows that as the penalty factor increases so does the estimated deviance of the model which is not desirable.
 
 ## 5
 ```{r plot25, echo=FALSE, eval=TRUE, fig.cap="Residuals from the GAM in exercise 2."}
