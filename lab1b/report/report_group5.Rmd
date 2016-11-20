@@ -1,0 +1,89 @@
+---
+title: "Introduction to Machine Learning"
+subtitle: "Lab 1 Block 2"
+author: "Anton Persson, Emil Klasson Svensson, Mattias Karlsson, Rasmus Holm"
+date: "`r Sys.Date()`"
+output:
+    pdf_document:
+        toc: true
+        fig_caption: yes
+        keep_tex: yes
+        includes:
+            in_header: styles.sty
+---
+
+```{r global-options, echo = FALSE, eval=TRUE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(fig.pos='H', fig.align='center')
+```
+
+\newpage
+
+# Assignment 1
+```{r, echo=FALSE, eval=TRUE}
+```
+
+## 2
+```{r plot12, echo=FALSE, eval=TRUE, fig.cap="Piecewise Linear Model"}
+```
+
+## 3
+```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Cubic Smooth Spline"}
+```
+
+\newpage
+
+# Assignment 2
+```{r, echo=FALSE, eval=TRUE}
+```
+
+## 1
+```{r plot21, echo=FALSE, eval=TRUE, fig.cap="Influenza and mortality cases as time series between 1995 and 2004"}
+```
+
+## 2
+```{r, echo=FALSE, eval=TRUE}
+```
+
+## 3
+```{r plot23, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+```
+
+```{r spline, echo=FALSE, eval=TRUE, fig.cap="The week spline function."}
+```
+
+## 4
+```{r plot24, echo=FALSE, eval=TRUE, fig.cap="Shows how the estimation changes with varying the penalty factor of the GAM."}
+```
+
+```{r deviance, echo=FALSE, eval=TRUE, fig.cap="Deviance versus penalty factor."}
+```
+
+## 5
+```{r plot25, echo=FALSE, eval=TRUE, fig.cap="Residuals from the GAM in exercise 2."}
+```
+
+## 6
+```{r, echo=FALSE, eval=TRUE}
+```
+
+```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
+```
+
+\newpage
+
+# Appendix
+
+## Code for Assignment 1
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+```
+
+## Code for Assignment 2
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+```
+
+## Contributions
+We divided the work into two parts and discussed/compiled the results in pairs. Then we all discussed our findings together as a whole group and checked that everyone had similar/understood the results.
