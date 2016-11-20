@@ -18,7 +18,7 @@ LDA <- function(X, y) {
     p <- ncol(X)
 
     labels <- unique(y)
-    priors <- table(y) / length(y)
+    priors <- table(y) / n
 
     means <- aggregate(X, list(y), mean)
     means <- as.matrix(means[, -1], ncol=p)
@@ -30,7 +30,7 @@ LDA <- function(X, y) {
         cov_mats[[i]] * lengths[[i]]
     })
 
-    sigma <- as.matrix(Reduce("+", cov_mats) / sum(lengths), nrow=p)
+    sigma <- as.matrix(Reduce("+", cov_mats) / n, nrow=p)
     sigma_inv <- solve(sigma)
 
     w0 <- sapply(1:length(labels), function(i) {
@@ -59,20 +59,12 @@ intercept <- -w0 / w1[2]
 slope <- -w1[1] / w1[2]
 predicted <- as.numeric((w0 + w1 %*% t(X)) > 0)
 predicted <- factor(predicted, levels=c(0, 1), labels=c("Female", "Male"))
-
-plot_data <- data.frame(RW=data$RW, CL=data$CL, class=predicted)
-line_data <- data.frame(intercept=intercept, slope=slope)
-
-ggplot() +
-    geom_point(data=plot_data, aes(x=RW, y=CL, color=class)) +
-    geom_abline(data=line_data, intercept=intercept, slope=slope,
-                color="black", linetype="dotted", size=1)
 ## ---- end-of-assign1-2
 
 ## 3
 ## ---- assign1-3
-plot_data <- data.frame(RW=data$RW, CL=data$CL, class=data$sex)
-line_data <- data.frame(intercept=intercept, slope=slope)
+plot_data <- data.frame(RW=data$RW, CL=data$CL, class=predicted)
+line_data <- data.frame(intercept=intercept, slope=slope, row.names=NULL)
 
 ggplot() +
     geom_point(data=plot_data, aes(x=RW, y=CL, color=class)) +

@@ -35,28 +35,42 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-1>>
 ```
 
-Figure \ref{fig:plot11} shows that the crabs could be separated pretty well based on sex by a linear model. With the proper covariance matrices the groups could be seen as Gaussian distributed and therefore would the linear discriminant analysis (LDA) be a reasonable classifier in this case.
+Figure \ref{fig:plot11} shows that the crabs could be separated pretty well based on sex by a linear model. With the proper covariance matrices the groups could be seen as Gaussian distributed and the linear discriminant analysis (LDA) would therefore be a reasonable classifier in this case.
 
 ## 2
-```{r plot12, echo=FALSE, eval=TRUE, fig.cap="Classification by LDA including the decision boundary."}
+Below are are resulting discriminant functions
+
+```{r, echo=FALSE, eval=TRUE}
 <<assign1-2>>
 ```
 
-The LDA classifier does work pretty well in this case as shown in figure \ref{fig:plot12} with a few misclassifications, 7 out of 200 observations to be precise.
+\begin{equation*}
+\delta_{\text{female}}(x) = `r result$w0[1]` + `r result$w1[1, 1]` \text{RW} + `r result$w1[2, 1]` \text{CL},
+\end{equation*}
+
+\begin{equation*}
+\delta_{\text{male}}(x) = `r result$w0[2]` + `r result$w1[1, 2]` \text{RW} + `r result$w1[2, 2]` \text{CL},
+\end{equation*}
+
+and the equation for the decision boundary
+
+\begin{equation*}
+\textit{CL} = `r slope` \textit{RW} + `r intercept`.
+\end{equation*}
 
 ## 3
-```{r plot13, echo=FALSE, eval=TRUE, fig.cap="The true data with the LDA decision boundary."}
+```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Classification by LDA including the decision boundary."}
 <<assign1-3>>
 ```
 
-The true data can be seen in figure \ref{fig:plot13} together with the decision boundary by LDA. We can see that the overall fit is very good but it has difficulties in the left part of the plot where observations are very close to the decision boundary.
+The LDA classifier does work pretty well in this case as shown in figure \ref{fig:plot13} with a few misclassifications, 7 out of 200 observations to be precise. This is to be expected since the two classes are not linearly separable
 
 ## 4
 ```{r plot14, echo=FALSE, eval=TRUE, warning=FALSE, fig.cap="Classification by logistic regression including the decision boundary."}
 <<assign1-4>>
 ```
 
-Here I have used logistic regression instead of LDA to classify based on sex. Figure \ref{fig:plot14} shows a similar result that came from LDA in figure \ref{fig:plot12}. The number of miscalssifications are 7 as well but it is rather difficult to know exactly which one is preferred in this case. Logistic regression doesn't assume the data to be normally distributed which LDA does and since that assumption is not always true I would probably prefer logistic regression in this case.
+Here I have used logistic regression instead of LDA to classify based on sex. Figure \ref{fig:plot14} shows a similar result that came from LDA in figure \ref{fig:plot13}. The number of miscalssifications are 7 as well but it is rather difficult to know exactly which one is preferred in this case. Logistic regression does not assume the data to be normally distributed which LDA does and since that assumption is not always true I would probably prefer logistic regression in this case.
 
 \newpage
 
@@ -66,16 +80,16 @@ Here I have used logistic regression instead of LDA to classify based on sex. Fi
 <<assign2-1>>
 ```
 
-In order to do the following exercises I have divided the creditscoring data set into three sets; train (50\%), validation (25\%), and test (25\%). The variable good/bad indicates how the customers have managed their loans and I will be using decision trees and naive Bayes classifiers to predict the aforementioned variable using all other variables.
+In order to do the following exercises I have divided the creditscoring data set into three sets; train (50\%), validation (25\%), and test (25\%). The variable good/bad indicates how the customers have managed their loans and I will be using decision trees and naive Bayes classifiers to predict the aforementioned variable using all other variables in the data set.
 
 ## 2
-Here I am interested in whether the deviance or Gini index as impurity measurement give rise to the lowest misclassification rates in decision trees. I have trained the decision trees on the training data set and then tested on train and test set.
+Here I am interested in whether the deviance or Gini index as impurity measurement give rise to the lowest misclassification rates in decision trees. I have trained the decision trees on the training data set and then tested on the train and test sets.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2>>
 ```
 
-Below is the results using the deviance to measure the impurity. The first result is on the train set and the second on the test set.
+Below are the results using the deviance to measure the impurity. The first result is on the train set and the second on the test set.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2-dtree-train>>
@@ -85,8 +99,7 @@ Below is the results using the deviance to measure the impurity. The first resul
 <<assign2-2-dtree-test>>
 ```
 
-
-Below is the results using the Gini index to measure the impurity. The first result is on the train set and the second on the test set.
+Below are the results using the Gini index to measure the impurity. The first result is on the train set and the second on the test set.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2-gtree-train>>
@@ -96,7 +109,7 @@ Below is the results using the Gini index to measure the impurity. The first res
 <<assign2-2-gtree-test>>
 ```
 
-We can see from the results that the deviance impurity measurement yield better on both the train and test data sets. In the following exercises I will therefore only be using that measure.
+We can see from the results that the deviance impurity measurement performs better on both the train and test data sets. I will therefore only be using the deviance measure in the following exercises.
 
 ## 3
 ```{r, echo=FALSE, eval=TRUE}
