@@ -109,7 +109,7 @@ where $\text{g}(\mu) = \mu$ is the link function and $f$ is a spline with an est
 <<assign2-3-plot>>
 ```
 
-Figure \ref{fig:plot23} shows that the generalized additive model (GAM) is a decent fit to the data. The true data is very chaotic which the model does not capture, i.e. do not overfit to the noise, but it does underfit the peaks so overall I would say the model underfits the data.
+Figure \ref{fig:plot23} shows that the generalized additive model (GAM) is a decent fit to the data. The true data is very chaotic which the model does not capture, i.e. do not overfit to the noise, but it does underfit the peaks so overall we conclude that the model underfits the data.
 
 We can also see that the mortality outbreak occurs in the beginning of each year and then decreases until winter is coming again, so the mortality is positively correlated with influenza cases which in turn are increased by the colder climate in the late/early months of each year.
 
