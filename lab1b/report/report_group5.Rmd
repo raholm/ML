@@ -24,26 +24,25 @@ knitr::read_chunk("../assignment2/solution.R")
 # Assignment 1
 ```{r, echo=FALSE, eval=TRUE}
 myspline<-function(X, Y, knots){
-  X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
-  
+  X <- as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
+
   for (i in 1:length(knots)){
-    
     X[,i+2]<- pmax(cube$x-knots[i], 0)
   }
-  all_data<-data.frame(y=Y, X)  
-  
-  lin_mod<-lm(y~.-Intercept, data=all_data) 
-  
+  all_data<-data.frame(y=Y, X)
+
+  lin_mod<-lm(y~.-Intercept, data=all_data)
+
   predictions<-predict(lin_mod)
-  
+
   library(ggplot2)
   linear_plot<-ggplot(data=all_data)+geom_line(aes(x=X, y=predictions), col="red")+
     geom_point(aes(x=X, y=predictions), col="red")+geom_point(aes(y=all_data$y, x=all_data$X))+
     ggtitle("Fitting piecewise linear functions")
-  
+
   plot(linear_plot)
-  
-  #return(summary(lin_mod)) Don't need the summary in the report so I delete that.
+
+  ## return(summary(lin_mod)) Don't need the summary in the report so I delete that.
 }
 
 cube <- read.csv2("../data/cube.csv", header=TRUE, sep=";")
@@ -83,21 +82,21 @@ The fit is definitively better than the piecewise linear, it is more precise and
 <<assign2-init>>
 ```
 
-In the following exercises I have used the influenza data set that contains weekly data on the mortality and the number of laboratory-confirmed cases of influenza in Sweden.
+In the following exercises we have used the influenza data set that contains weekly data on the mortality and the number of laboratory-confirmed cases of influenza in Sweden.
 
 ## 1
 ```{r plot21, echo=FALSE, eval=TRUE, fig.cap="Influenza and mortality cases as time series between 1995 and 2004"}
 <<assign2-1>>
 ```
 
-From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline. This indicates that mortality cases are positively correlated with influenza.
+From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline. This indicates that mortality cases are positively correlated with influenza. The spikes in influenza do not explain the magnitudes in the spikes of mortality completely, there is no general pattern to be recognized.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2>>
 ```
 
-In this exercise I assume $\textit{Mortality} \sim \mathcal{N}(\mu, \sigma^{2})$ so the probabilistic model becomes
+In this exercise we assume $\textit{Mortality} \sim \mathcal{N}(\mu, \sigma^{2})$ so the probabilistic model becomes
 
 \begin{equation*}
 g(\mathbf{E} \left[ \textit{ Mortality } | \textit{ Year}, \textit{Week } \right]) = \alpha + \beta_{1} \textit{Year} + f(\textit{Week}),
@@ -153,7 +152,7 @@ Figure \ref{fig:deviance} shows that as the penalty factor increases so does the
 <<assign2-5>>
 ```
 
-The residuals are usually negative when \textit{influenza} is at 0 and large positive spikes when the \textit{influenza} is above 0 as shown in figure \ref{fig:plot25}. This indicates that the model underestimates during the early/late months and usually overestimates the other months.
+The residuals are usually negative when \textit{influenza} is at 0 and large positive spikes when the \textit{influenza} is above 0 as shown in figure \ref{fig:plot25}. This indicates that the model underestimates during the early/late months and usually overestimates the other months. What we can conclude is that the influenza should work well as an explanatory variable in predicting the mortality.
 
 ## 6
 In this new model I have modelled \textit{mortality} as an additive function of the spline functions of \textit{year}, \textit{week}, and \textit{influenza}.
