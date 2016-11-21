@@ -117,13 +117,13 @@ We can also see that the mortality outbreak occurs in the beginning of each year
 <<assign2-3-summary>>
 ```
 
-From the model summary above we can see that the spline component is statistical significant while the intercept and year variable are not. This is not suprising given that the data is non-linear from figure \ref{fig:plot23}.
+From the model summary above we can see that the spline component is statistical significant while the \textit{intercept} and \textit{year} variable are not. This is not surprising given that the data is non-linear from figure \ref{fig:plot23}.
 
 ```{r spline, echo=FALSE, eval=TRUE, fig.cap="The week spline function."}
 <<assign2-3-spline>>
 ```
 
-The fitted \textit{week} spline function can be seen in figure \ref{fig:spline} with the pointwise standard errors included. It shows that the value is high in the early/late weeks and it is at its lowest point in the middle of the year, i.e. the summer months. This correspond to the same analysis as previously that mortality cases increase in the early/late months each year.
+The fitted week spline function can be seen in figure \ref{fig:spline} with the pointwise standard errors included. It shows that the value is high in the early/late weeks and it is at its lowest point in the middle of the year, i.e. the summer months. This correspond to the same analysis as previously that mortality cases increase in the early/late months each year.
 
 ## 4
 We know that the smoothing penalty factor, $\lambda$, and degrees of freedom for a spline have the following relationship.
@@ -138,7 +138,7 @@ implicates that as $\lambda$ increases the degrees of freedom decreases and vice
 <<assign2-4>>
 ```
 
-As the penalty factor increases the fit becomes less flexible due to a decrease in the degrees of freedom which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the model is still underfitting the real underlying data which means that the model is not complex enough. The maximum degrees of freedom possible is used when the penalty factor is set to 0 and therefore indicates the result that the \textit{week} feature cannot explain the mortality completely so a better model would need to incorporate more knowledge.
+As the penalty factor increases the fit becomes less flexible due to a decrease in the degrees of freedom which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the model is still underfitting the real underlying data which means that the model is not complex enough. The maximum degrees of freedom possible is used when the penalty factor is set to 0 and therefore indicates the result that the \textit{week} feature cannot explain the \textit{mortality} completely so a better model would need to incorporate more knowledge.
 
 
 ```{r deviance, echo=FALSE, eval=TRUE, fig.cap="Deviance versus penalty factor."}
@@ -152,7 +152,7 @@ Figure \ref{fig:deviance} shows that as the penalty factor increases so does the
 <<assign2-5>>
 ```
 
-The residuals are usually negative when \textit{influenza} is at 0 and large positive spikes when the \textit{influenza} is above 0 as shown in figure \ref{fig:plot25}. This indicates that the model underestimates during the early/late months and usually overestimates the other months. What we can conclude is that the influenza should work well as an explanatory variable in predicting the mortality.
+The residuals are usually negative when influenza is at 0 and large positive spikes when the influenza is above 0 as shown in figure \ref{fig:plot25}. This indicates that the model underestimates during the early/late months and usually overestimates the other months. What we can conclude is that the \textit{influenza} should work well as an explanatory variable in predicting the \textit{mortality}.
 
 ## 6
 In this new model I have modelled \textit{mortality} as an additive function of the spline functions of \textit{year}, \textit{week}, and \textit{influenza}.
@@ -161,13 +161,13 @@ In this new model I have modelled \textit{mortality} as an additive function of 
 <<assign2-6-summary>>
 ```
 
-The model summary above shows that the \textit{influenza} is statistical significant in explaining the mortality and so is the \textit{week} variable like before.
+The model summary above shows that the \textit{influenza} is statistical significant in explaining the \textit{mortality} and so is the \textit{week} variable like before.
 
 ```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
 <<assign2-6-plot>>
 ```
 
-The new model is fitting the data much better than before as shown in figure \ref{fig:plot26} and from the summary we can conclude that the \textit{week} and \textit{influenza} variables explain most of the mortality cases, roughly $84\%$ of the deviance.
+The new model is fitting the data much better than before as shown in figure \ref{fig:plot26} and from the summary we can conclude that the \textit{week} and \textit{influenza} variables explain most of the \textit{mortality} cases, roughly $84\%$ of the deviance.
 
 \newpage
 
@@ -176,8 +176,8 @@ The new model is fitting the data much better than before as shown in figure \re
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 myspline<-function(X, Y, knots){
-  
-  X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
+
+    X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
   
   for (i in 1:length(knots)){
     
