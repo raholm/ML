@@ -1,5 +1,6 @@
 ## ---- assign1-init
 library(ggplot2)
+library(reshape2)
 
 myspline <- function(X, y, knots) {
     n <- length(X)
@@ -31,11 +32,11 @@ data <- read.csv2("../data/cube.csv", header=TRUE, sep=";")
 knots <- c(2, 4)
 yhat <- myspline(data$x, data$y, knots)
 
-plot_data <- data.frame(x=data$x, y=data$y, yhat=yhat)
+plot_data <- data.frame(x=data$x, Actual=data$y, Estimate=yhat)
+plot_data <- melt(plot_data, id="x", variable.name="Data", value.name="y")
 
 ggplot(plot_data) +
-    geom_point(aes(x, y), color="red") +
-    geom_point(aes(x, yhat), color="blue")
+    geom_point(aes(x=x, y=y, color=Data))
 ## ---- end-of-assign1-2
 
 ## 3
@@ -43,9 +44,9 @@ ggplot(plot_data) +
 smooth_fit <- smooth.spline(x=data$x, y=data$y)
 yhat <- fitted(smooth_fit)
 
-plot_data <- data.frame(x=data$x, y=data$y, yhat=yhat)
+plot_data <- data.frame(x=data$x, Actual=data$y, Estimate=yhat)
+plot_data <- melt(plot_data, id="x", variable.name="Data", value.name="y")
 
 ggplot(plot_data) +
-    geom_point(aes(x, y), color="red") +
-    geom_point(aes(x, yhat), color="blue")
+    geom_point(aes(x=x, y=y, color=Data))
 ## ---- end-of-assign1-3

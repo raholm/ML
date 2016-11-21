@@ -15,63 +15,161 @@ output:
 ```{r global-options, echo = FALSE, eval=TRUE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
+
+knitr::read_chunk("../assignment2/solution.R")
 ```
 
 \newpage
 
 # Assignment 1
 ```{r, echo=FALSE, eval=TRUE}
+myspline<-function(X, Y, knots){
+  X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
+  
+  for (i in 1:length(knots)){
+    
+    X[,i+2]<- pmax(cube$x-knots[i], 0)
+  }
+  all_data<-data.frame(y=Y, X)  
+  
+  lin_mod<-lm(y~.-Intercept, data=all_data) 
+  
+  predictions<-predict(lin_mod)
+  
+  library(ggplot2)
+  linear_plot<-ggplot(data=all_data)+geom_line(aes(x=X, y=predictions), col="red")+
+    geom_point(aes(x=X, y=predictions), col="red")+geom_point(aes(y=all_data$y, x=all_data$X))+
+    ggtitle("Fitting piecewise linear functions")
+  
+  plot(linear_plot)
+  
+  #return(summary(lin_mod)) Don't need the summary in the report so I delete that.
+}
+
+cube <- read.csv2("../data/cube.csv", header=TRUE, sep=";")
 ```
 
 ## 2
 ```{r plot12, echo=FALSE, eval=TRUE, fig.cap="Piecewise Linear Model"}
+myspline(X=cube$x, Y=cube$y, knots=c(2,4))
 ```
 
+The plot returned by the function shows that the quality of fit seems to be good, when I consider that I only used two knots. The knots might not be exactly the values I would've chosen to optimize the fitting neither. For example, if I used the knots as c(1.9, 4,8) the fit would probably have been even better.
+It's a continuous function, a continuous piecewise linear function to be more specific.
+
 ## 3
+When I use smooth.spline() instead of my own function I do get the results shown below.
+
 ```{r plot13, echo=FALSE, eval=TRUE, fig.cap="Cubic Smooth Spline"}
+X<-cube$x
+Y<-cube$y
+
+spline_predictions<-predict(smooth.spline(x=X, y=Y))
+
+spline_predictions<-as.data.frame(cbind(x=as.vector(spline_predictions$x),y=as.vector(spline_predictions$y)))
+
+spline_plot<-ggplot()+geom_point(data=spline_predictions, aes(x=x, y=y), col="red")+
+  geom_line(data=spline_predictions, aes(x=x, y=y), col="red")+
+  geom_point(aes(y=cube$y, x=cube$x))+ggtitle("Fitting with smooth.spline()")
+
+spline_plot
 ```
+
+The fit made by the smooth.spline() definitely look better according to the plots, it's more exact and catch even the smaller trends in the data. However there is a risk that this is a overfit since it's only been plotted againt the training data (which is all data in this case). Maybe the piecewise linear function would be as good if I got to choose the knots myself, and if this only was the training data and there were another set to be used as test data. Since the observed values look like a combination of three different linear parts, I wouldn't mind using a piecewise linear model at all.
 
 \newpage
 
 # Assignment 2
 ```{r, echo=FALSE, eval=TRUE}
+<<assign2-init>>
 ```
+
+In the following exercises I have used the influenza data set that contains weekly data on the mortality and the number of laboratory-confirmed cases of influenza in Sweden.
 
 ## 1
 ```{r plot21, echo=FALSE, eval=TRUE, fig.cap="Influenza and mortality cases as time series between 1995 and 2004"}
+<<assign2-1>>
 ```
+
+From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline. This indicates that mortality cases are positively correlated with influenza.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE}
+<<assign2-2>>
 ```
+
+In this exercise I assume $\textit{Mortality} \sim \mathcal{N}(\mu, \sigma^{2})$ so the probabilistic model becomes
+
+\begin{equation*}
+g(\mathbf{E} \left[ \textit{ Mortality } | \textit{ Year}, \textit{Week } \right]) = \alpha + \beta_{1} \textit{Year} + f(\textit{Week}),
+\end{equation*}
+
+where $\text{g}(\mu) = \mu$ is the link function and $f$ is a spline with an estimated degrees of freedom of $8.487$.
 
 ## 3
 ```{r plot23, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
+<<assign2-3-plot>>
 ```
+
+Figure \ref{fig:plot23} shows that the generalized additive model (GAM) is a decent fit to the data. The true data is very chaotic which the model does not capture, i.e. do not overfit to the noise, but it does underfit the peaks so overall I would say the model underfits the data.
+
+We can also see that the mortality outbreak occurs in the beginning of each year and then decreases until winter is coming again, so the mortality is positively correlated with influenza cases which in turn are increased by the colder climate in the late/early months of each year.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="Caption."}
+<<assign2-3-summary>>
 ```
+
+From the model summary above we can see that the spline component is statistical significant while the intercept and year variable are not. This is not suprising given that the data is non-linear from figure \ref{fig:plot23}.
 
 ```{r spline, echo=FALSE, eval=TRUE, fig.cap="The week spline function."}
+<<assign2-3-spline>>
 ```
+
+The fitted \textit{week} spline function can be seen in figure \ref{fig:spline} with the pointwise standard errors included. It shows that the value is high in the early/late weeks and it is at its lowest point in the middle of the year, i.e. the summer months. This correspond to the same analysis as previously that mortality cases increase in the early/late months each year.
 
 ## 4
+We know that the smoothing penalty factor, $\lambda$, and degrees of freedom for a spline have the following relationship.
+
+\begin{equation*}
+\text{df}_{\lambda} = \sum_{k = 1}^{N} \frac{1}{1 + \lambda d_{k}}
+\end{equation*}
+
+implicates that as $\lambda$ increases the degrees of freedom decreases and vice verse. Figure \ref{fig:plot24} shows how the fit changes with varying penalty factors (sp parameter) with the maximum degrees of freedom set to a fixed value of $51$ (k parameter).
+
 ```{r plot24, echo=FALSE, eval=TRUE, fig.cap="Shows how the estimation changes with varying the penalty factor of the GAM."}
+<<assign2-4>>
 ```
 
+As the penalty factor increases the fit becomes less flexible due to a decrease in the degrees of freedom which results in a fit that does not match the data particular well and this follows directly from the theory above. A penalty factor of 0 or 10 are decent in this case but the model is still underfitting the real underlying data which means that the model is not complex enough. The maximum degrees of freedom possible is used when the penalty factor is set to 0 and therefore indicates the result that the \textit{week} feature cannot explain the mortality completely so a better model would need to incorporate more knowledge.
+
+
 ```{r deviance, echo=FALSE, eval=TRUE, fig.cap="Deviance versus penalty factor."}
+<<assign2-4-deviance>>
 ```
+
+Figure \ref{fig:deviance} shows that as the penalty factor increases so does the estimated deviance of the model which is not desirable.
 
 ## 5
 ```{r plot25, echo=FALSE, eval=TRUE, fig.cap="Residuals from the GAM in exercise 2."}
+<<assign2-5>>
 ```
+
+The residuals are usually negative when \textit{influenza} is at 0 and large positive spikes when the \textit{influenza} is above 0 as shown in figure \ref{fig:plot25}. This indicates that the model underestimates during the early/late months and usually overestimates the other months.
 
 ## 6
+In this new model I have modelled \textit{mortality} as an additive function of the spline functions of \textit{year}, \textit{week}, and \textit{influenza}.
+
 ```{r, echo=FALSE, eval=TRUE}
+<<assign2-6-summary>>
 ```
 
+The model summary above shows that the \textit{influenza} is statistical significant in explaining the mortality and so is the \textit{week} variable like before.
+
 ```{r plot26, echo=FALSE, eval=TRUE, fig.cap="Fitted model to the actual data."}
+<<assign2-6-plot>>
 ```
+
+The new model is fitting the data much better than before as shown in figure \ref{fig:plot26} and from the summary we can conclude that the \textit{week} and \textit{influenza} variables explain most of the mortality cases, roughly $84\%$ of the deviance.
 
 \newpage
 
@@ -79,10 +177,64 @@ knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+myspline<-function(X, Y, knots){
+  
+  X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
+  
+  for (i in 1:length(knots)){
+    
+    X[,i+2]<- pmax(cube$x-knots[i], 0)
+  }
+  all_data<-data.frame(y=Y, X)  
+  
+  lin_mod<-lm(y~.-Intercept, data=all_data) 
+  
+  predictions<-predict(lin_mod)
+  
+  library(ggplot2)
+  linear_plot<-ggplot(data=all_data)+geom_line(aes(x=X, y=predictions), col="red")+
+    geom_point(aes(x=X, y=predictions), col="red")+geom_point(aes(y=all_data$y, x=all_data$X))+
+    ggtitle("Fitting piecewise linear functions")
+  
+  plot(linear_plot)
+  
+  #return(summary(lin_mod)) Don't need the summary in the report so I delete that.
+}
+
+cube <- read.csv2("../data/cube.csv", header=TRUE, sep=";")
+myspline(X=cube$x, Y=cube$y, knots=c(2,4))
+
+X<-cube$x
+Y<-cube$y
+
+spline_predictions<-predict(smooth.spline(x=X, y=Y))
+
+spline_predictions<-as.data.frame(cbind(x=as.vector(spline_predictions$x),y=as.vector(spline_predictions$y)))
+
+spline_plot<-ggplot()+geom_point(data=spline_predictions, aes(x=x, y=y), col="red")+
+  geom_line(data=spline_predictions, aes(x=x, y=y), col="red")+
+  geom_point(aes(y=cube$y, x=cube$x))+ggtitle("Fitting with smooth.spline()")
+
+spline_plot
 ```
 
 ## Code for Assignment 2
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2-init>>
+<<assign2-1>>
+<<assign2-2>>
+
+<<assign2-3-plot>>
+<<assign2-3-summary>>
+<<assign2-3-spline>>
+
+<<assign2-4>>
+<<assign2-4-deviance>>
+
+<<assign2-5>>
+
+<<assign2-6-summary>>
+<<assign2-6-plot>>
 ```
 
 ## Contributions
