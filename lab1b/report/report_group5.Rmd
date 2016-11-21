@@ -187,7 +187,8 @@ myspline <- function(X, Y, knots) {
   
   library(ggplot2)
   linear_plot<-ggplot(data=all_data)+geom_line(aes(x=X, y=predictions), col="red")+
-    geom_point(aes(x=X, y=predictions), col="red")+geom_point(aes(y=all_data$y, x=all_data$X))+
+      geom_point(aes(x=X, y=predictions), col="red")+
+      geom_point(aes(y=all_data$y, x=all_data$X))+
     ggtitle("Fitting piecewise linear functions")
   
   plot(linear_plot)
@@ -201,7 +202,8 @@ Y<-cube$y
 
 spline_predictions<-predict(smooth.spline(x=X, y=Y))
 
-spline_predictions<-as.data.frame(cbind(x=as.vector(spline_predictions$x),y=as.vector(spline_predictions$y)))
+spline_predictions<-as.data.frame(cbind(x=as.vector(spline_predictions$x),
+                                        y=as.vector(spline_predictions$y)))
 
 spline_plot<-ggplot()+geom_point(data=spline_predictions, aes(x=x, y=y), col="red")+
   geom_line(data=spline_predictions, aes(x=x, y=y), col="red")+
