@@ -89,7 +89,7 @@ In the following exercises we have used the influenza data set that contains wee
 <<assign2-1>>
 ```
 
-From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline. This indicates that mortality cases are positively correlated with influenza. The spikes in influenza do not explain the magnitudes in the spikes of mortality completely, there is no general pattern to be recognized.
+From figure \ref{fig:plot21} we can see that spikes in influenza also resulted in increased mortality cases over the complete timeline. This indicates that mortality cases are positively correlated with influenza. The spikes in influenza do not explain the magnitudes in the spikes of mortality completely, there is no general pattern to be recognized which indicates that there are other variables that can explain the mortality.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE}
