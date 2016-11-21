@@ -74,7 +74,8 @@ do.call(grid.arrange, c(plots, list(ncol=2)))
 ## ---- assign2-4-deviance
 plot_data <- data.frame(Penalty=penalty_values, Deviance=deviance)
 ggplot(plot_data) +
-    geom_line(aes(x=log(Penalty), y=log(Deviance)))
+    geom_line(aes(x=log(Penalty), y=log(Deviance))) +
+    geom_point(aes(x=log(Penalty), y=log(Deviance)))
 ## ---- end-of-assign2-4-deviance
 
 ## 5
