@@ -24,7 +24,7 @@ knitr::read_chunk("../assignment2/solution.R")
 # Assignment 1
 ```{r, echo=FALSE, eval=TRUE}
 myspline<-function(X, Y, knots){
-  X <- as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
+  X <- as.data.frame(cbind(Intercept=rep(1, length(X)), X))
 
   for (i in 1:length(knots)){
     X[,i+2]<- pmax(cube$x-knots[i], 0)
@@ -41,8 +41,6 @@ myspline<-function(X, Y, knots){
     ggtitle("Fitting piecewise linear functions")
 
   plot(linear_plot)
-
-  ## return(summary(lin_mod)) Don't need the summary in the report so I delete that.
 }
 
 cube <- read.csv2("../data/cube.csv", header=TRUE, sep=";")
@@ -175,18 +173,16 @@ The new model is fitting the data much better than before as shown in figure \re
 
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-myspline<-function(X, Y, knots){
+myspline <- function(X, Y, knots) {
+    X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X))
 
-    X<-as.data.frame(cbind(Intercept=rep(1, length(X)), X)) #Lägger till intercept
-  
   for (i in 1:length(knots)){
-    
     X[,i+2]<- pmax(cube$x-knots[i], 0)
   }
   all_data<-data.frame(y=Y, X)  
   
-  lin_mod<-lm(y~.-Intercept, data=all_data) 
-  
+  lin_mod<-lm(y~.-Intercept, data=all_data)
+
   predictions<-predict(lin_mod)
   
   library(ggplot2)
@@ -195,8 +191,6 @@ myspline<-function(X, Y, knots){
     ggtitle("Fitting piecewise linear functions")
   
   plot(linear_plot)
-  
-  #return(summary(lin_mod)) Don't need the summary in the report so I delete that.
 }
 
 cube <- read.csv2("../data/cube.csv", header=TRUE, sep=";")
