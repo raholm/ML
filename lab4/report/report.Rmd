@@ -1,0 +1,36 @@
+---
+title: "Introduction to Machine Learning"
+subtitle: "Lab 3"
+author: "Rasmus Holm"
+date: "`r Sys.Date()`"
+fontsize: 10pt
+geometry: margin=1in
+output:
+    pdf_document:
+        toc: true
+        number_sections: false
+        fig_caption: yes
+        keep_tex: yes
+        includes:
+            in_header: styles.sty
+---
+
+```{r global-options, echo = FALSE, eval=TRUE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(fig.pos='H', fig.align='center')
+
+knitr::read_chunk("../assignment1/solution.R")
+knitr::read_chunk("../assignment2/solution.R")
+```
+
+\newpage
+
+# Assignment 1
+
+# Assignment 2
+
+# Appendix
+
+## Code for Assignment 1
+
+## Code for Assignment 2
