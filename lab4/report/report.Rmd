@@ -26,11 +26,41 @@ knitr::read_chunk("../assignment2/solution.R")
 \newpage
 
 # Assignment 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-init>>
+```
+
+## 1
+
+## 2
+
+## 3
+
+## 4
+
+## 5
 
 # Assignment 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-init>>
+```
+
+## 1
+
+## 2
+
+## 3
+
+## 4
 
 # Appendix
 
 ## Code for Assignment 1
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+
+```
 
 ## Code for Assignment 2
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+
+```
