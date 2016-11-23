@@ -89,6 +89,10 @@ Here I am interested in whether the deviance or Gini index as impurity measureme
 <<assign2-2>>
 ```
 
+```{r dtree, echo=FALSE, eval=TRUE, fig.cap="The resulting decision tree using deviance."}
+<<assign2-2-dtree-plot>>
+```
+
 Below are the results using the deviance to measure the impurity. The first result is on the train set and the second on the test set.
 
 ```{r, echo=FALSE, eval=TRUE}
@@ -98,6 +102,12 @@ Below are the results using the deviance to measure the impurity. The first resu
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2-dtree-test>>
 ```
+
+```{r gtree, echo=FALSE, eval=TRUE, fig.cap="The resulting decision tree using Gini index."}
+<<assign2-2-gtree-plot>>
+```
+
+We can see that the decision tree constructed by using Gini index (fig. \ref{fig:gtree}) is a lot bigger than that of deviance (fig. \ref{fig:dtree}).
 
 Below are the results using the Gini index to measure the impurity. The first result is on the train set and the second on the test set.
 
@@ -187,8 +197,10 @@ What we can observe is that there are a lot of false negatives, i.e. predicting 
 <<assign2-1>>
 
 <<assign2-2>>
+<<assign2-2-dtree-plot>>
 <<assign2-2-dtree-train>>
 <<assign2-2-dtree-test>>
+<<assign2-2-gtree-plot>>
 <<assign2-2-gtree-train>>
 <<assign2-2-gtree-test>>
 

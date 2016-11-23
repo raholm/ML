@@ -44,6 +44,10 @@ dtreefit <- tree(good_bad ~ ., data=train, split="deviance")
 gtreefit <- tree(good_bad ~ ., data=train, split="gini")
 ## ---- end-of-assign2-2
 
+## ---- assign2-2-dtree-plot
+plot(dtreefit)
+## ---- end-of-assign2-2-dtree-plot
+
 ## ---- assign2-2-dtree-train
 prediction.tree(dtreefit, train[, -ncol(train)], train$good_bad)
 ## ---- end-of-assign2-2-dtree-train
@@ -51,6 +55,10 @@ prediction.tree(dtreefit, train[, -ncol(train)], train$good_bad)
 ## ---- assign2-2-dtree-test
 prediction.tree(dtreefit, test[, -ncol(test)], test$good_bad)
 ## ---- end-of-assign2-2-dtree-test
+
+## ---- assign2-2-gtree-plot
+plot(gtreefit)
+## ---- end-of-assign2-2-gtree-plot
 
 ## ---- assign2-2-gtree-train
 prediction.tree(gtreefit, train[, -ncol(train)], train$good_bad)
