@@ -9,7 +9,7 @@ library(e1071)
 data_division <- function(n, train, test, validation) {
     indices <- 1:n
 
-    train <- sample(indices, floor(n * 0.5))
+    train <- sample(indices, floor(n * train))
     test <- sample(indices[-train], floor(n * test))
     validation <- indices[-c(train, test)]
 
@@ -22,7 +22,7 @@ data <- read.xls("../data/creditscoring.xls")
 ## 1
 ## ---- assign2-1
 set.seed(12345)
-indices <- data_division(nrow(data), 0.5, 0.25, 0.25)
+indices <- data_division(n=nrow(data), train=0.5, test=0.25, validation=0.25)
 
 train <- data[indices$train,]
 test <- data[indices$test,]
@@ -33,7 +33,8 @@ validation <- data[indices$validation,]
 ## ---- assign2-2
 prediction.tree <- function(model, X, y) {
     predicted <- predict(model, X)
-    predicted <- factor(ifelse(predicted[, 1] > predicted[, 2], 0, 1), levels=c(0, 1), labels=c("bad", "good"))
+    predicted <- factor(ifelse(predicted[, 1] > predicted[, 2], 0, 1),
+                        levels=c(0, 1), labels=c("bad", "good"))
 
     confusion_matrix <- table(pred=predicted, true=y)
     list(confusion_matrix=confusion_matrix,
@@ -83,7 +84,9 @@ for(i in leaves) {
 ## ---- end-of-assign2-3
 
 ## ---- assign2-3-score
-plot_data <- data.frame(Leaves=leaves, Train=train_score[leaves], Validation=validation_score[leaves])
+plot_data <- data.frame(Leaves=leaves,
+                        Train=train_score[leaves],
+                        Validation=validation_score[leaves])
 plot_data <- melt(plot_data, id="Leaves", value.name="Deviance", variable.name="Set")
 
 ggplot() +
