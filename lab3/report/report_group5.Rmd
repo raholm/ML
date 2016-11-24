@@ -87,6 +87,7 @@ The return object of the LDA-function returns a list with all answers and the de
 
 To get the decision boundary we have the set the two discriminant functions equal to each other and solve for one of the parameters depending on X so that we get where they intersect. 
 
+\begin{center}
 
 $\delta_k(x) = x^T\Sigma^{-1}\mu_k + (-1/2)\Sigma^{-1}\mu_k +  log(\pi_k)$
 
@@ -99,22 +100,23 @@ $\delta_{male}(x) - \delta_{female}(x) = 0$
 
 $x^T(w_{Male} - w_{Female}) + (w_{0 Male} - w_{0 Female}) = 0$
 
-$x_{CL}(w_{Male} - w_{Female}) +x_{RW}(w_{Male} - w_{Female}) + (w_{0 Male} - w_{0 Female}) = 0$
+$x_{CL}(w_{2 Male} - w_{2 Female}) +x_{RW}(w_{1 Male} - w_{1 Female}) + (w_{0 Male} - w_{0 Female}) = 0$
 
+$x_{RW}(w_{1 Male} - w_{1 Female}) + (w_{0 Male} - w_{0 Female}) = -x_{CL}(w_{2 Male} - w_{2 Female})$
 
-$x_{RW}(w_{Male} - w_{Female}) + (w_{0 Male} - w_{0 Female}) = -x_{CL}(w_{Male} - w_{Female})$
+\end{center}
 
-And we arrive the final result as. 
+And we arrive the final result as.
 
-$\frac{(x_{RW}(w_{Male} - w_{Female}) + (w_{0 Male} - w_{0 Female}) )}{ -(w_{Male} - w_{Female})} = x_{CL}$
+\begin{center}
+$x_{CL} = \frac{(x_{RW}(w_{1 Male} - w_{1 Female}) + (w_{0 Male} - w_{0 Female}) )}{ -(w_{2 Male} - w_{2 Female})}$
+\end{center}
 
-This is expressed as y = CL and x = RW, which means this decision boundary needs to be plottet with the right variable on the right axis.
+This is expressed as y = CL and x = RW, which means this decision boundary needs to be plotted with the right variable on the right axis.
 
 \newpage
 
 ## 1.3 
-
-
 ```{r, echo=FALSE}
 results <- LDA(crabs[,c(5,6,2)])
 ## 2.3
@@ -198,7 +200,7 @@ test<-credit[test_id,]
 
 \newpage
 
-##2.2a, Deviance
+##2.2a Deviance
 
 The default decision tree, created by the tree function, with \textit{deviance} as impurity measure is shown below.
 
@@ -238,7 +240,7 @@ dev_errors
 
 The error rate in the training data is about 21 %, about 28 % percent for the test data.
 
-##2.2b, Gini
+##2.2b Gini
 
 The same procedure for the decision tree with \textit{gini} as impurity measure is presented below.
 
@@ -252,7 +254,7 @@ title("Default tree, impurity measure: gini")
 
 ```
 
-Since this tree is more complex, it has 72 leaves (compared to 15 in the deviance-tree) it is not possible to view the text as previously. The missclassification rates for both data sets are as follows.
+Since this tree is more complex, it has 72 leaves (compared to 15 in the deviance-tree) it is not possible to view the rules as previously. The missclassification rates for both data sets are as follows.
 
 ```{r, echo=F}
 #2.2 gini train
@@ -296,7 +298,7 @@ title("Deviance for different number of leaves in tree")
 legend(9,570, c("Train","Validation"),col=c("red","blue"),  lty=c(1,1), lwd=c(1.5,1.5))
 ```
 
-It should be noted that we multiplied the deviance for the validation set predictions by 2, since the train data set is twice as big. This was done since the deviance() function only summarizes the deviance. That action isn't necessary, the same result will come out of the analysis but it may be easier to to analyze. However, from looking on the plot above, we can conclude that four leaves seems to result in the optimal tree.
+It should be noted that we multiplied the deviance for the validation set predictions by 2, since the train data set is twice as big. This was done since the deviance() function only summarizes the deviance. That action isn't necessary, the same result will come out of the analysis but it may be easier to to analyze. However, from looking on the plot above, we can conclude that four leaves seems to result in the optimal tree since the validation error is at its lowest peak there. The deviance of the training almost monotonically decreases which indicates that the model starts to overfit as the number of leaves increases.
 
 The optimal tree is visualized below.
 
@@ -328,7 +330,7 @@ final_tree_error
 
 ```
 
-The misclassification rate has sunk from 28.6 % in the first tree model (with 15 leaves), to 26 % in this model. The model is also much easier to interpret.
+The misclassification rate has sunk from 28.6 % in the first tree model (with 15 leaves), to 26 % in this model. So the model has become better at classifying the test data and is also much easier to interpret as one would have hoped.
 
 \newpage
 
@@ -369,7 +371,7 @@ From the missclassification errors we can conclude that this naive bayes model h
 
 ##Assignment 2.5
 
-In this assignment we made some changes in the loss function. Practically, what we have done is to recognize that it's expensive to classify a customer as "good" when the truth is that the customer is "bad", i.e. false positive, at managing their loans. This means that to make the classification "good", the probability of the customer getting classified as "good" must be  10 times bigger than the probability for getting classified as "bad" to classify the customer as "good". The confusion matrices for the training- and test data are shown below.
+In this assignment we made some changes in the loss function. Practically, what we have done is to recognize that it's expensive to classify a customer as "good" when the truth is that the customer is "bad", i.e. false positive, at managing their loans. This means that to make the classification "good", the probability of the customer getting classified as "good" must be  10 times bigger than the probability for getting classified as "bad". The confusion matrices for the training- and test data are shown below.
 
 ```{r, echo=F}
 
@@ -398,7 +400,7 @@ nb_loss_confusion<-list(confusion_matrix_train=nb_loss_train, confusion_matrix_t
 nb_loss_confusion
 ```
 
-From the confusion matrices above we conclude that the error rates get worse, which is reasonable.  Since the classifier really don't want to classify a customer as "good" when he or she really turns out to be "bad"", it classifies too many observations as "bad" which results in a lot more misclassifications in total.
+From the confusion matrices above we conclude that the error rates get worse, which is reasonable.  Since the classifier really don't want to classify a customer as "good" when he or she really turns out to be "bad", it classifies too many observations as "bad", a lot more false negatives than before, which results in a lot more misclassifications in total.
 
 In this assignment, the vast majority of my misclassifications are classified as "bad" but truth is "good". In assignment 2.4, the proportions between the two different error rates are much more equal. And this is actually a good thing in this case, since the task is about to really avoid to classify customers as "good" in managing their loans, when they turn out to be "bad", i.e. not pay back the money.
 
