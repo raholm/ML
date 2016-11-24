@@ -18,8 +18,9 @@ ggplot(data) +
 tree.control(nobs=nrow(data), minsize=8)
 treefit <- tree(EX ~ MET, data=data)
 
+set.seed(12345)
 treefit.cv <- cv.tree(treefit, FUN=prune.tree, K=10)
-optimal_leaf_count<- treefit.cv$size[which.min(treefit.cv$dev)]
+optimal_leaf_count <- treefit.cv$size[which.min(treefit.cv$dev)]
 
 optimal_tree <- prune.tree(treefit, best=optimal_leaf_count)
 ## ---- end-of-assign1-2
