@@ -31,14 +31,36 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ## 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-1>>
+```
+
+The data looks like it could be modelled by a cubic spline function.
 
 ## 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2-tree-plot>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2-tree-fit>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2-tree-resid>>
+```
 
 ## 3
 
 ## 4
 
 ## 5
+
+\newpage
 
 # Assignment 2
 ```{r, echo=FALSE, eval=TRUE}
@@ -53,11 +75,19 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## 4
 
+\newpage
+
 # Appendix
 
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1-init>>
+<<assign1-1>>
 
+<<assign1-2>>
+<<assign1-2-tree-plot>>
+<<assign1-2-tree-fit>>
+<<assign1-2-tree-resid>>
 ```
 
 ## Code for Assignment 2
