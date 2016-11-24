@@ -19,12 +19,13 @@ pca <- prcomp(X)
 lambda <- pca$sdev^2
 variances <- lambda / sum(lambda)
 
-var99_comp_count <- which.max(cumsum(lambda / sum(lambda) * 100) > 99)
+var99_comp_count <- which.max(cumsum(variances * 100) > 99)
 components <- as.data.frame(pca$x[, 1:var99_comp_count])
 ## ---- end-of-assign2-1
 
 ## ---- assign2-1-variance
-sprintf("%2.3f", lambda / sum(lambda) * 100)
+sprintf("%2.3f", variances * 100)
+sprintf("%2.3f", cumsum(variances))
 ## ---- end-of-assign2-1-variance
 
 ## ---- assign2-1-variance-plot
@@ -47,13 +48,11 @@ ggplot(components) +
 U <- pca$rotation
 ## ---- end-of-assign2-2
 
-## ---- assign2-2-trace1
+## ---- assign2-2-trace
+par(mfrow=c(1, 2))
 plot(U[, 1], main="Traceplot, PC1")
-## ---- end-of-assign2-2-trace1
-
-## ---- assign2-2-trace2
 plot(U[, 2], main="Traceplot, PC2")
-## ---- end-of-assign2-2-trace2
+## ---- end-of-assign2-2-trace
 
 ## 3
 ## ---- assign2-3
@@ -65,13 +64,11 @@ W_prime <- ica$K %*% ica$W
 components <- as.data.frame(ica$S)
 ## ---- end-of-assign2-3
 
-## ---- assign2-3-trace1
+## ---- assign2-3-trace
+par(mfrow=c(1, 2))
 plot(W_prime[, 1], main="Traceplot, PC1")
-## ---- end-of-assign2-3-trace1
-
-## ---- assign2-3-trace2
 plot(W_prime[, 2], main="Traceplot, PC2")
-## ---- end-pf-assign2-3-trace2
+## ---- end-of-assign2-3-trace
 
 ## ---- assign2-3-score
 ggplot(components) +
@@ -81,7 +78,7 @@ ggplot(components) +
 ## 4
 ## ---- assign2-4
 set.seed(12345)
-pcrfit <- pcr(Viscosity ~ ., data=data)
+pcrfit <- pcr(Viscosity ~ ., data=data, scale=TRUE)
 cvpcrfit <- crossval(pcrfit, segments=10, segment.type="random")
 ## ---- end-of-assign2-4
 

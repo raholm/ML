@@ -40,6 +40,8 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## 5
 
+\newpage
+
 # Assignment 2
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-init>>
@@ -69,11 +71,7 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign2-2-trace1>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign2-2-trace2>>
+<<assign2-2-trace>>
 ```
 
 ## 3
@@ -82,11 +80,7 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign2-3-trace1>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign2-3-trace2>>
+<<assign2-3-trace>>
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
@@ -121,12 +115,10 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-score>>
 
 <<assign2-2>>
-<<assign2-2-trace1>>
-<<assign2-2-trace2>>
+<<assign2-2-trace>>
 
 <<assign2-3>>
-<<assign2-3-trace1>>
-<<assign2-3-trace2>>
+<<assign2-3-trace>>
 <<assign2-3-score>>
 
 <<assign2-4>>
