@@ -46,12 +46,63 @@ knitr::read_chunk("../assignment2/solution.R")
 ```
 
 ## 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-1>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-1-variance>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-1-scree>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-1-score>>
+```
+
 
 ## 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2-trace1>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-2-trace2>>
+```
 
 ## 3
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3-trace1>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3-trace2>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-3-score>>
+```
 
 ## 4
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-4>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-4-MSEP>>
+```
+
+\newpage
 
 # Appendix
 
@@ -62,5 +113,22 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## Code for Assignment 2
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2-init>>
 
+<<assign2-1>>
+<<assign2-variance>>
+<<assign2-scree>>
+<<assign2-score>>
+
+<<assign2-2>>
+<<assign2-2-trace1>>
+<<assign2-2-trace2>>
+
+<<assign2-3>>
+<<assign2-3-trace1>>
+<<assign2-3-trace2>>
+<<assign2-3-score>>
+
+<<assign2-4>>
+<<assign2-4-MSEP>>
 ```
