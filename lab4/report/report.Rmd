@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Machine Learning"
-subtitle: "Lab 3"
+subtitle: "Lab 4"
 author: "Rasmus Holm"
 date: "`r Sys.Date()`"
 fontsize: 10pt
@@ -35,7 +35,7 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-1>>
 ```
 
-The data looks like it could be modelled by a cubic spline function.
+The data looks like it could be modelled reasonable by a cubic spline function.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE, results="hide"}
@@ -67,6 +67,8 @@ The data looks like it could be modelled by a cubic spline function.
 <<assign2-init>>
 ```
 
+In this assignment I have used the NIRspectra data set that contains near-infrared spectra and viscosity levels for a collection of diesel fuels
+
 ## 1
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-1>>
@@ -76,23 +78,29 @@ The data looks like it could be modelled by a cubic spline function.
 <<assign2-1-variance>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign2-1-scree>>
+```{r 21pcvar, echo=FALSE, eval=TRUE, fig.cap="Variance explained by the first 10 principal components."}
+<<assign2-1-variance-plot>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+Figure \ref{fig:21pcvar} shows that basically all the variance can be explained by the first 5 principal components (PCs). The first two are clearly the most important and should be extracted without much loss of information, combined they explain over 99\% of the variance.
+
+```{r 21pcscore, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two principal components."}
 <<assign2-1-score>>
 ```
 
+From figure \ref{fig:21pcscore} there are clear outliers with very high values in the first PC. Most observations have a low value but rather spread out values in the second PC which is surprising since the first PC are supposed to explain most of the variance. However, since the scales are very different it make sense.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+```{r 22trace, echo=FALSE, eval=TRUE}
 <<assign2-2-trace>>
 ```
+
+From the traceplot in figure \ref{fig:22trace} we can observe that the first and second PC are combinations of different variables. The first PC are a combination of all variables but less of the last ones while the second PC is mostly a combination of the last ones.
+
 
 ## 3
 ```{r, echo=FALSE, eval=TRUE}
@@ -138,8 +146,8 @@ The data looks like it could be modelled by a cubic spline function.
 <<assign2-init>>
 
 <<assign2-1>>
-<<assign2-variance>>
-<<assign2-scree>>
+<<assign2-1-variance>>
+<<assign2-1-variance-plot>>
 <<assign2-score>>
 
 <<assign2-2>>

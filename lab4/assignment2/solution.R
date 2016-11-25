@@ -96,10 +96,10 @@ colnames(plot_data) <- c("Components", "CV", "adjCV")
 plot_data <- melt(plot_data, id="Components", variable_name="Measure")
 names(plot_data)[ncol(plot_data)] <- "Score"
 xlimits <- seq(0, ncol(data), by=5)
+ylimits <- seq(0, max(plot_data$Score) + 0.05, by=0.05)
 
 ggplot(plot_data) +
     geom_line(aes(x=Components, y=Score, color=Measure), size=1) +
-    scale_x_discrete(limits=xlimits)
+    scale_x_discrete(limits=xlimits) +
+    scale_y_continuous(breaks=ylimits, labels=ylimits, limits=c(0, max(plot_data$Score)))
 ## ---- end-of-assign2-4-MSEP
-
-         
