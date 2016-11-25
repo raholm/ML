@@ -1,7 +1,8 @@
 ## ---- assign1-init
 library(ggplot2)
 library(tree)
-library(reshape)
+library(reshape2)
+library(boot)
 
 data <- read.csv2("../data/State.csv", header=TRUE, sep=";")
 data <- data[order(data$MET),]
@@ -15,8 +16,8 @@ ggplot(data) +
 
 ## 2
 ## ---- assign1-2
-tree.control(nobs=nrow(data), minsize=8)
-treefit <- tree(EX ~ MET, data=data)
+treefit <- tree(EX ~ MET, data=data,
+                control=tree.control(nobs=nrow(data), minsize=8))
 
 set.seed(12345)
 treefit.cv <- cv.tree(treefit, FUN=prune.tree, K=10)
@@ -33,8 +34,7 @@ text(optimal_tree, pretty=0)
 ## ---- assign1-2-tree-fit
 predicted <- predict(optimal_tree, data)
 plot_data <- data.frame(MET=data$MET, Actual=data$EX, Estimate=predicted)
-plot_data <- melt(plot_data, id.vars="MET")
-names(plot_data) <- c("MET", "Data", "EX")
+plot_data <- melt(plot_data, id="MET", variable.name="Data", value.name="EX")
 
 ggplot(plot_data) +
     geom_point(aes(x=MET, y=EX, color=Data))
@@ -52,6 +52,35 @@ ggplot(plot_data) +
 ## ---- end-of-assign1-2-tree-resid
 
 ## 3
+estimate <- function(formula, original_data, leaves){
+    formula <- formula
+    original_data <- original_data
+    leaves <- leaves
+
+    function(data, ind) {
+        sample <- data[ind,]
+        fit <- tree(formula, data=sample, split="deviance")
+        fit <- prune.tree(fit, best=leaves)
+        prediction <- predict(fit, newdata=original_data)
+        return(prediction)
+    }
+}
+
+f <- estimate(formula=EX ~ MET, original_data=data, leaves=optimal_leaf_count)
+
+fit <- boot(data, f, R=1000)
+e <- envelope(fit)
+
+plot_data <- data.frame(x=data$MET, CBL=e$point[1, ], CBU=e$point[2, ])
+plot_data <- melt(plot_data, id="x")
+
+predicted <- predict(optimal_tree, data)
+plot_data2 <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
+plot_data2 <- melt(plot_data2, id="MET", variable.name="Data", value.name="EX")
+
+ggplot() +
+    geom_line(data=plot_data, aes(x=x, y=value, color=variable)) +
+    geom_point(data=plot_data2, aes(x=MET, y=EX, color=Data))
 
 ## 4
 

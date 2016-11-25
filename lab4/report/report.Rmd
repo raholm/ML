@@ -95,12 +95,11 @@ From figure \ref{fig:21score} there are clear outliers with very high values in 
 <<assign2-2>>
 ```
 
-```{r 22trace, echo=FALSE, eval=TRUE, fig.cap="Traceplot of the first two principal components."}
+```{r 22trace, echo=FALSE, eval=TRUE, fig.cap="Trace plot of the first two principal components."}
 <<assign2-2-trace>>
 ```
 
-From the traceplot in figure \ref{fig:22trace} we can observe that the first and second PCs are combinations of basically all the variables to different extent. The first PC has relatively high combination of all variables but slighly less of the last ones while the second PC is mostly a combination of the last ones.
-
+From the trace plot in figure \ref{fig:22trace} we can observe that the first and second PCs are combinations of basically all the variables to different extent. The first PC has relatively high combination of all variables but slightly less of the last ones while the second PC is mostly a combination of the last ones.
 
 ## 3
 ```{r, echo=FALSE, eval=TRUE}
@@ -119,7 +118,6 @@ Similarly from the PC components in figure \ref{fig:22trace}, we can see that th
 
 The scores in figure \ref{fig:23score} have similar shape to that of the principal components (fig. \ref{fig:21score}) but with very different scales. Outliers can clearly be detected in the data.
 
-
 ## 4
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-4>>
@@ -131,7 +129,7 @@ In this exercise I have used principal component regression (PCR) in order to es
 <<assign2-4-MSEP>>
 ```
 
-Figure \ref{fig:24msep} shows how the mean squared error changes when varying the number of PCs in PCR using cross validation. The optimal number of PCs are probably either around 7 or 17 depending on how much you value fewer features and a simpler model. 
+Figure \ref{fig:24msep} shows how the mean squared error changes when varying the number of PCs in PCR using cross validation. The optimal number of PCs are probably either around 7 or 17 depending on how much you value fewer features and a simpler model.
 
 \newpage
 
