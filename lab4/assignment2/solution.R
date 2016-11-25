@@ -35,8 +35,8 @@ components <- as.data.frame(pca$x[, 1:var99_comp_count])
 ## ---- end-of-assign2-1
 
 ## ---- assign2-1-variance
-sprintf("%2.3f", variances * 100)
-sprintf("%2.3f", cumsum(variances))
+## sprintf("%2.3f", variances * 100)
+## sprintf("%2.3f", cumsum(variances))
 ## ---- end-of-assign2-1-variance
 
 ## ---- assign2-1-variance-plot
@@ -60,7 +60,15 @@ U <- pca$rotation
 ## ---- end-of-assign2-2
 
 ## ---- assign2-2-trace
-traceplot(nrow(U), U[, 1], U[, 2])
+plot_data <- data.frame(x=1:nrow(U), PC1=U[, 1], PC2=U[, 2])
+plot_data <- melt(plot_data, id="x")
+names(plot_data) <- c("Index", "Component", "Value")
+xlimits <- seq(0, nrow(U), by=10)
+
+ggplot(plot_data) +
+    geom_line(aes(x=Index, y=Value, color=Component), show.legend=FALSE) +
+    scale_x_discrete(limits=xlimits) +
+    facet_grid(Component ~ ., scales="free")
 ## ---- end-of-assign2-2-trace
 
 ## 3
@@ -71,15 +79,24 @@ ica <- fastICA(X, var99_comp_count, alg.typ = "parallel", fun = "logcosh", alpha
 
 W_prime <- ica$K %*% ica$W
 components <- as.data.frame(ica$S)
+colnames(components) <- c("IC1", "IC2")
 ## ---- end-of-assign2-3
 
 ## ---- assign2-3-trace
-traceplot(nrow(W_prime), W_prime[, 1], W_prime[, 2])
+plot_data <- data.frame(x=1:nrow(W_prime), IC1=W_prime[, 1], IC2=W_prime[, 2])
+plot_data <- melt(plot_data, id="x")
+names(plot_data) <- c("Index", "Component", "Value")
+xlimits <- seq(0, nrow(W_prime), by=10)
+
+ggplot(plot_data) +
+    geom_line(aes(x=Index, y=Value, color=Component), show.legend=FALSE) +
+    scale_x_discrete(limits=xlimits) +
+    facet_grid(Component ~ ., scales="free")
 ## ---- end-of-assign2-3-trace
 
 ## ---- assign2-3-score
 ggplot(components) +
-    geom_point(aes(x=V1, y=V2))
+    geom_point(aes(x=IC1, y=IC2))
 ## ---- end-of-assign2-3-score
 
 ## 4
@@ -94,12 +111,12 @@ cv_scores <- t(matrix(MSEP(cvpcrfit)$val, nrow=2))
 plot_data <- data.frame(cbind(1:ncol(data), cv_scores))
 colnames(plot_data) <- c("Components", "CV", "adjCV")
 plot_data <- melt(plot_data, id="Components", variable_name="Measure")
-names(plot_data)[ncol(plot_data)] <- "Score"
+names(plot_data)[ncol(plot_data)] <- "MSEP"
 xlimits <- seq(0, ncol(data), by=5)
-ylimits <- seq(0, max(plot_data$Score) + 0.05, by=0.05)
+ylimits <- seq(0, max(plot_data$MSEP) + 0.05, by=0.05)
 
 ggplot(plot_data) +
-    geom_line(aes(x=Components, y=Score, color=Measure), size=1) +
+    geom_line(aes(x=Components, y=MSEP, color=Measure), size=1) +
     scale_x_discrete(limits=xlimits) +
-    scale_y_continuous(breaks=ylimits, labels=ylimits, limits=c(0, max(plot_data$Score)))
+    scale_y_continuous(breaks=ylimits, labels=ylimits, limits=c(0, max(plot_data$MSEP)))
 ## ---- end-of-assign2-4-MSEP

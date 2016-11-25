@@ -84,22 +84,22 @@ In this assignment I have used the NIRspectra data set that contains near-infrar
 
 Figure \ref{fig:21pcvar} shows that basically all the variance can be explained by the first 5 principal components (PCs). The first two are clearly the most important and should be extracted without much loss of information, combined they explain over 99\% of the variance.
 
-```{r 21pcscore, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two principal components."}
+```{r 21score, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two principal components."}
 <<assign2-1-score>>
 ```
 
-From figure \ref{fig:21pcscore} there are clear outliers with very high values in the first PC. Most observations have a low value but rather spread out values in the second PC which is surprising since the first PC are supposed to explain most of the variance. However, since the scales are very different it make sense.
+From figure \ref{fig:21score} there are clear outliers with very high values in the first PC. Most observations have a low value but rather spread out values in the second PC which is surprising since the first PC are supposed to explain most of the variance. However, since the scales are very different it make sense.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-2>>
 ```
 
-```{r 22trace, echo=FALSE, eval=TRUE}
+```{r 22trace, echo=FALSE, eval=TRUE, fig.cap="Traceplot of the first two principal components."}
 <<assign2-2-trace>>
 ```
 
-From the traceplot in figure \ref{fig:22trace} we can observe that the first and second PC are combinations of different variables. The first PC are a combination of all variables but less of the last ones while the second PC is mostly a combination of the last ones.
+From the traceplot in figure \ref{fig:22trace} we can observe that the first and second PCs are combinations of basically all the variables to different extent. The first PC has relatively high combination of all variables but slighly less of the last ones while the second PC is mostly a combination of the last ones.
 
 
 ## 3
@@ -107,24 +107,31 @@ From the traceplot in figure \ref{fig:22trace} we can observe that the first and
 <<assign2-3>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+```{r 23trace, echo=FALSE, eval=TRUE, fig.cap="Traceplot of the first two independent components."}
 <<assign2-3-trace>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+Similarly from the PC components in figure \ref{fig:22trace}, we can see that the independent components (ICs) in figure \ref{fig:23trace} have opposite shapes. The second IC is mostly a combination of the last variables while the first IC explains more information from the other variables.
+
+```{r 23score, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two independent components."}
 <<assign2-3-score>>
 ```
+
+The scores in figure \ref{fig:23score} have similar shape to that of the principal components (fig. \ref{fig:21score}) but with very different scales. Outliers can clearly be detected in the data.
+
 
 ## 4
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-4>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+In this exercise I have used principal component regression (PCR) in order to estimate the viscosity.
+
+```{r 24msep, echo=FALSE, eval=TRUE, fig.cap="Mean Squared Error of Prediction against number of principal components."}
 <<assign2-4-MSEP>>
 ```
 
-\newpage
+Figure \ref{fig:24msep} shows how the mean squared error changes when varying the number of PCs in PCR using cross validation. The optimal number of PCs are probably either around 7 or 17 depending on how much you value fewer features and a simpler model. 
 
 \newpage
 
