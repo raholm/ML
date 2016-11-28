@@ -42,13 +42,12 @@ ggplot(plot_data) +
 
 ## ---- assign1-2-tree-resid
 residuals <- resid(optimal_tree)
-
-plot_data <- data.frame(x=1:length(residuals), y=residuals)
+plot_data <- data.frame(resid=residuals)
 
 ggplot(plot_data) +
-    xlab("Index") +
-    ylab("Residual") +
-    geom_point(aes(x=x, y=y))
+    xlab("Residual") +
+    ylab("Frequency") +
+    geom_histogram(aes(resid), binwidth=25)
 ## ---- end-of-assign1-2-tree-resid
 
 ## 3
@@ -60,7 +59,8 @@ nonparametric.estimate <- function(formula, original_data, leaves){
 
     function(data, idx) {
         sample <- data[idx,]
-        fit <- tree(formula, data=sample, split="deviance")
+        fit <- tree(formula, data=sample, split="deviance",
+                    control=tree.control(nobs=nrow(original_data), minsize=8))
         fit <- prune.tree(fit, best=leaves)
         prediction <- predict(fit, newdata=original_data)
         prediction
@@ -69,7 +69,7 @@ nonparametric.estimate <- function(formula, original_data, leaves){
 
 f <- nonparametric.estimate(formula=EX ~ MET, original_data=data, leaves=optimal_leaf_count)
 
-set.seed(12346)
+set.seed(12345)
 fit <- boot(data, f, R=1000)
 confidence_bands <- envelope(fit, level=0.95)
 ## ---- end-of-assign1-3
@@ -79,13 +79,12 @@ predicted <- predict(optimal_tree, data)
 plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
 plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
 
-plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1, ],
-                           CBL=confidence_bands$point[2, ])
-plot_data_CB <- melt(plot_data_CB, id="MET", value.name="EX", variable.name="Data")
+plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1,],
+                          CBL=confidence_bands$point[2,])
 
 ggplot() +
     geom_point(data=plot_data_est, aes(x=MET, y=EX, color=Data)) +
-    geom_line(data=plot_data_CB, aes(x=MET, y=EX, color=Data))
+    geom_ribbon(data=plot_data_CB, aes(x=MET, ymin=CBL, ymax=CBU), color="red", alpha=0.1, fill="red")
 ## ---- end-of-assign1-3-confbounds
 
 ## 4
@@ -98,28 +97,45 @@ rng <- function(data, model) {
     newdata
 }
 
-parametric.estimate <- function(formula, original_data, leaves){
+parametric.estimate.cb <- function(formula, original_data, leaves){
     formula <- formula
     original_data <- original_data
     leaves <- leaves
 
     function(data) {
-        fit <- tree(formula, data=data, split="deviance")
+        fit <- tree(formula, data=data, split="deviance",
+                    control=tree.control(nobs=nrow(original_data), minsize=8))
         fit <- prune.tree(fit, best=leaves)
         prediction <- predict(fit, newdata=original_data)
         prediction
     }
 }
 
-formula <- EX ~ MET
-f <- parametric.estimate(formula=formula, original_data=data, leaves=optimal_leaf_count)
-mle <- tree(formula=formula, data=data, split="deviance")
-mle <- prune.tree(mle, best=optimal_leaf_count)
+parametric.estimate.pb <- function(formula, original_data, leaves){
+    formula <- formula
+    original_data <- original_data
+    leaves <- leaves
 
-set.seed(12346)
-fit  <- boot(data, statistic=f, R=1000,
-             mle=mle, ran.gen=rng, sim="parametric")
+    function(data) {
+        fit <- tree(formula, data=data, split="deviance",
+                    control=tree.control(nobs=nrow(original_data), minsize=8))
+        fit <- prune.tree(fit, best=leaves)
+        prediction <- predict(fit, newdata=original_data)
+        rnorm(nrow(data), prediction, sd(resid(fit)))
+    }
+}
+
+set.seed(12345)
+f.cb <- parametric.estimate.cb(formula=EX ~ MET, original_data=data, leaves=optimal_leaf_count)
+fit  <- boot(data, statistic=f.cb, R=1000,
+             mle=optimal_tree, ran.gen=rng, sim="parametric")
 confidence_bands <- envelope(fit, level=0.95)
+
+set.seed(12345)
+f.pb <- parametric.estimate.pb(formula=EX ~ MET, original_data=data, leaves=optimal_leaf_count)
+fit  <- boot(data, statistic=f.pb, R=1000,
+             mle=optimal_tree, ran.gen=rng, sim="parametric")
+prediction_bands <- envelope(fit, level=0.95)
 ## ---- end-of-assign1-4
 
 ## ---- assign1-4-confbounds
@@ -127,13 +143,16 @@ predicted <- predict(optimal_tree, data)
 plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
 plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
 
-plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1, ],
-                           CBL=confidence_bands$point[2, ])
-plot_data_CB <- melt(plot_data_CB, id="MET", value.name="EX", variable.name="Data")
+plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1,],
+                          CBL=confidence_bands$point[2,])
+
+plot_data_PB <- data.frame(MET=data$MET, PBU=prediction_bands$point[1,],
+                          PBL=prediction_bands$point[2,])
 
 ggplot() +
     geom_point(data=plot_data_est, aes(x=MET, y=EX, color=Data)) +
-    geom_line(data=plot_data_CB, aes(x=MET, y=EX, color=Data))
+    geom_ribbon(data=plot_data_CB, aes(x=MET, ymin=CBL, ymax=CBU), color="red", alpha=0.1, fill="red") +
+    geom_ribbon(data=plot_data_PB, aes(x=MET, ymin=PBL, ymax=PBU), color="blue", alpha=0.1, fill="blue")
 ## ---- end-of-assign1-4-confbounds
 
 ## 5

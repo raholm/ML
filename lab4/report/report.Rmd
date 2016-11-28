@@ -64,7 +64,7 @@ The data looks like it could be modelled reasonable by a cubic spline function.
 ```
 
 ## 4
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, warning=FALSE}
 <<assign1-4>>
 ```
 
@@ -116,7 +116,7 @@ From figure \ref{fig:21score} there are clear outliers with very high values in 
 From the trace plot in figure \ref{fig:22trace} we can observe that the first and second PCs are combinations of basically all the variables to different extent. The first PC has relatively high combination of all variables but slightly less of the last ones while the second PC is mostly a combination of the last ones.
 
 ## 3
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, warning=FALSE}
 <<assign2-3>>
 ```
 
