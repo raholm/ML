@@ -55,7 +55,7 @@ The data looks like it could be modelled reasonable by a cubic spline function.
 ```
 
 ## 3
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, warning=FALSE}
 <<assign1-3>>
 ```
 

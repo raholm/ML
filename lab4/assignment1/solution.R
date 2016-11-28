@@ -16,7 +16,7 @@ ggplot(data) +
 
 ## 2
 ## ---- assign1-2
-treefit <- tree(EX ~ MET, data=data,
+treefit <- tree(EX ~ MET, data=data, split="deviance",
                 control=tree.control(nobs=nrow(data), minsize=8))
 
 set.seed(12345)
@@ -47,7 +47,7 @@ plot_data <- data.frame(resid=residuals)
 ggplot(plot_data) +
     xlab("Residual") +
     ylab("Frequency") +
-    geom_histogram(aes(resid), binwidth=25)
+    geom_histogram(aes(resid), bins=10)
 ## ---- end-of-assign1-2-tree-resid
 
 ## 3
