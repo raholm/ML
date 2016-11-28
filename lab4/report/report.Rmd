@@ -55,8 +55,22 @@ The data looks like it could be modelled reasonable by a cubic spline function.
 ```
 
 ## 3
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3-confbounds>>
+```
 
 ## 4
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-4>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-4-confbounds>>
+```
 
 ## 5
 
@@ -144,6 +158,12 @@ Figure \ref{fig:24msep} shows how the mean squared error changes when varying th
 <<assign1-2-tree-plot>>
 <<assign1-2-tree-fit>>
 <<assign1-2-tree-resid>>
+
+<<assign1-3>>
+<<assign1-3-confbounds>>
+
+<<assign1-4>>
+<<assign1-4-confbounds>>
 ```
 
 ## Code for Assignment 2

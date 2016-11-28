@@ -110,8 +110,7 @@ cvpcrfit <- crossval(pcrfit, segments=10, segment.type="random")
 cv_scores <- t(matrix(MSEP(cvpcrfit)$val, nrow=2))
 plot_data <- data.frame(cbind(1:ncol(data), cv_scores))
 colnames(plot_data) <- c("Components", "CV", "adjCV")
-plot_data <- melt(plot_data, id="Components", variable_name="Measure")
-names(plot_data)[ncol(plot_data)] <- "MSEP"
+plot_data <- melt(plot_data, id="Components", variable.name="Measure", value.name="MSEP")
 xlimits <- seq(0, ncol(data), by=5)
 ylimits <- seq(0, max(plot_data$MSEP) + 0.05, by=0.05)
 

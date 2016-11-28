@@ -52,36 +52,88 @@ ggplot(plot_data) +
 ## ---- end-of-assign1-2-tree-resid
 
 ## 3
-estimate <- function(formula, original_data, leaves){
+## ---- assign1-3
+nonparametric.estimate <- function(formula, original_data, leaves){
     formula <- formula
     original_data <- original_data
     leaves <- leaves
 
-    function(data, ind) {
-        sample <- data[ind,]
+    function(data, idx) {
+        sample <- data[idx,]
         fit <- tree(formula, data=sample, split="deviance")
         fit <- prune.tree(fit, best=leaves)
         prediction <- predict(fit, newdata=original_data)
-        return(prediction)
+        prediction
     }
 }
 
-f <- estimate(formula=EX ~ MET, original_data=data, leaves=optimal_leaf_count)
+f <- nonparametric.estimate(formula=EX ~ MET, original_data=data, leaves=optimal_leaf_count)
 
+set.seed(12346)
 fit <- boot(data, f, R=1000)
-e <- envelope(fit)
+confidence_bands <- envelope(fit, level=0.95)
+## ---- end-of-assign1-3
 
-plot_data <- data.frame(x=data$MET, CBL=e$point[1, ], CBU=e$point[2, ])
-plot_data <- melt(plot_data, id="x")
-
+## ---- assign1-3-confbounds
 predicted <- predict(optimal_tree, data)
-plot_data2 <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
-plot_data2 <- melt(plot_data2, id="MET", variable.name="Data", value.name="EX")
+plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
+plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
+
+plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1, ],
+                           CBL=confidence_bands$point[2, ])
+plot_data_CB <- melt(plot_data_CB, id="MET", value.name="EX", variable.name="Data")
 
 ggplot() +
-    geom_line(data=plot_data, aes(x=x, y=value, color=variable)) +
-    geom_point(data=plot_data2, aes(x=MET, y=EX, color=Data))
+    geom_point(data=plot_data_est, aes(x=MET, y=EX, color=Data)) +
+    geom_line(data=plot_data_CB, aes(x=MET, y=EX, color=Data))
+## ---- end-of-assign1-3-confbounds
 
 ## 4
+## ---- assign1-4
+rng <- function(data, model) {
+    n <- nrow(data)
+    newdata <- data.frame(MET=data$MET, EX=data$EX)
+    newdata$EX <- rnorm(n, predict(model, newdata=newdata),
+                        sd(resid(model)))
+    newdata
+}
+
+parametric.estimate <- function(formula, original_data, leaves){
+    formula <- formula
+    original_data <- original_data
+    leaves <- leaves
+
+    function(data) {
+        fit <- tree(formula, data=data, split="deviance")
+        fit <- prune.tree(fit, best=leaves)
+        prediction <- predict(fit, newdata=original_data)
+        prediction
+    }
+}
+
+formula <- EX ~ MET
+f <- parametric.estimate(formula=formula, original_data=data, leaves=optimal_leaf_count)
+mle <- tree(formula=formula, data=data, split="deviance")
+mle <- prune.tree(mle, best=optimal_leaf_count)
+
+set.seed(12346)
+fit  <- boot(data, statistic=f, R=1000,
+             mle=mle, ran.gen=rng, sim="parametric")
+confidence_bands <- envelope(fit, level=0.95)
+## ---- end-of-assign1-4
+
+## ---- assign1-4-confbounds
+predicted <- predict(optimal_tree, data)
+plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
+plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
+
+plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1, ],
+                           CBL=confidence_bands$point[2, ])
+plot_data_CB <- melt(plot_data_CB, id="MET", value.name="EX", variable.name="Data")
+
+ggplot() +
+    geom_point(data=plot_data_est, aes(x=MET, y=EX, color=Data)) +
+    geom_line(data=plot_data_CB, aes(x=MET, y=EX, color=Data))
+## ---- end-of-assign1-4-confbounds
 
 ## 5
