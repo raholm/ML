@@ -40,6 +40,10 @@ knitr::read_chunk("../assignment2/solution.R")
 \newpage
 
 # Assignment 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-init>>
+```
+
 
 ## 1
 
@@ -48,6 +52,32 @@ knitr::read_chunk("../assignment2/solution.R")
 ## 3
 
 ## 4
+
+# Assignment 3
+```{r, echo=FALSE, eval=TRUE}
+<<assign3-init>>
+```
+
+# Assignment 4
+```{r, echo=FALSE, eval=TRUE}
+<<assign4-init>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4-tree>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4-tree-plot>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4-forest>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4-forest-plot>>
+```
 
 \newpage
 
@@ -59,4 +89,16 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## Code for Assignment 2
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+```
+
+## Code for Assignment 3
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+```
+
+## Code for Assignment 4
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign4-init>>
+
+<<assign4-tree>>
+
 ```
