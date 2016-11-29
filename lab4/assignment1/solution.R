@@ -74,7 +74,7 @@ fit <- boot(data, f, R=1000)
 confidence_bands <- envelope(fit, level=0.95)
 ## ---- end-of-assign1-3
 
-## ---- assign1-3-confbounds
+## ---- assign1-3-confbands
 predicted <- predict(optimal_tree, data)
 plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
 plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
@@ -85,7 +85,7 @@ plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1,],
 ggplot() +
     geom_point(data=plot_data_est, aes(x=MET, y=EX, color=Data)) +
     geom_ribbon(data=plot_data_CB, aes(x=MET, ymin=CBL, ymax=CBU), color="red", alpha=0.1, fill="red")
-## ---- end-of-assign1-3-confbounds
+## ---- end-of-assign1-3-confbands
 
 ## 4
 ## ---- assign1-4
@@ -138,7 +138,7 @@ fit  <- boot(data, statistic=f.pb, R=1000,
 prediction_bands <- envelope(fit, level=0.95)
 ## ---- end-of-assign1-4
 
-## ---- assign1-4-confbounds
+## ---- assign1-4-confbands
 predicted <- predict(optimal_tree, data)
 plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
 plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
@@ -153,6 +153,4 @@ ggplot() +
     geom_point(data=plot_data_est, aes(x=MET, y=EX, color=Data)) +
     geom_ribbon(data=plot_data_CB, aes(x=MET, ymin=CBL, ymax=CBU), color="red", alpha=0.1, fill="red") +
     geom_ribbon(data=plot_data_PB, aes(x=MET, ymin=PBL, ymax=PBU), color="blue", alpha=0.1, fill="blue")
-## ---- end-of-assign1-4-confbounds
-
-## 5
+## ---- end-of-assign1-4-confbands

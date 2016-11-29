@@ -35,44 +35,64 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-1>>
 ```
 
-The data looks like it could be modelled reasonable by a cubic spline function.
+The data looks like it could be modelled reasonably by a cubic spline function.
 
 ## 2
 ```{r, echo=FALSE, eval=TRUE, results="hide"}
 <<assign1-2>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+Here I have modelled the data using a regression tree by letting cross-validation choose the number of leaves.
+
+```{r 12tree, echo=FALSE, eval=TRUE, fig.cap="Regression tree fit."}
 <<assign1-2-tree-plot>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+Figure \ref{fig:12tree} shows the resulting tree and it turned out that the optimal tree has 3 leaves.
+
+```{r 12treefit, echo=FALSE, eval=TRUE, fig.cap="Shows the fitted values from the regression tree."}
 <<assign1-2-tree-fit>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+The fitted values can be seen in figure \ref{fig:12treefit} and they have a decent resemblance of the original data but the model seems to be too simplistic to capture the underlying process that generated the data set.
+
+
+```{r 12treeresid, echo=FALSE, eval=TRUE, fig.cap="The distribution of the residuals from the regression tree."}
 <<assign1-2-tree-resid>>
 ```
+
+We can see from figure \ref{fig:12treeresid} that the residuals have approximately a Gaussian distribution or some form of right-tailed Gamma distribution. Since there are only 48 observations in the data set it is difficult to get a good approximation of the underlying distribution.
 
 ## 3
 ```{r, echo=FALSE, eval=TRUE, warning=FALSE}
 <<assign1-3>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1-3-confbounds>>
+In this exercise I have used non-parametric bootstrap in order to approximate the 95\% confidence bands for the regression model.
+
+```{r 13confbands, echo=FALSE, eval=TRUE, cap.fig="The confidence bands found by non-parametric bootstrap after 1000 samples."}
+<<assign1-3-confbands>>
 ```
+
+The confidence bands are quite wide in figure \ref{fig:13confbands} which indicates that the model cannot capture the data particular well since it is unsure where its mean prediction should be. The model is more certain in the middle values of the MET feature and very uncertain at low values of MET.
+
+We can also see that the confidence bands are bumpy which I would assume have to do with the data density in our data set. Since we only have 48 observations it is not possible to have a high granularity in the confidence bands but by increasing the number of bootstrap samples it will probably become more smooth. However, it will never be completely smooth since there are simply not enough data to be able to capture the models uncertainty at all x-values.
 
 ## 4
 ```{r, echo=FALSE, eval=TRUE, warning=FALSE}
 <<assign1-4>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1-4-confbounds>>
+Here I have instead used the parametric bootstrap where I have assumed that $Y \sim \mathcal{N}(\mu_{i}, \sigma^2)$ where $\mu_{i}$ are the values in the tree leaves and $\sigma^2$ is the residual variance.
+
+```{r 14confbands, echo=FALSE, eval=TRUE, fig.cap="The confidence and prediction bands found by parametric bootstrap after 1000 samples. The red bands are the confidence bands and the blue bands are the prediction bands."}
+<<assign1-4-confbands>>
 ```
 
+We can see from figure \ref{fig:14confbands} that, as expected, the prediction bands are wider than the confidence bands because not only do we consider the uncertainty of the regression model but also the uncertainty of the data itself. Compared the previously, the confidence bands are narrower and much more consistent over the whole range of the MET feature. The bands are also a lot smoother than previously but still pretty wide which indicates that the regression model is not very well suited for this data set. Two observations are outside the prediction bands and 5\% of 48 is approximately 2 so it is as we would expect.
+
 ## 5
+Given that the residuals looked to have a Gaussian/Gamma distribution it would be more appropriate to use parametric bootstrap so we could explicitly guide the method to approximate the confidence and prediction bands.
 
 \newpage
 
@@ -160,10 +180,10 @@ Figure \ref{fig:24msep} shows how the mean squared error changes when varying th
 <<assign1-2-tree-resid>>
 
 <<assign1-3>>
-<<assign1-3-confbounds>>
+<<assign1-3-confbands>>
 
 <<assign1-4>>
-<<assign1-4-confbounds>>
+<<assign1-4-confbands>>
 ```
 
 ## Code for Assignment 2
