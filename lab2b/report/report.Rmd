@@ -19,13 +19,35 @@ output:
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 
-knitr::read_chunk("../assignment1/solution.R")
-knitr::read_chunk("../assignment2/solution.R")
+knitr::read_chunk("../assignment1a/solution.R")
+knitr::read_chunk("../assignment2a/solution.R")
+knitr::read_chunk("../assignment3a/solution.R")
+knitr::read_chunk("../assignment4a/solution.R")
+
+knitr::read_chunk("../assignment1b/solution.R")
+knitr::read_chunk("../assignment2b/solution.R")
 ```
 
 \newpage
 
-# Assignment 1
+# Assignment 1a
+```{r, echo=FALSE, eval=TRUE}
+<<assign1a-init>>
+```
+
+\newpage
+
+# Assignment 1b
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-init>>
+```
+
+\newpage
+
+# Assignment 2a
+```{r, echo=FALSE, eval=TRUE}
+<<assign2a-init>>
+```
 
 ## 1
 
@@ -33,72 +55,76 @@ knitr::read_chunk("../assignment2/solution.R")
 
 ## 3
 
-## 4
+\newpage
 
-## 5
+# Assignment 2b
+```{r, echo=FALSE, eval=TRUE}
+<<assign2b-init>>
+```
 
 \newpage
 
-# Assignment 2
+# Assignment 3a
 ```{r, echo=FALSE, eval=TRUE}
-<<assign2-init>>
+<<assign3a-init>>
 ```
-
 
 ## 1
 
 ## 2
 
-## 3
+\newpage
 
-## 4
-
-# Assignment 3
+# Assignment 4a
 ```{r, echo=FALSE, eval=TRUE}
-<<assign3-init>>
-```
-
-# Assignment 4
-```{r, echo=FALSE, eval=TRUE}
-<<assign4-init>>
+<<assign4a-init>>
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign4-tree>>
+<<assign4a-tree>>
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign4-tree-plot>>
+<<assign4a-tree-plot>>
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign4-forest>>
+<<assign4a-forest>>
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign4-forest-plot>>
+<<assign4a-forest-plot>>
 ```
 
 \newpage
 
 # Appendix
 
-## Code for Assignment 1
+## Code for Assignment 1a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 ```
 
-## Code for Assignment 2
+## Code for Assignment 1b
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 ```
 
-## Code for Assignment 3
+## Code for Assignment 2a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 ```
 
-## Code for Assignment 4
+## Code for Assignment 2b
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign4-init>>
+```
 
-<<assign4-tree>>
+## Code for Assignment 3a
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+```
 
+## Code for Assignment 4a
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign4a-init>>
+<<assign4a-tree>>
+<<assign4a-tree-plot>>
+<<assign4a-forest>>
+<<assign4a-forest-plot>>
 ```
