@@ -34,11 +34,6 @@ var99_comp_count <- which.max(cumsum(variances * 100) > 99)
 components <- as.data.frame(pca$x[, 1:var99_comp_count])
 ## ---- end-of-assign2-1
 
-## ---- assign2-1-variance
-## sprintf("%2.3f", variances * 100)
-## sprintf("%2.3f", cumsum(variances))
-## ---- end-of-assign2-1-variance
-
 ## ---- assign2-1-variance-plot
 pc_comps <- 1:10
 plot_data <- data.frame(x=pc_comps, Variance=variances[pc_comps])
@@ -83,9 +78,8 @@ colnames(components) <- c("IC1", "IC2")
 ## ---- end-of-assign2-3
 
 ## ---- assign2-3-trace
-plot_data <- data.frame(x=1:nrow(W_prime), IC1=W_prime[, 1], IC2=W_prime[, 2])
-plot_data <- melt(plot_data, id="x")
-names(plot_data) <- c("Index", "Component", "Value")
+plot_data <- data.frame(Index=1:nrow(W_prime), IC1=W_prime[, 1], IC2=W_prime[, 2])
+plot_data <- melt(plot_data, id="Index", variable.name="Component", value.name="Value")
 xlimits <- seq(0, nrow(W_prime), by=10)
 
 ggplot(plot_data) +

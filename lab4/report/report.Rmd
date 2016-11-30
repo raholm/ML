@@ -54,14 +54,14 @@ Figure \ref{fig:12tree} shows the resulting tree and it turned out that the opti
 <<assign1-2-tree-fit>>
 ```
 
-The fitted values can be seen in figure \ref{fig:12treefit} and they have a decent resemblance of the original data but the model seems to be too simplistic to capture the underlying process that generated the data set.
+The fitted values can be seen in figure \ref{fig:12treefit} and they have a decent resemblance of the original data but the model seems to be too simplistic to capture the underlying distribution the data set was generated from.
 
 
 ```{r 12treeresid, echo=FALSE, eval=TRUE, fig.cap="The distribution of the residuals from the regression tree."}
 <<assign1-2-tree-resid>>
 ```
 
-We can see from figure \ref{fig:12treeresid} that the residuals have approximately a Gaussian distribution or some form of right-tailed Gamma distribution. Since there are only 48 observations in the data set it is difficult to get a good approximation of the underlying distribution.
+We can see from figure \ref{fig:12treeresid} that the residuals have approximately a Gaussian distribution or some form of right-tailed Gamma distribution. Since there are only 48 observations in the data set it is difficult to get a good approximation of the distribution.
 
 ## 3
 ```{r, echo=FALSE, eval=TRUE, warning=FALSE}
@@ -70,13 +70,13 @@ We can see from figure \ref{fig:12treeresid} that the residuals have approximate
 
 In this exercise I have used non-parametric bootstrap in order to approximate the 95\% confidence bands for the regression model.
 
-```{r 13confbands, echo=FALSE, eval=TRUE, cap.fig="The confidence bands found by non-parametric bootstrap after 1000 samples."}
+```{r 13confbands, echo=FALSE, eval=TRUE, fig.cap="The confidence bands found by non-parametric bootstrap after 1000 samples."}
 <<assign1-3-confbands>>
 ```
 
 The confidence bands are quite wide in figure \ref{fig:13confbands} which indicates that the model cannot capture the data particular well since it is unsure where its mean prediction should be. The model is more certain in the middle values of the MET feature and very uncertain at low values of MET.
 
-We can also see that the confidence bands are bumpy which I would assume have to do with the data density in our data set. Since we only have 48 observations it is not possible to have a high granularity in the confidence bands but by increasing the number of bootstrap samples it will probably become more smooth. However, it will never be completely smooth since there are simply not enough data to be able to capture the models uncertainty at all x-values.
+We can also see that the confidence bands are bumpy which I would assume have to do with the data density in our data set. Since we only have 48 observations it is not possible to have a high granularity in the confidence bands but by increasing the number of bootstrap samples it will probably become more smooth. However, it will never be completely smooth since there are simply not enough data to be able to capture the models uncertainty for all x-values.
 
 ## 4
 ```{r, echo=FALSE, eval=TRUE, warning=FALSE}
@@ -89,7 +89,7 @@ Here I have instead used the parametric bootstrap where I have assumed that $Y \
 <<assign1-4-confbands>>
 ```
 
-We can see from figure \ref{fig:14confbands} that, as expected, the prediction bands are wider than the confidence bands because not only do we consider the uncertainty of the regression model but also the uncertainty of the data itself. Compared the previously, the confidence bands are narrower and much more consistent over the whole range of the MET feature. The bands are also a lot smoother than previously but still pretty wide which indicates that the regression model is not very well suited for this data set. Two observations are outside the prediction bands and 5\% of 48 is approximately 2 so it is as we would expect.
+We can see from figure \ref{fig:14confbands} that, as expected, the prediction bands are wider than the confidence bands because not only do we consider the uncertainty of the regression model but also the uncertainty of the data itself. Compared to the previous result, the confidence bands are narrower and much more consistent over the whole range of the MET feature. The bands are also a lot smoother than previously but still pretty wide which indicates that the regression model is not very well suited for this data set. Two observations are outside the prediction bands and 5\% of 48 is approximately 2 so it is as we would expect.
 
 ## 5
 Given that the residuals looked to have a Gaussian/Gamma distribution it would be more appropriate to use parametric bootstrap so we could explicitly guide the method to approximate the confidence and prediction bands.
@@ -116,7 +116,7 @@ In this assignment I have used the NIRspectra data set that contains near-infrar
 <<assign2-1-variance-plot>>
 ```
 
-Figure \ref{fig:21pcvar} shows that basically all the variance can be explained by the first 5 principal components (PCs). The first two are clearly the most important and should be extracted without much loss of information, combined they explain over 99\% of the variance.
+Figure \ref{fig:21pcvar} shows that basically all the variance can be explained by the first 5 principal components (PCs). The first two are clearly the most important and can be extracted without much loss of information, combined they explain over 99\% of the variance.
 
 ```{r 21score, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two principal components."}
 <<assign2-1-score>>
@@ -191,7 +191,6 @@ Figure \ref{fig:24msep} shows how the mean squared error changes when varying th
 <<assign2-init>>
 
 <<assign2-1>>
-<<assign2-1-variance>>
 <<assign2-1-variance-plot>>
 <<assign2-score>>
 
