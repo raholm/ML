@@ -101,15 +101,11 @@ Given that the residuals looked to have a Gaussian/Gamma distribution it would b
 <<assign2-init>>
 ```
 
-In this assignment I have used the NIRspectra data set that contains near-infrared spectra and viscosity levels for a collection of diesel fuels
+In this assignment I have used the NIRspectra data set that contains near-infrared spectra and viscosity levels for a collection of diesel fuels.
 
 ## 1
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-1>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign2-1-variance>>
 ```
 
 ```{r 21pcvar, echo=FALSE, eval=TRUE, fig.cap="Variance explained by the first 10 principal components."}

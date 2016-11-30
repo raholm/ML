@@ -8,18 +8,6 @@ data <- read.csv2("../data/NIRSpectra.csv")
 
 X <- scale(data[, -ncol(data)])
 y <- data[, ncol(data)]
-
-traceplot <- function(n, pc1, pc2) {
-    plot_data <- data.frame(x=1:n, PC1=pc1, PC2=pc2)
-    plot_data <- melt(plot_data, id="x")
-    names(plot_data) <- c("Index", "Component", "Value")
-    xlimits <- seq(0, n, by=10)
-
-    ggplot(plot_data) +
-        geom_line(aes(x=Index, y=Value, color=Component), show.legend=FALSE) +
-        scale_x_discrete(limits=xlimits) +
-        facet_grid(Component ~ ., scales="free")
-}
 ## ---- end-of-assign2-init
 
 ## 1
@@ -69,8 +57,8 @@ ggplot(plot_data) +
 ## 3
 ## ---- assign2-3
 set.seed(12345)
-ica <- fastICA(X, var99_comp_count, alg.typ = "parallel", fun = "logcosh", alpha = 1,
-               method = "R", row.norm = FALSE, maxit = 200, tol = 1e-06, verbose = FALSE)
+ica <- fastICA(X, var99_comp_count, alg.typ="parallel", fun="logcosh", alpha=1,
+               method="R", row.norm=FALSE, maxit=200, tol=1e-06, verbose=FALSE)
 
 W_prime <- ica$K %*% ica$W
 components <- as.data.frame(ica$S)
@@ -104,12 +92,14 @@ cvpcrfit <- crossval(pcrfit, segments=10, segment.type="random")
 cv_scores <- t(matrix(MSEP(cvpcrfit)$val, nrow=2))
 plot_data <- data.frame(cbind(1:ncol(data), cv_scores))
 colnames(plot_data) <- c("Components", "CV", "adjCV")
-plot_data <- melt(plot_data, id="Components", variable.name="Measure", value.name="MSEP")
+plot_data <- melt(plot_data, id="Components",
+                  variable.name="Measure", value.name="MSEP")
 xlimits <- seq(0, ncol(data), by=5)
 ylimits <- seq(0, max(plot_data$MSEP) + 0.05, by=0.05)
 
 ggplot(plot_data) +
     geom_line(aes(x=Components, y=MSEP, color=Measure), size=1) +
     scale_x_discrete(limits=xlimits) +
-    scale_y_continuous(breaks=ylimits, labels=ylimits, limits=c(0, max(plot_data$MSEP)))
+    scale_y_continuous(breaks=ylimits, labels=ylimits,
+                       limits=c(0, max(plot_data$MSEP)))
 ## ---- end-of-assign2-4-MSEP
