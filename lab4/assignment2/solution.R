@@ -34,7 +34,9 @@ ggplot(plot_data, aes(x=x, y=Variance)) +
 
 ## ---- assign2-1-score
 ggplot(components) +
-    geom_point(aes(x=PC1, y=PC2))
+    geom_point(aes(x=PC1, y=PC2)) +
+    scale_x_continuous(breaks=pretty(components$PC1, n=6)) +
+    scale_y_continuous(breaks=pretty(components$PC2, n=6))
 ## ---- end-of-assign2-1-score
 
 ## 2
@@ -78,7 +80,9 @@ ggplot(plot_data) +
 
 ## ---- assign2-3-score
 ggplot(components) +
-    geom_point(aes(x=IC1, y=IC2))
+    geom_point(aes(x=IC1, y=IC2)) +
+    scale_x_continuous(breaks=pretty(components$IC1, n=6)) +
+    scale_y_continuous(breaks=pretty(components$IC2, n=6))
 ## ---- end-of-assign2-3-score
 
 ## 4
