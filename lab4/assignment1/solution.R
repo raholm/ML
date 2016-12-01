@@ -33,7 +33,7 @@ text(optimal_tree, pretty=0)
 
 ## ---- assign1-2-tree-fit
 predicted <- predict(optimal_tree, data)
-plot_data <- data.frame(MET=data$MET, Actual=data$EX, Estimate=predicted)
+plot_data <- data.frame(MET=data$MET, Observed=data$EX, Estimated=predicted)
 plot_data <- melt(plot_data, id="MET", variable.name="Data", value.name="EX")
 
 ggplot(plot_data) +
@@ -78,7 +78,7 @@ confidence_bands <- envelope(fit, level=0.95)
 ## ---- assign1-3-confbands
 predicted <- predict(optimal_tree, data)
 plot_data_est <- data.frame(MET=data$MET, Observed=data$EX,
-                            Estimate=predicted)
+                            Estimated=predicted)
 plot_data_est <- melt(plot_data_est, id="MET",
                       variable.name="Data", value.name="EX")
 
@@ -146,7 +146,7 @@ prediction_bands <- envelope(fit, level=0.95)
 
 ## ---- assign1-4-confbands
 predicted <- predict(optimal_tree, data)
-plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimate=predicted)
+plot_data_est <- data.frame(MET=data$MET, Observed=data$EX, Estimated=predicted)
 plot_data_est <- melt(plot_data_est, id="MET", variable.name="Data", value.name="EX")
 
 plot_data_CB <- data.frame(MET=data$MET, CBU=confidence_bands$point[1,],
