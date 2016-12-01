@@ -31,16 +31,10 @@ knitr::read_chunk("../assignment2b/solution.R")
 \newpage
 
 # Assignment 1a
-```{r, echo=FALSE, eval=TRUE}
-<<assign1a-init>>
-```
 
 \newpage
 
 # Assignment 1b
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-init>>
-```
 
 \newpage
 
@@ -50,10 +44,23 @@ knitr::read_chunk("../assignment2b/solution.R")
 ```
 
 ## 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign2a-1-upperbound>>
+```
 
 ## 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign2a-2-upperbound>>
+```
 
 ## 3
+```{r, echo=FALSE, eval=TRUE}
+<<assign2a-3-bag>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2a-3-bagcv>>
+```
 
 \newpage
 
@@ -70,8 +77,14 @@ knitr::read_chunk("../assignment2b/solution.R")
 ```
 
 ## 1
+```{r, echo=FALSE, eval=TRUE}
+<<assign3a-plot>>
+```
 
 ## 2
+```{r, echo=FALSE, eval=TRUE}
+<<assign3a-2>>
+```
 
 \newpage
 
@@ -110,6 +123,11 @@ knitr::read_chunk("../assignment2b/solution.R")
 
 ## Code for Assignment 2a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign2a-init>>
+<<assign2a-1-upperbound>>
+<<assign2a-2-upperbound>>
+<<assign2a-3-bag>>
+<<assign2a-3-bagcv>>
 ```
 
 ## Code for Assignment 2b
@@ -118,6 +136,9 @@ knitr::read_chunk("../assignment2b/solution.R")
 
 ## Code for Assignment 3a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign3a-init>>
+<<assign3a-plot>>
+<<assign3a-2>>
 ```
 
 ## Code for Assignment 4a

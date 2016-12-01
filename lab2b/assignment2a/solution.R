@@ -1,4 +1,4 @@
-## ---- assign2-init
+## ---- assign2a-init
 library(tree)
 
 data <- read.csv2("../data/bodyfatregression.csv")
@@ -8,10 +8,10 @@ set.seed(1234567890)
 train_idx <- sample(nrow(data), floor(nrow(data) * (2 / 3)))
 train <- data[train_idx,]
 test <- data[-train_idx,]
-## ---- end-of-assign2-init
+## ---- end-of-assign2a-init
 
 ## 1
-## Lower Bound
+## ---- assign2a-1-lowerbound
 set.seed(1234567890)
 
 tree_count <- 100
@@ -25,8 +25,10 @@ for (i in 1:tree_count) {
 }
 
 mean((test_errors / length(test_errors))^2)
+## ---- end-of-assign2a-1-lowerbound
 
-# Upper Bound
+
+## ---- assign2a-1-upperbound
 set.seed(1234567890)
 
 tree_count <- 100
@@ -40,9 +42,10 @@ for (i in 1:tree_count) {
 }
 
 mean(test_errors)
+## ---- end-of-assign2a-1-upperbound
 
 ## 2
-## Upper Bound
+## ---- assign2a-2-upperbound
 set.seed(1234567890)
 
 tree_count <- 100
@@ -77,10 +80,10 @@ for (i in 1:tree_count) {
 }
 
 mean(errors)
+## ---- end-of-assign2a-2-upperbound
 
 ## 3
-
-## Bagging Regression Trees
+## ---- assign2a-3-bag
 bagging.regtrees <- function(formula, data, newdata, b) {
     predictions <- matrix(0, nrow=nrow(newdata), ncol=b)
 
@@ -92,8 +95,9 @@ bagging.regtrees <- function(formula, data, newdata, b) {
 
     rowMeans(predictions)
 }
+## ---- end-of-assign2a-3-bag
 
-## Bagging CV Regression Trees
+## ---- assign2a-3-bagcv
 cv.regtrees <- function(formula, data, newdata, b, k) {
     predictions <- matrix(0, nrow(nrow(newdata)), ncol=b*k)
 
@@ -126,3 +130,4 @@ cv.regtrees <- function(formula, data, newdata, b, k) {
 
     rowMeans(predictions)
 }
+## ---- end-of-assign2a-3-bagcv
