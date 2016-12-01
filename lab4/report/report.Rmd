@@ -136,6 +136,8 @@ From the trace plot in figure \ref{fig:22trace} we can observe that the first an
 <<assign2-3>>
 ```
 
+By computing $W^\prime = KW$ we get the loadings of the independent components.
+
 ```{r 23trace, echo=FALSE, eval=TRUE, fig.cap="Traceplot of the first two independent components."}
 <<assign2-3-trace>>
 ```
