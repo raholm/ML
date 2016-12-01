@@ -45,7 +45,6 @@ for (i in 1:tree_count) {
 
 mean((errors / tree_count)^2)
 
-
 ## 3
 
 ## Bagging Regression Trees
@@ -59,7 +58,6 @@ for (i in 1:tree_count) {
 }
 
 length(trees)
-
 
 ## Bagging CV Regression Trees
 set.seed(1234567890)
