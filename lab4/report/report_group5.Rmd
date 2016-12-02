@@ -3,9 +3,12 @@ title: "Introduction to Machine Learning"
 subtitle: "Lab 4"
 author: "Anton Persson, Emil Klasson Svensson, Mattias Karlsson, Rasmus Holm"
 date: "`r Sys.Date()`"
+fontsize: 10pt
+geometry: margin=1in
 output:
     pdf_document:
         toc: true
+        number_sections: false
         fig_caption: yes
         keep_tex: yes
         includes:
@@ -112,7 +115,7 @@ ggplot(data = State.plot) +
     theme_void()
 ```
 
-The confidence bands are bumpy and the width varies dramatically with the x-values. The model is more confident in the middle and right part of the plot compared to being very uncertain of the mean prediction where values in x-axis is low. The bumpiness probably have to do with the lack of observations and we can see that outliers contribute to large spikes in the upper band. Since the bands are wide we conclude that the model is unreliable and too simplistic, as mentioned previously, to find a good estimate of the true mean.
+The confidence bands are bumpy and the width varies dramatically with the x-values. The model is more confident in the middle and right part of the plot compared to being very uncertain of the mean prediction where values in x-axis are low. The bumpiness probably have to do with the lack of observations and we can see that outliers contribute to large spikes in the upper band. Since the bands are wide we conclude that the model is unreliable and too simplistic, as mentioned previously, to find a good estimate of the true mean.
 
 ## 4
 Here we instead used the parametric bootstrap where we have assumed that $Y \sim \mathcal{N}(\mu_{i}, \sigma^2)$ where $\mu_{i}$ are the values in the tree leaves and $\sigma^2$ is the residual variance.
@@ -255,7 +258,7 @@ ggplot(plot_data) +
 The trace plot in figure \ref{fig:22trace} shows that first PC gives a lot of weight to the 110 first variables and after there is a quick drop of in what the last 17 variables explain. In the second PC the situation is revesed and the last 17 variables are given more weight. The further away a weight is from zero the more dependence of that particular feature is explained by the PC.
 
 ## 3
-Here we used independent component analysis (ICA) by finding 2 components using fastICA. In ICA we want to solve $X = SA$ where columns of $S$ are the independent components (ICs) chich is equivalent to $XW = S$ given $W = A^{-1}$. However, the algorithm uses a pre-whitening matrix $K$ to project the data, i.e. $XK$, so the solution becomes $XKW = S$ where $KW$ then are the variable loadings that basically correspond to the eigenvectors in PCA.
+Here we used independent component analysis (ICA) by finding 2 components using fastICA. In ICA we want to solve $X = SA$ where columns of $S$ are the independent components (ICs) which is equivalent to $XW = S$ given $W = A^{-1}$. However, the algorithm uses a pre-whitening matrix $K$ to project the data, i.e. $XK$, so the solution becomes $XKW = S$ where $KW$ then are the variable loadings that basically correspond to the eigenvectors in PCA.
 
 ```{r 23trace, echo=FALSE, eval=TRUE, fig.cap="Traceplot of the first two independent components."}
 nir <- read.csv2("../data/NIRSpectra.csv", sep=";", header=T)
@@ -279,7 +282,7 @@ ggplot(plot_data) +
     facet_grid(Component ~ ., scales="free")
 ```
 
-In figure \ref{fig:23trace} we can see that the first two components are similar to those found by PCA but with negative loadings of the features.
+In figure \ref{fig:23trace} we can see that the first two components are similar to those found by PCA but with negative loadings of the features. IC1 is a linear combination of all the features with slightly less loadings in the last 17 variables. Since most loadings in IC2 are close to zero it is mostly a linear combination of the last 17 variables and the values are a lot higher than those found in IC1. This indicates that they complement each other.
 
 ```{r 23score, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two independent components."}
 ggplot(components) +
@@ -291,7 +294,7 @@ ggplot(components) +
 The score in figure \ref{fig:23score} are very similar to the PCA-plot with different scales, but here the components are negative instead of positive which gives it a mirrored result.
 
 ## 4
-In this exercise we have used principal component regression (PCR) in order to estimate the viscosity and let cross validation estimate the optimal number of components to choose.
+In this exercise we have used principal component regression (PCR) in order to estimate the viscosity and let cross-validation estimate the optimal number of components to choose.
 
 ```{r 24msep, echo=FALSE, eval=TRUE, fig.cap="Mean Squared Error of Prediction against number of principal components."}
 set.seed(12345)
