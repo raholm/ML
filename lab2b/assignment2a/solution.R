@@ -95,36 +95,6 @@ bagging.regtrees <- function(formula, data, newdata, b) {
 
 ## ---- assign2a-3-bagcv
 cv.regtrees <- function(formula, data, newdata, b, k) {
-    predictions <- matrix(0, nrow(nrow(newdata)), ncol=b*k)
 
-    
-    for (i in 1:tree_count) {
-        bootstrap_sample <- data[sample(nrow(data), replace=TRUE),]
-        datasets <- suppressWarnings(split(bootstrap_sample, 1:k))
-
-        train1 <- rbind(datasets[[1]], datasets[[2]])
-        test1 <- datasets[[3]]
-
-        train2 <- rbind(datasets[[1]], datasets[[3]])
-        test2 <- datasets[[2]]
-
-        train3 <- rbind(datasets[[2]], datasets[[3]])
-        test3 <- datasets[[1]]
-
-        fit1 <- tree(Bodyfat ~ ., data=train1, split="deviance")
-        prediction1 <- predict(fit1, newdata)
-
-        fit2 <- tree(Bodyfat ~ ., data=train2, split="deviance")
-        prediction2 <- predict(fit2, newdata)
-
-        fit3 <- tree(Bodyfat ~ ., data=train3, split="deviance")
-        prediction2 <- predict(fit2, newdata)
-
-        predictions[, (i - 1) * k + 1] <- predcition1
-        predictions[, (i - 1) * k + 2] <- prediction2
-        predictions[, (i - 1) * k + 3] <- prediction3
-    }
-
-    rowMeans(predictions)
 }
 ## ---- end-of-assign2a-3-bagcv
