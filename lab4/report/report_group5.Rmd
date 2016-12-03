@@ -189,7 +189,7 @@ ggplot() +
                 color="blue", alpha=0.1, fill="blue")
 ```
 
-We can see from figure \ref{fig:14confbands} that the confidence band is more narrow, smoother, and consistent over the whole range on the x-axis compared to previous result. However, the confidence band are still wide and we support our previous conclusion that the model is unreliable. Since 5\% of 48 is approximately 2 we are not surprised to find two observations lying outside the prediction band. That is because the 95\% prediction bands specify the range in EX that an observation would lie in given its MET value with probability 95\%, i.e. 5\% probability to lie outside the prediction band.
+We can see from figure \ref{fig:14confbands} that the confidence band is more narrow, smoother, and consistent over the whole range on the x-axis compared to previous result because we have assumed a Gaussian distribution and introduced noise in our simulation. However, the confidence band are still wide and we support our previous conclusion that the model is unreliable. Since 5\% of 48 is approximately 2 we are not surprised to find two observations lying outside the prediction band. That is because the 95\% prediction bands specify the range in EX that an observation would lie in given its MET value with probability 95\%, i.e. 5\% probability to lie outside the prediction band.
 
 ## 5
 Since we found the residuals to look similar to a Gaussian distribution the parametric bootstrap is more appropriate in the case and especially since the number of observations are so few it is helpful to explicitly guide the bootstrap method.
@@ -282,7 +282,7 @@ ggplot(plot_data) +
     facet_grid(Component ~ ., scales="free")
 ```
 
-In figure \ref{fig:23trace} we can see that the first two components are similar to those found by PCA but with negative loadings of the features which just result in the opposite directions. IC1 is a linear combination of all the features with slightly less loadings in the last 17 variables. Since most loadings in IC2 are close to zero it is mostly a linear combination of the last 17 variables and the values are a lot higher than those found in IC1. This indicates that they complement each other.
+In figure \ref{fig:23trace} we can see that the first two components are similar to those found by PCA but with negative loadings of the features. Whether the loadings are negative or positive do not really matter, it just determines the direction of the vector, i.e. is the direction "\textit{up}" or "\textit{down}". IC1 is a linear combination of all the features with slightly less loadings in the last 17 variables. Since most loadings in IC2 are close to zero it is mostly a linear combination of the last 17 variables and the values are a lot higher than those found in IC1. This indicates that they complement each other.
 
 ```{r 23score, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two independent components."}
 ggplot(components) +
@@ -316,7 +316,7 @@ ggplot(plot_data) +
                        limits=c(0, max(plot_data$MSEP)))
 ```
 
-Figure \ref{fig:24msep} shows how the mean squared error (MSE) changes as the number of components are increased. It’s reasonable to select either 7 or around 17 components to have in the model since the MSE barely decrease as more components are added to the model. The choice of 7 or 17 components depends on the trade-off between a simpler model versus likely better predictions.
+Figure \ref{fig:24msep} shows how the mean squared error (MSE) changes as the number of components are increased. It is reasonable to select either 7 or around 17 components to have in the model since the MSE barely decrease as more components are added to the model. The choice of 7 or 17 components depends on the trade-off between a simpler model versus likely better predictions.
 
 \newpage
 
