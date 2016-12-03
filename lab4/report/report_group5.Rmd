@@ -35,7 +35,7 @@ plot(state$MET, state$EX, xlab="MET", ylab="EX", main="MET versus EX")
 The data from the plot above could probably be modelled reasonably well by a cubic spline function or a piecewise linear function with two knots.
 
 ## 2
-To fit a regression tree to the data set we ran cross-validation in order to determine the optimal number of leaves. The outcome was 3 leaves which had the lowest deviance measure and that can be seen in figure \ref{fig:12deviance}.
+To fit a regression tree to the data set we ran cross-validation in order to determine the optimal number of leaves. The outcome was three leaves which had the lowest deviance measure and that can be seen in figure \ref{fig:12deviance}. Four leaves had the same outcome but since we prefer a simpler model we picked three leaves.
 
 ```{r 12deviance, echo=F, warning=FALSE, fig.cap="Deviance measure as the number of leaves increases."}
 library(tree)
@@ -85,9 +85,9 @@ ggplot(plot_data) +
 ```
 
 ## 3
-We used non-parametric bootstrap in order to estimate the 95\% confidence bands for the regression tree which can be seen in figure \ref{fig:13conf}.
+We used non-parametric bootstrap in order to estimate the 95\% confidence band for the regression tree which can be seen in figure \ref{fig:13conf}.
 
-```{r 13conf, echo=FALSE, fig.cap="The confidence bounds estimated by non-parametric bootstrap for the regression tree."}
+```{r 13conf, echo=FALSE, fig.cap="The confidence band estimated by non-parametric bootstrap for the regression tree."}
 library(boot)
 
 tree.fun <- function(data, ind){
@@ -115,12 +115,12 @@ ggplot(data = State.plot) +
     theme_void()
 ```
 
-The confidence bands are bumpy and the width varies dramatically with the x-values. The model is more confident in the middle and right part of the plot compared to being very uncertain of the mean prediction where values in x-axis are low. The bumpiness probably have to do with the lack of observations and we can see that outliers contribute to large spikes in the upper band. Since the bands are wide we conclude that the model is unreliable and too simplistic, as mentioned previously, to find a good estimate of the true mean.
+The confidence bounds are bumpy and the width of the band varies dramatically with the x-values. The model is more confident in the middle and right part of the plot compared to high uncertainty of the mean prediction where values in x-axis are low. The bumpiness probably have to do with the lack of observations and we can see that outliers contribute to large spikes in the upper bound. Since the band is wide we conclude that the model is unreliable and too simplistic, as mentioned previously, to find a good estimate of the true mean.
 
 ## 4
-Here we instead used the parametric bootstrap where we have assumed that $Y \sim \mathcal{N}(\mu_{i}, \sigma^2)$ where $\mu_{i}$ are the values in the tree leaves and $\sigma^2$ is the residual variance.
+Here we used the parametric bootstrap where we have assumed that $Y \sim \mathcal{N}(\mu_{i}, \sigma^2)$ where $\mu_{i}$ are the values in the tree leaves and $\sigma^2$ is the residual variance.
 
-```{r 14confbands, echo=FALSE, warning=FALSE, eval=TRUE, fig.cap="The 95\\% confidence and prediction bands found by parametric bootstrap after 1000 samples. The red bands are the confidence bands and the blue bands are the prediction bands."}
+```{r 14confbands, echo=FALSE, warning=FALSE, eval=TRUE, fig.cap="The 95\\% confidence and prediction bands found by parametric bootstrap after 1000 samples. The red band is the confidence band and the blue band is the prediction band."}
 rng <- function(data, model) {
     n <- nrow(data)
     newdata <- data.frame(MET=data$MET, EX=data$EX)
@@ -189,7 +189,7 @@ ggplot() +
                 color="blue", alpha=0.1, fill="blue")
 ```
 
-We can see from figure \ref{fig:14confbands} that the confidence bands are more narrow, smoother, and consistent over the whole range on the x-axis compared to previous result. However, the confidence bands are still wide and we still conclude that the model is unreliable. Since 5\% of 48 is approximately 2 we are not surprised to find two observations lying outside the prediction bands. That is because the 95\% prediction bands specify the range in EX that an observation would lie in given its MET value with probability 95\%, i.e. 5\% probability to lie outside the prediction bands.
+We can see from figure \ref{fig:14confbands} that the confidence band is more narrow, smoother, and consistent over the whole range on the x-axis compared to previous result. However, the confidence band are still wide and we support our previous conclusion that the model is unreliable. Since 5\% of 48 is approximately 2 we are not surprised to find two observations lying outside the prediction band. That is because the 95\% prediction bands specify the range in EX that an observation would lie in given its MET value with probability 95\%, i.e. 5\% probability to lie outside the prediction band.
 
 ## 5
 Since we found the residuals to look similar to a Gaussian distribution the parametric bootstrap is more appropriate in the case and especially since the number of observations are so few it is helpful to explicitly guide the bootstrap method.
@@ -282,7 +282,7 @@ ggplot(plot_data) +
     facet_grid(Component ~ ., scales="free")
 ```
 
-In figure \ref{fig:23trace} we can see that the first two components are similar to those found by PCA but with negative loadings of the features. IC1 is a linear combination of all the features with slightly less loadings in the last 17 variables. Since most loadings in IC2 are close to zero it is mostly a linear combination of the last 17 variables and the values are a lot higher than those found in IC1. This indicates that they complement each other.
+In figure \ref{fig:23trace} we can see that the first two components are similar to those found by PCA but with negative loadings of the features which just result in the opposite directions. IC1 is a linear combination of all the features with slightly less loadings in the last 17 variables. Since most loadings in IC2 are close to zero it is mostly a linear combination of the last 17 variables and the values are a lot higher than those found in IC1. This indicates that they complement each other.
 
 ```{r 23score, echo=FALSE, eval=TRUE, fig.cap="The data projected onto the first two independent components."}
 ggplot(components) +
