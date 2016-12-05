@@ -54,7 +54,6 @@ for(it in 1:max_it) {
     Sys.sleep(0.5)
 
     ## E-step: Computation of the fractional component assignments
-    ## Your code here
     cond_joint <- matrix(1, nrow=N, ncol=D)
     for (n in 1:N) {
         for (k in 1:K) {
@@ -70,7 +69,6 @@ for(it in 1:max_it) {
     }
 
     ## Log likelihood computation.
-    ## Your code here
     llik[it] <- 0
     for (n in 1:N) {
         for (k in 1:K) {
@@ -97,11 +95,6 @@ for(it in 1:max_it) {
         denominator <- sum(z[, k])
         for (i in 1:D) {
             nominator <- sum(x[, i] * z[, k])
-
-            ## for (n in 1:N) {
-            ##     nominator <- nominator + x[n, i] * z[n, k]
-            ## }
-
             mu[k, i] <- nominator / denominator
         }
     }
