@@ -1,25 +1,34 @@
 ## ---- assign1b-init
 set.seed(1234567890)
+
+#
 max_it <- 100 # max number of EM iterations
 min_change <- 0.1 # min change in log likelihood between two consecutive EM iterations
-N=1000 # number of training points
-D=10 # number of dimensions
-x <- matrix(nrow=N, ncol=D) # training data
-true_pi <- vector(length = 3) # true mixing coefficients
-true_mu <- matrix(nrow=3, ncol=D) # true conditional distributions
+
+N <- 1000 # number of training points
+D <- 10 # number of dimensions
+
+## true mixing coefficients
+true_pi <- vector(length=3)
 true_pi <- c(1/3, 1/3, 1/3)
+
+## true conditional distributions
+true_mu <- matrix(nrow=3, ncol=D)
 true_mu[1,] <- c(0.5, 0.6, 0.4, 0.7, 0.3, 0.8, 0.2, 0.9, 0.1, 1)
 true_mu[2,] <- c(0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8, 0.1, 0.9, 0)
 true_mu[3,] <- c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+
 plot(true_mu[1,], type="o", col="blue", ylim=c(0,1))
 points(true_mu[2,], type="o", col="red")
 points(true_mu[3,], type="o", col="green")
 
 ## Producing the training data
+x <- matrix(nrow=N, ncol=D)
+
 for(n in 1:N) {
     k <- sample(1:3, 1, prob=true_pi)
     for(d in 1:D) {
-        x[n,d] <- rbinom(1, 1, true_mu[k,d])
+        x[n, d] <- rbinom(1, 1, true_mu[k, d])
     }
 }
 
@@ -42,7 +51,7 @@ for(it in 1:max_it) {
     plot(mu[1,], type="o", col="blue", ylim=c(0,1))
     points(mu[2,], type="o", col="red")
     points(mu[3,], type="o", col="green")
-    ##points(mu[4,], type="o", col="yellow")
+    ## points(mu[4,], type="o", col="yellow")
     Sys.sleep(0.5)
 
     ## E-step: Computation of the fractional component assignments
