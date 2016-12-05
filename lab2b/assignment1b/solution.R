@@ -86,11 +86,9 @@ for(it in 1:max_it) {
     flush.console()
 
     ## Stop if the lok likelihood has not changed significantly
-    ## Your code here
     if (it > 1 && abs(llik[it] - llik[it-1]) < min_change) break
 
     ## M-step: ML parameter estimation from the data and fractional component assignments
-    ## Your code here
     for (k in 1:K) {
         pi[k] <- sum(z[, k]) / N
     }
