@@ -58,7 +58,7 @@ test_errors <- matrix(0, nrow=tree_count, ncol=fold_count)
 
 set.seed(1234567890)
 
-folds <- suppressWarnings(split(nrow(data), f=1:fold_count))
+folds <- suppressWarnings(split(1:nrow(data), f=1:fold_count))
 
 for (j in 1:fold_count) {
     train <- data[-folds[[j]],]
