@@ -1,7 +1,6 @@
 ## ---- assign1b-init
 set.seed(1234567890)
 
-#
 max_it <- 100 # max number of EM iterations
 min_change <- 0.1 # min change in log likelihood between two consecutive EM iterations
 
@@ -56,20 +55,58 @@ for(it in 1:max_it) {
 
     ## E-step: Computation of the fractional component assignments
     ## Your code here
+    cond_joint <- matrix(1, nrow=N, ncol=D)
+    for (n in 1:N) {
+        for (k in 1:K) {
+            for (i in 1:D) {
+                cond_joint[n, i] <- cond_joint[n, i] * mu[k, i]^x[n, i] * (1 - mu[k, i])^x[n, i]
+            }
+
+            z[n, k] <- pi[k] * cond_joint[n, k] / sum(cond_joint[n,])
+        }
+    }
 
     ## Log likelihood computation.
     ## Your code here
+    llik[it] <- 0
+    for (n in 1:N) {
+        for (k in 1:K) {
+            summation <- 0
+            for (i in 1:D) {
+                summation <- summation + x[n, i] * log(mu[k, i]) + (1 - x[n, i]) * log(1 - mu[k, i])
+            }
+            llik[it] <- llik[it] + z[n, k] * (log(pi[k]) + summation)
+        }
+    }
 
     cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
     flush.console()
 
     ## Stop if the lok likelihood has not changed significantly
     ## Your code here
+    if (it > 1 && abs(llik[it] - llik[it-1]) < min_change) break
 
     ## M-step: ML parameter estimation from the data and fractional component assignments
     ## Your code here
+    for (k in 1:K) {
+        pi[k] <- sum(z[, k]) / N
+    }
+
+    for (k in 1:K) {
+        denominator <- sum(z[, k])
+        for (i in 1:D) {
+            nominator <- 0
+
+            for (n in 1:N) {
+                nominator <- nominator + x[n, i] * z[n, k]
+            }
+
+            mu[k, i] <- nominator / denominator
+        }
+    }
 }
 pi
 mu
+
 plot(llik[1:it], type="o")
 ## ---- end-of-assign1b-init
