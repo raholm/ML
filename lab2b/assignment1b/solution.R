@@ -62,7 +62,10 @@ for(it in 1:max_it) {
                 cond_joint[n, i] <- cond_joint[n, i] * mu[k, i]^x[n, i] * (1 - mu[k, i])^x[n, i]
             }
 
-            z[n, k] <- pi[k] * cond_joint[n, k] / sum(cond_joint[n,])
+            nominator <- pi[k] * cond_joint[n, k]
+            denominator <- sum(cond_joint[n,])
+
+            z[n, k] <- nominator / denominator
         }
     }
 
@@ -95,11 +98,11 @@ for(it in 1:max_it) {
     for (k in 1:K) {
         denominator <- sum(z[, k])
         for (i in 1:D) {
-            nominator <- 0
+            nominator <- sum(x[, i] * z[, k])
 
-            for (n in 1:N) {
-                nominator <- nominator + x[n, i] * z[n, k]
-            }
+            ## for (n in 1:N) {
+            ##     nominator <- nominator + x[n, i] * z[n, k]
+            ## }
 
             mu[k, i] <- nominator / denominator
         }

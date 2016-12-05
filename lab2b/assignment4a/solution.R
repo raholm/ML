@@ -26,6 +26,9 @@ for (i in 1:length(tree_counts)) {
     test_errors[i] <- test_error
     train_errors[i] <- train_error
 }
+
+test_errors
+train_errors
 ## ---- end-of-assign4a-tree
 
 ## ---- assign4a-tree-plot
