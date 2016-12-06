@@ -41,8 +41,8 @@ Assumptions:
 Prove:
 
 \begin{gather*}
-\mathrm{E}_{x} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] =
-\frac{1}{B} \left[ \frac{1}{B} \mathrm{E} \left[ (\epsilon^{b}(x))^{2} \right] \right]
+\mathrm{E}_{X} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] =
+\frac{1}{B} \left[ \frac{1}{B} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] \right]
 \end{gather*}
 
 We know:
@@ -54,22 +54,26 @@ f^{b}(x) = h(x) + \epsilon^{b}(x)
 Proof:
 
 \begin{gather*}
-\mathrm{E}_{x} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] = \\
-\mathrm{E}_{x} \left[ (\frac{1}{B} \sum_{b} f^{b}(x) - h(x))^{2} \right] = \\
-\mathrm{E}_{x} \left[ (\frac{1}{B} \sum_{b} \epsilon^{b}(x))^{2} \right] = \\
+\mathrm{E}_{X} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] = \\
+\mathrm{E}_{X} \left[ (\frac{1}{B} \sum_{b} f^{b}(x) - h(x))^{2} \right] = \\
+\mathrm{E}_{X} \left[ (\frac{1}{B} \sum_{b} \epsilon^{b}(x))^{2} \right] = \\
 \frac{1}{B^{2}}
-\mathrm{E}_{x} \left[ (\epsilon^{1}(x))^{2} +
-\epsilon^{1}(x) \epsilon^{2}(x) +
-\dotsb + (\epsilon^{b}(x))^{2} \right] = \\
+\mathrm{E}_{X} \left[ (\epsilon^{1}(x))^{2} +
+2 \epsilon^{1}(x) \epsilon^{2}(x) +
+\dotsb +
+2 \epsilon^{b-1}(x) \epsilon^{b}(x) +
+(\epsilon^{b}(x))^{2} \right] = \\
 \frac{1}{B^{2}}
 \left(
-\mathrm{E}_{x} \left[ (\epsilon^{1}(x))^{2} \right] +
-\mathrm{E}_{x} \left[ \epsilon^{1}(x) \epsilon^{2}(x) \right]
+\mathrm{E}_{X} \left[ (\epsilon^{1}(x))^{2} \right] +
+2 \mathrm{E}_{X} \left[ \epsilon^{1}(x) \epsilon^{2}(x) \right]
 + \dotsb +
-\mathrm{E}_{x} \left[ (\epsilon^{b}(x))^{2} \right]
+2 \mathrm{E}_{X} \left[ \epsilon^{b-1}(x) \epsilon^{b}(x) \right] +
+\mathrm{E}_{X} \left[ (\epsilon^{b}(x))^{2} \right]
 \right) = \\
-\frac{1}{B^{2}} \sum_{b} \mathrm{E}_{x} \left[ (\epsilon^{b}(x))^{2} \right] = \\
-\frac{1}{B^{2}} \sum_{b} \mathrm{E}_{x} \left[ (f^{b}(x) - h(x))^{2} \right]
+\frac{1}{B^{2}} \sum_{b} \mathrm{E}_{X} \left[ (\epsilon^{b}(x))^{2} \right] = \\
+\frac{1}{B^{2}} \sum_{b} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] = \\
+\frac{1}{B} \left[ \frac{1}{B} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] \right]
 \end{gather*}
 
 \newpage
