@@ -47,8 +47,6 @@ pi
 mu
 
 expectation.step <- function(x, mu, pi) {
-    z <- matrix(nrow=nrow(x), ncol=length(pi))
-
     x_given_mu <- matrix(1, nrow=N, ncol=length(pi))
 
     for (n in 1:N) {
@@ -58,6 +56,8 @@ expectation.step <- function(x, mu, pi) {
             }
         }
     }
+
+    z <- matrix(nrow=nrow(x), ncol=length(pi))
 
     for (n in 1:N) {
         denominator <- sum(pi * x_given_mu[n,])
