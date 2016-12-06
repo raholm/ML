@@ -99,6 +99,7 @@ maximize.step <- function(X, z) {
             mu[k, i] <- nominator / denominator
         }
     }
+
     list(pi=pi, mu=mu)
 }
 
