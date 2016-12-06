@@ -1,7 +1,7 @@
 ## ---- assign1b-init
 set.seed(1234567890)
 
-max_it <- 100 # max number of EM iterations
+max_it <- 10 # max number of EM iterations
 min_change <- 0.1 # min change in log likelihood between two consecutive EM iterations
 
 N <- 1000 # number of training points
@@ -46,18 +46,24 @@ for(k in 1:K) {
 pi
 mu
 
-expectation.step <- function(X, mu, pi) {
-    z <- matrix(nrow=nrow(X), ncol=length(pi))
+expectation.step <- function(x, mu, pi) {
+    z <- matrix(nrow=nrow(x), ncol=length(pi))
 
-    cond_joint <- matrix(1, nrow=N, ncol=D)
+    x_given_mu <- matrix(1, nrow=N, ncol=length(pi))
+
     for (n in 1:N) {
         for (k in 1:K) {
             for (i in 1:D) {
-                cond_joint[n, i] <- cond_joint[n, i] * mu[k, i]^x[n, i] * (1 - mu[k, i])^x[n, i]
+                x_given_mu[n, k] <- x_given_mu[n, k] * mu[k, i]^x[n, i] * (1 - mu[k, i])^(1 - x[n, i])
             }
+        }
+    }
 
-            nominator <- pi[k] * cond_joint[n, k]
-            denominator <- sum(cond_joint[n,])
+    for (n in 1:N) {
+        denominator <- sum(pi * x_given_mu[n,])
+
+        for (k in 1:K) {
+            nominator <- pi[k] * x_given_mu[n, k]
 
             z[n, k] <- nominator / denominator
         }
@@ -66,7 +72,7 @@ expectation.step <- function(X, mu, pi) {
     z
 }
 
-loglikelihood <- function(X, mu, pi, z) {
+loglikelihood <- function(x, mu, pi, z) {
     llik <- 0
     for (n in 1:N) {
         for (k in 1:K) {
@@ -84,12 +90,12 @@ loglikelihood <- function(X, mu, pi, z) {
     llik
 }
 
-maximize.step <- function(X, z) {
+maximize.step <- function(x, z) {
     pi <- vector(length=ncol(z))
-    mu <- matrix(nrow=ncol(z), ncol=ncol(X))
+    mu <- matrix(nrow=ncol(z), ncol=ncol(x))
     
     for (k in 1:K) {
-        pi[k] <- sum(z[, k]) / N
+        pi[k] <- sum(z[, k]) / nrow(x)
     }
 
     for (k in 1:K) {
