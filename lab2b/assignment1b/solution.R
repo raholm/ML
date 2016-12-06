@@ -46,14 +46,9 @@ for(k in 1:K) {
 pi
 mu
 
-for(it in 1:max_it) {
-    plot(mu[1,], type="o", col="blue", ylim=c(0,1))
-    points(mu[2,], type="o", col="red")
-    points(mu[3,], type="o", col="green")
-    ## points(mu[4,], type="o", col="yellow")
-    Sys.sleep(0.5)
+expectation.step <- function(X, mu, pi) {
+    z <- matrix(nrow=nrow(X), ncol=length(pi))
 
-    ## E-step: Computation of the fractional component assignments
     cond_joint <- matrix(1, nrow=N, ncol=D)
     for (n in 1:N) {
         for (k in 1:K) {
@@ -68,25 +63,31 @@ for(it in 1:max_it) {
         }
     }
 
-    ## Log likelihood computation.
-    llik[it] <- 0
+    z
+}
+
+loglikelihood <- function(X, mu, pi, z) {
+    llik <- 0
     for (n in 1:N) {
         for (k in 1:K) {
             summation <- 0
+            ## conditional <- 1
             for (i in 1:D) {
                 summation <- summation + x[n, i] * log(mu[k, i]) + (1 - x[n, i]) * log(1 - mu[k, i])
+                ## conditional <- conditional * mu[k, i]^x[n, i] * (1 - mu[k, i])^(1 - x[n, i])
             }
-            llik[it] <- llik[it] + z[n, k] * (log(pi[k]) + summation)
+            llik <- llik + z[n, k] * (log(pi[k]) + summation)
+            ## llik[it] <- llik[it] + pi[k] * conditional
         }
     }
 
-    cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
-    flush.console()
+    llik
+}
 
-    ## Stop if the lok likelihood has not changed significantly
-    if (it > 1 && abs(llik[it] - llik[it-1]) < min_change) break
-
-    ## M-step: ML parameter estimation from the data and fractional component assignments
+maximize.step <- function(X, z) {
+    pi <- vector(length=ncol(z))
+    mu <- matrix(nrow=ncol(z), ncol=ncol(X))
+    
     for (k in 1:K) {
         pi[k] <- sum(z[, k]) / N
     }
@@ -98,6 +99,32 @@ for(it in 1:max_it) {
             mu[k, i] <- nominator / denominator
         }
     }
+    list(pi=pi, mu=mu)
+}
+
+for(it in 1:max_it) {
+    plot(mu[1,], type="o", col="blue", ylim=c(0,1))
+    points(mu[2,], type="o", col="red")
+    points(mu[3,], type="o", col="green")
+    ## points(mu[4,], type="o", col="yellow")
+    Sys.sleep(0.5)
+
+    ## E-step: Computation of the fractional component assignments
+    z <- expectation.step(x, mu, pi)
+
+    ## Log likelihood computation.
+    llik[it] <- loglikelihood(x, mu, pi, z)
+
+    cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
+    flush.console()
+
+    ## Stop if the lok likelihood has not changed significantly
+    if (it > 1 && abs(llik[it] - llik[it-1]) < min_change) break
+
+    ## M-step: ML parameter estimation from the data and fractional component assignments
+    result <- maximize.step(x, z)
+    pi <- result$pi
+    mu <- result$mu
 }
 pi
 mu
