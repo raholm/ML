@@ -31,6 +31,46 @@ knitr::read_chunk("../assignment2b/solution.R")
 \newpage
 
 # Assignment 1a
+Assumptions:
+
+\begin{gather*}
+\mathrm{E} \left[ \epsilon^{b}(x) \right] = 0, \\
+\forall_{i,j}, i \neq j: \mathrm{E} \left[ \epsilon^{i}(x) \epsilon^{j}(x) \right] = 0
+\end{gather*}
+
+Prove:
+
+\begin{gather*}
+\mathrm{E}_{x} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] =
+\frac{1}{B} \left[ \frac{1}{B} \mathrm{E} \left[ (\epsilon^{b}(x))^{2} \right] \right]
+\end{gather*}
+
+We know:
+
+\begin{gather*}
+f^{b}(x) = h(x) + \epsilon^{b}(x)
+\end{gather*}
+
+Proof:
+
+\begin{gather*}
+\mathrm{E}_{x} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] = \\
+\mathrm{E}_{x} \left[ (\frac{1}{B} \sum_{b} f^{b}(x) - h(x))^{2} \right] = \\
+\mathrm{E}_{x} \left[ (\frac{1}{B} \sum_{b} \epsilon^{b}(x))^{2} \right] = \\
+\frac{1}{B^{2}}
+\mathrm{E}_{x} \left[ (\epsilon^{1}(x))^{2} +
+\epsilon^{1}(x) \epsilon^{2}(x) +
+\dotsb + (\epsilon^{b}(x))^{2} \right] = \\
+\frac{1}{B^{2}}
+\left(
+\mathrm{E}_{x} \left[ (\epsilon^{1}(x))^{2} \right] +
+\mathrm{E}_{x} \left[ \epsilon^{1}(x) \epsilon^{2}(x) \right]
++ \dotsb +
+\mathrm{E}_{x} \left[ (\epsilon^{b}(x))^{2} \right]
+\right) = \\
+\frac{1}{B^{2}} \sum_{b} \mathrm{E}_{x} \left[ (\epsilon^{b}(x))^{2} \right] = \\
+\frac{1}{B^{2}} \sum_{b} \mathrm{E}_{x} \left[ (f^{b}(x) - h(x))^{2} \right]
+\end{gather*}
 
 \newpage
 
