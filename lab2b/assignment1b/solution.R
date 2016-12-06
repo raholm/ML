@@ -1,7 +1,7 @@
 ## ---- assign1b-init
 set.seed(1234567890)
 
-max_it <- 10 # max number of EM iterations
+max_it <- 100 # max number of EM iterations
 min_change <- 0.1 # min change in log likelihood between two consecutive EM iterations
 
 N <- 1000 # number of training points
@@ -16,10 +16,6 @@ true_mu <- matrix(nrow=3, ncol=D)
 true_mu[1,] <- c(0.5, 0.6, 0.4, 0.7, 0.3, 0.8, 0.2, 0.9, 0.1, 1)
 true_mu[2,] <- c(0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8, 0.1, 0.9, 0)
 true_mu[3,] <- c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-
-plot(true_mu[1,], type="o", col="blue", ylim=c(0,1))
-points(true_mu[2,], type="o", col="red")
-points(true_mu[3,], type="o", col="green")
 
 ## Producing the training data
 x <- matrix(nrow=N, ncol=D)
@@ -43,16 +39,27 @@ pi <- pi / sum(pi)
 for(k in 1:K) {
     mu[k,] <- runif(D, 0.49, 0.51)
 }
-pi
-mu
+## ---- end-of-assign1b-init
 
+
+## ----- assign1b-plot-truemu
+plot(true_mu[1,], type="o", col="blue", ylim=c(0,1),
+     xlab="Class", ylab="Probability")
+axis(side=1, at=c(1:D))
+points(true_mu[2,], type="o", col="red")
+points(true_mu[3,], type="o", col="green")
+## ----- end-of-assign1b-plot-truemu
+
+
+## ---- assign1b-EM
 expectation.step <- function(x, mu, pi) {
     x_given_mu <- matrix(1, nrow=N, ncol=length(pi))
 
     for (n in 1:N) {
         for (k in 1:K) {
             for (i in 1:D) {
-                x_given_mu[n, k] <- x_given_mu[n, k] * mu[k, i]^x[n, i] * (1 - mu[k, i])^(1 - x[n, i])
+                prob <-  mu[k, i]^x[n, i] * (1 - mu[k, i])^(1 - x[n, i])
+                x_given_mu[n, k] <- x_given_mu[n, k] * prob
             }
         }
     }
@@ -90,7 +97,7 @@ loglikelihood <- function(x, mu, pi, z) {
     llik
 }
 
-maximize.step <- function(x, z) {
+maximization.step <- function(x, z) {
     pi <- vector(length=ncol(z))
     mu <- matrix(nrow=ncol(z), ncol=ncol(x))
     
@@ -110,11 +117,11 @@ maximize.step <- function(x, z) {
 }
 
 for(it in 1:max_it) {
-    plot(mu[1,], type="o", col="blue", ylim=c(0,1))
-    points(mu[2,], type="o", col="red")
-    points(mu[3,], type="o", col="green")
+    ## plot(mu[1,], type="o", col="blue", ylim=c(0,1))
+    ## points(mu[2,], type="o", col="red")
+    ## points(mu[3,], type="o", col="green")
     ## points(mu[4,], type="o", col="yellow")
-    Sys.sleep(0.5)
+    ## Sys.sleep(0.5)
 
     ## E-step: Computation of the fractional component assignments
     z <- expectation.step(x, mu, pi)
@@ -122,19 +129,28 @@ for(it in 1:max_it) {
     ## Log likelihood computation.
     llik[it] <- loglikelihood(x, mu, pi, z)
 
-    cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
-    flush.console()
+    ## cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
+    ## flush.console()
 
     ## Stop if the lok likelihood has not changed significantly
     if (it > 1 && abs(llik[it] - llik[it-1]) < min_change) break
 
     ## M-step: ML parameter estimation from the data and fractional component assignments
-    result <- maximize.step(x, z)
+    result <- maximization.step(x, z)
     pi <- result$pi
     mu <- result$mu
 }
-pi
-mu
+## ---- end-of-assign1b-EM
 
-plot(llik[1:it], type="o")
-## ---- end-of-assign1b-init
+## ----- assign1b-plot-estimatemu
+plot(mu[1,], type="o", col="blue", ylim=c(0,1),
+     xlab="Class", ylab="Probability")
+axis(side=1, at=c(1:D))
+points(mu[2,], type="o", col="red")
+points(mu[3,], type="o", col="green")
+## ----- end-of-assign1b-plot-estimatemu
+
+## ----- assign1b-plot-llik
+plot(llik[1:it], type="o", xlab="Iterations",
+     ylab="Log-Likelihood")
+## ----- end-of-assign1b-plot-llik

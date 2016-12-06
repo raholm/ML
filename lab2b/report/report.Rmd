@@ -35,6 +35,25 @@ knitr::read_chunk("../assignment2b/solution.R")
 \newpage
 
 # Assignment 1b
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-init>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The true probabilities of the multinomal distributions."}
+<<assign1b-plot-truemu>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+<<assign1b-plot-estimatemu>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
+<<assign1b-plot-llik>>
+```
 
 \newpage
 
@@ -119,6 +138,11 @@ knitr::read_chunk("../assignment2b/solution.R")
 
 ## Code for Assignment 1b
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1b-init>>
+<<assign1b-plot-truemu>>
+<<assign1b-EM>>
+<<assign1b-plot-estimatemu>>
+<<assign1b-plot-llik>>
 ```
 
 ## Code for Assignment 2a
