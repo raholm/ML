@@ -1,23 +1,4 @@
 ## ---- assign1b-init
-set.seed(1234567890)
-
-max_it <- 100 # max number of EM iterations
-min_change <- 0.1 # min change in log likelihood between two consecutive EM iterations
-
-N <- 1000 # number of training points
-D <- 10 # number of dimensions
-K <- 3 # number of guessed components
-
-## true mixing coefficients
-true_pi <- vector(length=3)
-true_pi <- c(1/3, 1/3, 1/3)
-
-## true conditional distributions
-true_mu <- matrix(nrow=3, ncol=D)
-true_mu[1,] <- c(0.5, 0.6, 0.4, 0.7, 0.3, 0.8, 0.2, 0.9, 0.1, 1)
-true_mu[2,] <- c(0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8, 0.1, 0.9, 0)
-true_mu[3,] <- c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-
 x_given_mu <- function(x, mu) {
     x_mu <- matrix(1, nrow=nrow(x), ncol=nrow(mu))
 
@@ -126,6 +107,23 @@ EM <- function(N, D, K, max_it, min_change, true_pi, true_mu) {
 
     list(pi=pi, mu=mu, llik=llik, it=it)
 }
+
+max_it <- 100 # max number of EM iterations
+min_change <- 0.1 # min change in log likelihood between two consecutive EM iterations
+
+N <- 1000 # number of training points
+D <- 10 # number of dimensions
+K <- 3 # number of guessed components
+
+## true mixing coefficients
+true_pi <- vector(length=3)
+true_pi <- c(1/3, 1/3, 1/3)
+
+## true conditional distributions
+true_mu <- matrix(nrow=3, ncol=D)
+true_mu[1,] <- c(0.5, 0.6, 0.4, 0.7, 0.3, 0.8, 0.2, 0.9, 0.1, 1)
+true_mu[2,] <- c(0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8, 0.1, 0.9, 0)
+true_mu[3,] <- c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
 ## ---- end-of-assign1b-init
 
 ## ----- assign1b-plot-truemu
