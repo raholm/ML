@@ -49,21 +49,6 @@ expectation.step <- function(x, x_given_mu, pi) {
     z
 }
 
-loglikelihood.wrong <- function(x, mu, pi, z) {
-    llik <- 0
-    for (n in 1:N) {
-        for (k in 1:K) {
-            summation <- 0
-            for (i in 1:D) {
-                summation <- summation + x[n, i] * log(mu[k, i]) + (1 - x[n, i]) * log(1 - mu[k, i])
-            }
-            llik <- llik + z[n, k] * (log(pi[k]) + summation)
-        }
-    }
-
-    llik
-}
-
 loglikelihood <- function(x, x_given_mu, pi) {
     llik <- 0
     for (n in 1:N) {
@@ -122,12 +107,6 @@ EM <- function(N, D, K, max_it, min_change, true_pi, true_mu) {
     }
 
     for(it in 1:max_it) {
-        ## plot(mu[1,], type="o", col="blue", ylim=c(0,1))
-        ## points(mu[2,], type="o", col="red")
-        ## points(mu[3,], type="o", col="green")
-        ## points(mu[4,], type="o", col="yellow")
-        ## Sys.sleep(0.5)
-
         x_mu <- x_given_mu(x, mu)
 
         ## E-step: Computation of the fractional component assignments
@@ -135,9 +114,6 @@ EM <- function(N, D, K, max_it, min_change, true_pi, true_mu) {
 
         ## Log likelihood computation.
         llik[it] <- loglikelihood(x, x_mu, pi)
-
-        ## cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
-        ## flush.console()
 
         ## Stop if the lok likelihood has not changed significantly
         if (it > 1 && abs(llik[it] - llik[it-1]) < min_change) break
@@ -161,6 +137,8 @@ points(true_mu[3,], type="o", col="green")
 ## ----- end-of-assign1b-plot-truemu
 
 ## ---- assign1b-EM-K2
+set.seed(1234567890)
+
 K <- 2
 result <- EM(N, D, K, max_it, min_change, true_pi, true_mu)
 mu <- result$mu
@@ -182,6 +160,8 @@ plot(llik[1:it], type="o", xlab="Iterations",
 ## ----- end-of-assign1b-plot-llik2
 
 ## ---- assign1b-EM-K3
+set.seed(1234567890)
+
 K <- 3
 result <- EM(N, D, K, max_it, min_change, true_pi, true_mu)
 mu <- result$mu
@@ -204,6 +184,8 @@ plot(llik[1:it], type="o", xlab="Iterations",
 ## ----- end-of-assign1b-plot-llik3
 
 ## ---- assign1b-EM-K4
+set.seed(1234567890)
+
 K <- 4
 result <- EM(N, D, K, max_it, min_change, true_pi, true_mu)
 mu <- result$mu
