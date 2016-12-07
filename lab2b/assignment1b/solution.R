@@ -52,18 +52,22 @@ points(true_mu[3,], type="o", col="green")
 
 
 ## ---- assign1b-EM
-expectation.step <- function(x, mu, pi) {
-    x_given_mu <- matrix(1, nrow=N, ncol=length(pi))
+x_given_mu <- function(x, mu) {
+    x_mu <- matrix(1, nrow=nrow(x), ncol=nrow(mu))
 
     for (n in 1:N) {
         for (k in 1:K) {
             for (i in 1:D) {
                 prob <-  mu[k, i]^x[n, i] * (1 - mu[k, i])^(1 - x[n, i])
-                x_given_mu[n, k] <- x_given_mu[n, k] * prob
+                x_mu[n, k] <- x_mu[n, k] * prob
             }
         }
     }
 
+    x_mu
+}
+
+expectation.step <- function(x, x_given_mu, pi) {
     z <- matrix(nrow=nrow(x), ncol=length(pi))
 
     for (n in 1:N) {
@@ -79,23 +83,34 @@ expectation.step <- function(x, mu, pi) {
     z
 }
 
-loglikelihood <- function(x, mu, pi, z) {
+loglikelihood.wrong <- function(x, mu, pi, z) {
     llik <- 0
     for (n in 1:N) {
         for (k in 1:K) {
             summation <- 0
-            ## conditional <- 1
             for (i in 1:D) {
                 summation <- summation + x[n, i] * log(mu[k, i]) + (1 - x[n, i]) * log(1 - mu[k, i])
-                ## conditional <- conditional * mu[k, i]^x[n, i] * (1 - mu[k, i])^(1 - x[n, i])
             }
             llik <- llik + z[n, k] * (log(pi[k]) + summation)
-            ## llik[it] <- llik[it] + pi[k] * conditional
         }
     }
 
     llik
 }
+
+loglikelihood <- function(x, x_given_mu, pi) {
+    llik <- 0
+    for (n in 1:N) {
+        summation <- 0
+        for (k in 1:K) {
+            summation <- summation + pi[k] * x_given_mu[n, k]
+        }
+        llik <- llik + log(summation)
+    }
+
+    llik
+}
+
 
 maximization.step <- function(x, z) {
     pi <- vector(length=ncol(z))
@@ -123,11 +138,13 @@ for(it in 1:max_it) {
     ## points(mu[4,], type="o", col="yellow")
     ## Sys.sleep(0.5)
 
+    x_mu <- x_given_mu(x, mu)
+
     ## E-step: Computation of the fractional component assignments
-    z <- expectation.step(x, mu, pi)
+    z <- expectation.step(x, x_mu, pi)
 
     ## Log likelihood computation.
-    llik[it] <- loglikelihood(x, mu, pi, z)
+    llik[it] <- loglikelihood(x, x_mu, pi)
 
     ## cat("iteration: ", it, "log likelihood: ", llik[it], "\n")
     ## flush.console()
