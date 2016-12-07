@@ -13,7 +13,7 @@ data <- st[, c("longitude", "latitude", "date", "time", "air_temperature")]
 
 h_distance <- 1000 # These three values are up to the students
 h_date <- 10
-h_time <- 4
+h_time <- 2
 
 pred_latitude <- 58.409158 # The point to predict (up to the students)
 pred_longitude <- 15.607452
@@ -32,7 +32,6 @@ gaussian.kernel <- function(u) {
 distance.kernel <- function(X, lat, long, h) {
     distances <- distHaversine(X[, c("longitude", "latitude")],
                                c(long, lat))
-
     gaussian.kernel(distances / h)
 }
 
@@ -46,7 +45,7 @@ date.kernel <- function(X, date, h) {
 ## date.pred(st_filtered, pred_date, h_date)
 
 time.kernel <- function(X, time, h) {
-    distances <- abs(as.numeric(difftime(X$time, time, units="hours")))
+    distances <- as.numeric(difftime(X$time, time, units="hours"))
     gaussian.kernel(distances / h)
 }
 
