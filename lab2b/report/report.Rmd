@@ -19,13 +19,11 @@ output:
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 
-knitr::read_chunk("../assignment1a/solution.R")
 knitr::read_chunk("../assignment2a/solution.R")
 knitr::read_chunk("../assignment3a/solution.R")
 knitr::read_chunk("../assignment4a/solution.R")
 
 knitr::read_chunk("../assignment1b/solution.R")
-knitr::read_chunk("../assignment2b/solution.R")
 ```
 
 \newpage
