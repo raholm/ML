@@ -26,9 +26,6 @@ for (i in 1:length(tree_counts)) {
     test_errors[i] <- test_error
     train_errors[i] <- train_error
 }
-
-test_errors
-train_errors
 ## ---- end-of-assign4a-tree
 
 ## ---- assign4a-tree-plot
@@ -36,7 +33,7 @@ plot_data <- data.frame(Trees=tree_counts, test=test_errors, train=train_errors)
 plot_data <- melt(plot_data, id="Trees", value.name="Error", variable.name="Data")
 
 ggplot(plot_data) +
-    xlab("Number of Regression Trees") +
+    xlab("Number of classification Trees") +
     ylab("Misclassification Rate") +
     geom_line(aes(x=Trees, y=Error, color=Data)) +
     scale_x_discrete(limits=tree_counts)
@@ -60,7 +57,7 @@ plot_data <- data.frame(Trees=tree_counts, test=test_errors, train=train_errors)
 plot_data <- melt(plot_data, id="Trees", value.name="Error", variable.name="Data")
 
 ggplot(plot_data) +
-    xlab("Number of Regression Trees") +
+    xlab("Number of classification Trees") +
     ylab("Misclassification Rate") +
     geom_line(aes(x=Trees, y=Error, color=Data)) +
     scale_x_discrete(limits=tree_counts)

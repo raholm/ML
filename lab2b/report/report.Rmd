@@ -19,11 +19,10 @@ output:
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 
+knitr::read_chunk("../assignment1b/solution.R")
 knitr::read_chunk("../assignment2a/solution.R")
 knitr::read_chunk("../assignment3a/solution.R")
 knitr::read_chunk("../assignment4a/solution.R")
-
-knitr::read_chunk("../assignment1b/solution.R")
 ```
 
 \newpage
@@ -40,13 +39,14 @@ Prove:
 
 \begin{gather*}
 \mathrm{E}_{X} \left[ (f_{\textit{bag}}(x) - h(x))^{2} \right] =
-\frac{1}{B} \left[ \frac{1}{B} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] \right]
+\frac{1}{B} \left[ \frac{1}{B} \sum_{b} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] \right]
 \end{gather*}
 
 We know:
 
 \begin{gather*}
-f^{b}(x) = h(x) + \epsilon^{b}(x)
+f^{b}(x) = h(x) + \epsilon^{b}(x) \\
+f_{\text{bag}}(x) = \frac{1}{B} \sum_{b} f^{b}(x)
 \end{gather*}
 
 Proof:
@@ -71,12 +71,8 @@ Proof:
 \right) = \\
 \frac{1}{B^{2}} \sum_{b} \mathrm{E}_{X} \left[ (\epsilon^{b}(x))^{2} \right] = \\
 \frac{1}{B^{2}} \sum_{b} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] = \\
-\frac{1}{B} \left[ \frac{1}{B} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] \right]
+\frac{1}{B} \left[ \frac{1}{B} \sum_{b} \mathrm{E}_{X} \left[ (f^{b}(x) - h(x))^{2} \right] \right]
 \end{gather*}
-
-\newpage
-
-# Assignment 1b
 
 \newpage
 
@@ -86,22 +82,24 @@ Proof:
 ```
 
 ## 1
-```{r, echo=FALSE, eval=TRUE}
+An estimated upperbound of the squared error of the bagging regression tree using 2/3 of the data set as training data and 1/3 for testing.
+
+```{r, echo=TRUE, eval=TRUE}
 <<assign2a-1-upperbound>>
 ```
 
 ## 2
-```{r, echo=FALSE, eval=TRUE}
+An estimated upperbound of the squared error of the bagging regression tree using 3-fold cross-validation.
+
+```{r, echo=TRUE, eval=TRUE}
 <<assign2a-2-upperbound>>
 ```
 
 ## 3
-```{r, echo=FALSE, eval=TRUE}
-<<assign2a-3-bag>>
-```
+The resulting bagging regression tree and its predicted value where data is the complete data set and newdata is the data to predict. I would return this result for both the techniques used to estimate the upperbound of the squared error.
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign2a-3-bagcv>>
+```{r, echo=TRUE, eval=TRUE}
+<<assign2a-3-bag>>
 ```
 
 \newpage
@@ -111,7 +109,9 @@ Proof:
 <<assign1b-init>>
 ```
 
-```{r, echo=FALSE, eval=TRUE, fig.cap="The true probabilities of the multinomal distributions."}
+The plot below shows the three true multivariate Bernoulli distributions from which the data set have been generated.
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The true probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-truemu>>
 ```
 
@@ -119,9 +119,13 @@ Proof:
 <<assign1b-EM-K2>>
 ```
 
-```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+The plot below shows two multivariate Bernoulli distributions estimated by the expectation-maximization (EM) algorithm.
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu2>>
 ```
+
+The plot below shows the log-likelihood versus the number of iterations.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
 <<assign1b-plot-llik2>>
@@ -131,9 +135,13 @@ Proof:
 <<assign1b-EM-K3>>
 ```
 
-```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+The plot below shows three multivariate Bernoulli distributions estimated by the EM algorithm.
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu3>>
 ```
+
+The plot below shows the log-likelihood versus the number of iterations.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
 <<assign1b-plot-llik3>>
@@ -143,9 +151,13 @@ Proof:
 <<assign1b-EM-K4>>
 ```
 
-```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+The plot below shows four multivariate Bernoulli distributions estimated by the EM algorithm.
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu4>>
 ```
+
+The plot below shows the log-likelihood versus the number of iterations.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
 <<assign1b-plot-llik4>>
@@ -159,11 +171,15 @@ Proof:
 ```
 
 ## 1
+In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curve are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 42 iterations.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign3a-plot>>
 ```
 
 ## 2
+Here I used 2/3 of the data for training and 1/3 as test data and created a boosting regression tree using the optimal number of iterations, i.e. the number of trees, found above. The squared errors for the two data sets were the following.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign3a-2>>
 ```
@@ -171,6 +187,8 @@ Proof:
 \newpage
 
 # Assignment 4a
+In this exercise I have used Adaboost classification trees and random forests to evauluate their performance on spam data. The data set have been divided into two parts, 2/3 for training and 1/3 as test data.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign4a-init>>
 ```
@@ -179,6 +197,8 @@ Proof:
 <<assign4a-tree>>
 ```
 
+The performance of the Adaboost classification trees can be seen below. We can see that the optimal would be roughly 40 trees then it barely decreases as the number of trees grows. At 80 trees the test error seems to halt so if you want to push the limit and create a substantially more complex model it may be preferable to use 80 trees. However, since the error on the test data stops monotonically decrease after 40 trees that is the choice I would choose.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign4a-tree-plot>>
 ```
@@ -186,6 +206,8 @@ Proof:
 ```{r, echo=FALSE, eval=TRUE}
 <<assign4a-forest>>
 ```
+
+The performance of the random forest can be seen below. Same as above, the test error seem to stop monotonically decreasing after 40 trees and that should be the prefered choice. We can see that the train error barely moves as the number of trees increases after 20 trees so the model have almost fit the training data perfectly with 20 trees.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign4a-forest-plot>>
@@ -210,7 +232,6 @@ Proof:
 <<assign2a-1-upperbound>>
 <<assign2a-2-upperbound>>
 <<assign2a-3-bag>>
-<<assign2a-3-bagcv>>
 ```
 
 ## Code for Assignment 2b

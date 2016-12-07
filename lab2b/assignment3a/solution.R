@@ -24,6 +24,6 @@ fit <- blackboost(Bodyfat_percent ~ Waist_cm + Weight_kg, data=train,
 test_error <- sum((predict(fit, test) - test$Bodyfat_percent)^2)
 train_error <- sum((predict(fit, train) - train$Bodyfat_percent)^2)
 
-test_error
-train_error
+cat(paste("Test Error:", test_error, "\n"))
+cat(paste("Train Error:", train_error, "\n"))
 ## ---- end-of-assign3a-2

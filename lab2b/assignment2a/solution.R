@@ -12,8 +12,6 @@ train_idx <- sample(nrow(data), floor(nrow(data) * (2 / 3)))
 train <- data[train_idx,]
 test <- data[-train_idx,]
 
-set.seed(1234567890)
-
 tree_count <- 100
 test_errors <- rep(0, tree_count)
 
@@ -27,17 +25,14 @@ for (i in 1:tree_count) {
 mean((test_errors / length(test_errors))^2)
 ## ---- end-of-assign2a-1-lowerbound
 
-
 ## ---- assign2a-1-upperbound
 set.seed(1234567890)
+tree_count <- 100
+test_errors <- rep(0, tree_count)
+
 train_idx <- sample(nrow(data), floor(nrow(data) * (2 / 3)))
 train <- data[train_idx,]
 test <- data[-train_idx,]
-
-set.seed(1234567890)
-
-tree_count <- 100
-test_errors <- rep(0, tree_count)
 
 for (i in 1:tree_count) {
     newdata <- train[sample(nrow(train), replace=TRUE),]
@@ -52,11 +47,10 @@ mean(test_errors)
 
 ## 2
 ## ---- assign2a-2-upperbound
+set.seed(1234567890)
 tree_count <- 100
 fold_count <- 3
 test_errors <- matrix(0, nrow=tree_count, ncol=fold_count)
-
-set.seed(1234567890)
 
 folds <- suppressWarnings(split(1:nrow(data), f=1:fold_count))
 
@@ -92,9 +86,3 @@ bagging.regtrees <- function(formula, data, newdata, b) {
     list(trees=trees, predictions=rowMeans(predictions))
 }
 ## ---- end-of-assign2a-3-bag
-
-## ---- assign2a-3-bagcv
-cv.regtrees <- function(formula, data, newdata, b, k) {
-
-}
-## ---- end-of-assign2a-3-bagcv
