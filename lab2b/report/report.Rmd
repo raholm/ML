@@ -79,25 +79,6 @@ Proof:
 \newpage
 
 # Assignment 1b
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-init>>
-```
-
-```{r, echo=FALSE, eval=TRUE, fig.cap="The true probabilities of the multinomal distributions."}
-<<assign1b-plot-truemu>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM>>
-```
-
-```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
-<<assign1b-plot-estimatemu>>
-```
-
-```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
-<<assign1b-plot-llik>>
-```
 
 \newpage
 
@@ -129,7 +110,47 @@ Proof:
 
 # Assignment 2b
 ```{r, echo=FALSE, eval=TRUE}
-<<assign2b-init>>
+<<assign1b-init>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The true probabilities of the multinomal distributions."}
+<<assign1b-plot-truemu>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM-K2>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+<<assign1b-plot-estimatemu2>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
+<<assign1b-plot-llik2>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM-K3>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+<<assign1b-plot-estimatemu3>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
+<<assign1b-plot-llik3>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM-K4>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multinomal distributions."}
+<<assign1b-plot-estimatemu4>>
+```
+
+```{r, echo=FALSE, eval=TRUE, fig.cap="The log-likelihood versus the number of iterations."}
+<<assign1b-plot-llik4>>
 ```
 
 \newpage
@@ -176,10 +197,6 @@ Proof:
 
 # Appendix
 
-## Code for Assignment 1a
-```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-```
-
 ## Code for Assignment 1b
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 <<assign1b-init>>
@@ -200,6 +217,17 @@ Proof:
 
 ## Code for Assignment 2b
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1b-init>>
+<<assign1b-plot-truemu>>
+<<assign1b-EM-K2>>
+<<assign1b-plot-estimatemu2>>
+<<assign1b-plot-llik2>>
+<<assign1b-EM-K3>>
+<<assign1b-plot-estimatemu3>>
+<<assign1b-plot-llik3>>
+<<assign1b-EM-K4>>
+<<assign1b-plot-estimatemu4>>
+<<assign1b-plot-llik4>>
 ```
 
 ## Code for Assignment 3a
