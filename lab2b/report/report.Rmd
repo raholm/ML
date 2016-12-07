@@ -119,7 +119,7 @@ The plot below shows the three true multivariate Bernoulli distributions from wh
 <<assign1b-EM-K2>>
 ```
 
-The plot below shows two multivariate Bernoulli distributions estimated by the expectation-maximization (EM) algorithm.
+The plot below shows two multivariate Bernoulli distributions estimated by the expectation-maximization (EM) algorithm. We can see that the multivariate Bernoulli with equal probabilities for each class has not affected EM particular much in order to find the other two distributions. This is probably because equal probabilities even out in the long run, i.e. the noise from that distribution are approximately equal for both sides of the coin.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu2>>
@@ -135,7 +135,7 @@ The plot below shows the log-likelihood versus the number of iterations.
 <<assign1b-EM-K3>>
 ```
 
-The plot below shows three multivariate Bernoulli distributions estimated by the EM algorithm.
+The plot below shows three multivariate Bernoulli distributions estimated by the EM algorithm. The distributions found are pretty similar to the true ones with exceptation of the uniform one which have been influenced by the other two distributions or perhaps bad luck on the coin flips that have resulted in seemingly unfair coins.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu3>>
@@ -151,7 +151,7 @@ The plot below shows the log-likelihood versus the number of iterations.
 <<assign1b-EM-K4>>
 ```
 
-The plot below shows four multivariate Bernoulli distributions estimated by the EM algorithm.
+The plot below shows four multivariate Bernoulli distributions estimated by the EM algorithm. The blue and red curves are quite chaotic that do not resemble any of the true ones but taking the average would approximate the multivariate Bernoulli distribution with uniform parameters pretty well. So the EM algorithm have basically modelled two distributions based on the noise from the uniform one which is not surprising given that there are only three true distributions and that one is the most unpredictable.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu4>>
@@ -216,15 +216,6 @@ The performance of the random forest can be seen below. Same as above, the test 
 \newpage
 
 # Appendix
-
-## Code for Assignment 1b
-```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign1b-init>>
-<<assign1b-plot-truemu>>
-<<assign1b-EM>>
-<<assign1b-plot-estimatemu>>
-<<assign1b-plot-llik>>
-```
 
 ## Code for Assignment 2a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
