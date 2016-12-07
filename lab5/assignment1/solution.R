@@ -11,9 +11,9 @@ temps <- read.csv("../data/temps50k.csv", stringsAsFactors=FALSE)
 st <- merge(stations, temps, by="station_number")
 data <- st[, c("longitude", "latitude", "date", "time", "air_temperature")]
 
-h_distance <- 1 # These three values are up to the students
-h_date <- 1
-h_time <- 1
+h_distance <- 10000 # These three values are up to the students
+h_date <- 7
+h_time <- 3
 
 pred_latitude <- 58.4274 # The point to predict (up to the students)
 pred_longitude <- 14.826
