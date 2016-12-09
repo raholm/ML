@@ -68,7 +68,7 @@ h_time <- 4
 
 pred_latitude <- 58.409158 # The point to predict (up to the students)
 pred_longitude <- 15.607452
-pred_date <- "2000-07-24" # The date to predict (up to the students)
+pred_date <- "2013-06-24" # The date to predict (up to the students)
 pred_times <- c("02:00:00", "04:00:00", "06:00:00", "08:00:00",
                 "10:00:00", "12:00:00", "14:00:00", "16:00:00",
                 "18:00:00", "20:00:00", "22:00:00", "24:00:00")
