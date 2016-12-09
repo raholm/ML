@@ -78,28 +78,81 @@ Proof:
 
 # Assignment 2a
 ```{r, echo=FALSE, eval=TRUE}
-<<assign2a-init>>
+fatbody <- read.csv("../data/bodyfatregression.csv", sep = ";", de = ",")
+n <- 110
 ```
 
 ## 1
 An estimated upperbound of the squared error of the bagging regression tree using 2/3 of the data set as training data and 1/3 for testing.
 
 ```{r, echo=TRUE, eval=TRUE}
-<<assign2a-1-upperbound>>
+set.seed(1234567890)
+id <- sample(1:n, floor(n* (2/3)), replace = FALSE)
+fatTrain <- fatbody[id,]
+fatTest <- fatbody[-id,]
+
+n_T <- 74
+n_Te <- 36
+
+bagger <- function(train, B){
+    df <- data.frame("MSE" = 1:B)
+    for( i in 1:B){
+        treeData <- train[sample(1:n_T, replace = TRUE),]
+        regTree <- tree(Bodyfat_percent ~ ., data = treeData)
+        df$MSE[i] <- mean((predict(regTree,fatTest)-fatTest[,3])^2)
+    }
+
+    baggyMSE <- mean(df$MSE)
+    return(baggyMSE)
+}
+
+bagger(fatTrain,100)
 ```
 
 ## 2
 An estimated upperbound of the squared error of the bagging regression tree using 3-fold cross-validation.
 
 ```{r, echo=TRUE, eval=TRUE}
-<<assign2a-2-upperbound>>
+set.seed(1234567890)
+tree_count <- 100
+fold_count <- 3
+test_errors <- matrix(0, nrow=tree_count, ncol=fold_count)
+
+folds <- suppressWarnings(split(1:nrow(fatbody), f=1:fold_count))
+
+for (j in 1:fold_count) {
+    train <- fatbody[-folds[[j]],]
+    test <- fatbody[folds[[j]],]
+
+    for (i in 1:tree_count) {
+        newdata <- train[sample(nrow(train), replace=TRUE),]
+        fit <- tree(Bodyfat_percent ~ ., data=newdata, split="deviance")
+
+        test_error <- mean((predict(fit, test) - test$Bodyfat)^2)
+        test_errors[i, j] <- test_error
+    }
+}
+
+mean(test_errors)
 ```
 
 ## 3
-The resulting bagging regression tree and its predicted value where data is the complete data set and newdata is the data to predict. I would return this result for both the techniques used to estimate the upperbound of the squared error.
+The resulting bagging regression tree and its predicted value where data is the complete data set and newdata is the data to predict. We would return this result for both the techniques used to estimate the upperbound of the squared error.
 
 ```{r, echo=TRUE, eval=TRUE}
-<<assign2a-3-bag>>
+bagging.regtrees <- function(formula, data, newdata, b) {
+    predictions <- matrix(0, nrow=nrow(newdata), ncol=b)
+    trees <- list()
+
+    for (i in 1:b) {
+        bootstrap_sample <- data[sample(nrow(data), replace=TRUE),]
+        fit <- tree(formula, data=bootstrap_sample, split="deviance")
+        trees[[i]] <- fit
+        predictions[, i] <- predict(fit, newdata)
+    }
+
+    list(trees=trees, predictions=rowMeans(predictions))
+}
 ```
 
 \newpage
@@ -166,22 +219,33 @@ The plot below shows the log-likelihood versus the number of iterations.
 \newpage
 
 # Assignment 3a
-```{r, echo=FALSE, eval=TRUE}
-<<assign3a-init>>
-```
 
 ## 1
-In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curve are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 42 iterations.
+In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curve are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 35 iterations.
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign3a-plot>>
+library(mboost)
+
+BFR <- read.csv2("../data/bodyfatregression.csv")
+set.seed(1234567890)
+m <- blackboost(Bodyfat_percent ~ Waist_cm + Weight_kg, data = BFR)
+
+cvf <- cv(model.weights(m), type = "kfold")
+cvm <- cvrisk(m, folds = cvf, grid = 1:100)
+plot(cvm)
 ```
 
 ## 2
 Here I used 2/3 of the data for training and 1/3 as test data and created a boosting regression tree using the optimal number of iterations, i.e. the number of trees, found above. The squared errors for the two data sets were the following.
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign3a-2>>
+set.seed(1234567890)
+m2 <- blackboost(Bodyfat_percent ~ Waist_cm + Weight_kg, data = train,
+                 control=boost_control(mstop=mstop(cvm)))
+
+m2.train <- sum( (predict(m2,train) - train$Bodyfat_percent)^2)
+m2.test <- sum( (predict(m2,test) - test$Bodyfat_percent)^2)
+cat("SSE for traning:",m2.train,"\nSSE for test:",m2.test)
 ```
 
 \newpage
@@ -189,28 +253,69 @@ Here I used 2/3 of the data for training and 1/3 as test data and created a boos
 # Assignment 4a
 In this exercise I have used Adaboost classification trees and random forests to evauluate their performance on spam data. The data set have been divided into two parts, 2/3 for training and 1/3 as test data.
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-init>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-tree>>
-```
-
 The performance of the Adaboost classification trees can be seen below. We can see that the optimal would be roughly 40 trees then it barely decreases as the number of trees grows. At 80 trees the test error seems to halt so if you want to push the limit and create a substantially more complex model it may be preferable to use 80 trees. However, since the error on the test data stops monotonically decrease after 40 trees that is the choice I would choose.
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign4a-tree-plot>>
-```
+library(mboost)
+library(randomForest)
+library(ggplot2)
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-forest>>
+spam <- read.csv2("../data/spambase.csv")
+spam$Spam<-as.factor(spam$Spam)
+set.seed(1234567890)
+spam_samplad<-spam[sample(1:nrow(spam)), ]
+spam_tr<-spam_samplad[1:round((2/3)*nrow(spam)), ]
+spam_te<-spam_samplad[-(1:round((2/3)*nrow(spam))), ]
+
+sekvens<-seq(10,100, 10)
+training_errors<-integer()
+test_errors<-integer()
+index<-1
+for (i in sekvens){
+  modellen_ct<-blackboost(Spam~., data=spam_tr, family=AdaExp(),  control=boost_control(mstop=i))
+
+  tejbell_train<-table(pred=predict(modellen_ct, newdata= spam_tr, type="class"), truth=spam_tr$Spam)
+  training_errors[index]<-1-sum(diag(tejbell_train))/sum(tejbell_train)
+
+  tejbell_test<-table(pred=predict(modellen_ct, newdata= spam_te, type="class"), truth=spam_te$Spam)
+  test_errors[index]<-1-sum(diag(tejbell_test))/sum(tejbell_test)
+  index<-index+1
+}
+
+plotredo_ct<-data.frame(cbind(sekvens,training_errors, test_errors))
+
+ggplot(data=plotredo_ct)+geom_point(aes(x=sekvens, y=training_errors, col="error train"))+
+  geom_line(aes(x=sekvens, y=training_errors, col="error train"))+
+  geom_point(aes(x=sekvens, y=test_errors, col="error test"))+
+  geom_line(aes(x=sekvens, y=test_errors, col="error test"))+xlab("Number of trees")+
+  ylab("Error rate")+ggtitle("Evaluation of Adaboost, classication tree")
 ```
 
 The performance of the random forest can be seen below. Same as above, the test error seem to stop monotonically decreasing after 40 trees and that should be the prefered choice. We can see that the train error barely moves as the number of trees increases after 20 trees so the model have almost fit the training data perfectly with 20 trees.
 
 ```{r, echo=FALSE, eval=TRUE}
-<<assign4a-forest-plot>>
+sekvens<-seq(10,100, 10)
+training_errors_rf<-integer()
+test_errors_rf<-integer()
+index<-1
+for (i in sekvens){
+  modellen_rf<-randomForest(Spam ~ ., data=spam_tr, ntree=i, norm.votes=FALSE)
+
+  tr_tab<-table(predict(modellen_rf, newdata= spam_tr, type="class"), spam_tr$Spam)
+  training_errors_rf[index]<-1-sum(diag(tr_tab))/sum(tr_tab)
+
+  test_tab<-table(predict(modellen_rf, newdata= spam_te, type="class"), spam_te$Spam)
+  test_errors_rf[index]<-1-sum(diag(test_tab))/sum(test_tab)
+  index<-index+1
+}
+
+plotredo_rf<-data.frame(cbind(sekvens,training_errors_rf, test_errors_rf))
+
+ggplot(data=plotredo_rf)+geom_point(aes(x=sekvens, y=training_errors_rf, col="error train"))+
+  geom_line(aes(x=sekvens, y=training_errors_rf, col="error train"))+
+  geom_point(aes(x=sekvens, y=test_errors_rf, col="error test"))+
+  geom_line(aes(x=sekvens, y=test_errors_rf, col="error test"))+xlab("Number of trees")+
+    ylab("Error rate")+ggtitle("Evaluation of random forest")
 ```
 
 \newpage
@@ -219,10 +324,66 @@ The performance of the random forest can be seen below. Same as above, the test 
 
 ## Code for Assignment 2a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign2a-init>>
-<<assign2a-1-upperbound>>
-<<assign2a-2-upperbound>>
-<<assign2a-3-bag>>
+fatbody <- read.csv("../data/bodyfatregression.csv", sep = ";", de = ",")
+n <- 110
+
+set.seed(1234567890)
+id <- sample(1:n, floor(n* (2/3)), replace = FALSE)
+fatTrain <- fatbody[id,]
+fatTest <- fatbody[-id,]
+
+n_T <- 74
+n_Te <- 36
+
+bagger <- function(train, B){
+    df <- data.frame("MSE" = 1:B)
+    for( i in 1:B){
+        treeData <- train[sample(1:n_T, replace = TRUE),]
+        regTree <- tree(Bodyfat_percent ~ ., data = treeData)
+        df$MSE[i] <- mean((predict(regTree,fatTest)-fatTest[,3])^2)
+    }
+
+    baggyMSE <- mean(df$MSE)
+    return(baggyMSE)
+}
+
+bagger(fatTrain,100)
+
+set.seed(1234567890)
+tree_count <- 100
+fold_count <- 3
+test_errors <- matrix(0, nrow=tree_count, ncol=fold_count)
+
+folds <- suppressWarnings(split(1:nrow(fatbody), f=1:fold_count))
+
+for (j in 1:fold_count) {
+    train <- fatbody[-folds[[j]],]
+    test <- fatbody[folds[[j]],]
+
+    for (i in 1:tree_count) {
+        newdata <- train[sample(nrow(train), replace=TRUE),]
+        fit <- tree(Bodyfat_percent ~ ., data=newdata, split="deviance")
+
+        test_error <- mean((predict(fit, test) - test$Bodyfat)^2)
+        test_errors[i, j] <- test_error
+    }
+}
+
+mean(test_errors)
+
+bagging.regtrees <- function(formula, data, newdata, b) {
+    predictions <- matrix(0, nrow=nrow(newdata), ncol=b)
+    trees <- list()
+
+    for (i in 1:b) {
+        bootstrap_sample <- data[sample(nrow(data), replace=TRUE),]
+        fit <- tree(formula, data=bootstrap_sample, split="deviance")
+        trees[[i]] <- fit
+        predictions[, i] <- predict(fit, newdata)
+    }
+
+    list(trees=trees, predictions=rowMeans(predictions))
+}
 ```
 
 ## Code for Assignment 2b
@@ -242,15 +403,85 @@ The performance of the random forest can be seen below. Same as above, the test 
 
 ## Code for Assignment 3a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign3a-init>>
-<<assign3a-plot>>
-<<assign3a-2>>
+library(mboost)
+
+BFR <- read.csv2("B2lab2/bodyfatregression.csv")
+set.seed(1234567890)
+m <- blackboost(Bodyfat_percent ~ Waist_cm + Weight_kg, data = BFR)
+
+cvf <- cv(model.weights(m), type = "kfold")
+cvm <- cvrisk(m, folds = cvf, grid = 1:100)
+plot(cvm)
+
+set.seed(1234567890)
+m2 <- blackboost(Bodyfat_percent ~ Waist_cm + Weight_kg, data = train,
+                 control=boost_control(mstop=mstop(cvm)))
+
+mstop(m2)
+cvf2 <- cv(model.weights(m2), type = "kfold")
+cvm2 <- cvrisk(m2, folds = cvf2, grid = 1:100)
+
+m2.train <- sum( (predict(m2,train) - train$Bodyfat_percent)^2)
+m2.test <- sum( (predict(m2,test) - test$Bodyfat_percent)^2)
+cat("SSE for traning:",m2.train,"\n SSE for test:",m2.test)
 ```
 
 ## Code for Assignment 4a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign4a-tree>>
-<<assign4a-tree-plot>>
-<<assign4a-forest>>
-<<assign4a-forest-plot>>
+library(mboost)
+library(randomForest)
+library(ggplot2)
+
+spam <- read.csv2("../data/spambase.csv")
+spam$Spam<-as.factor(spam$Spam)
+set.seed(1234567890)
+spam_samplad<-spam[sample(1:nrow(spam)), ]
+spam_tr<-spam_samplad[1:round((2/3)*nrow(spam)), ]
+spam_te<-spam_samplad[-(1:round((2/3)*nrow(spam))), ]
+
+sekvens<-seq(10,100, 10)
+training_errors<-integer()
+test_errors<-integer()
+index<-1
+for (i in sekvens){
+  modellen_ct<-blackboost(Spam~., data=spam_tr, family=AdaExp(),  control=boost_control(mstop=i))
+  
+  tejbell_train<-table(pred=predict(modellen_ct, newdata= spam_tr, type="class"), truth=spam_tr$Spam)
+  training_errors[index]<-1-sum(diag(tejbell_train))/sum(tejbell_train)
+  
+  tejbell_test<-table(pred=predict(modellen_ct, newdata= spam_te, type="class"), truth=spam_te$Spam)
+  test_errors[index]<-1-sum(diag(tejbell_test))/sum(tejbell_test)
+  index<-index+1
+}
+
+plotredo_ct<-data.frame(cbind(sekvens,training_errors, test_errors))
+
+ggplot(data=plotredo_ct)+geom_point(aes(x=sekvens, y=training_errors, col="error train"))+
+  geom_line(aes(x=sekvens, y=training_errors, col="error train"))+
+  geom_point(aes(x=sekvens, y=test_errors, col="error test"))+
+  geom_line(aes(x=sekvens, y=test_errors, col="error test"))+xlab("Number of trees")+
+  ylab("Error rate")+ggtitle("Evaluation of Adaboost, classication tree")
+
+sekvens<-seq(10,100, 10)
+training_errors_rf<-integer()
+test_errors_rf<-integer()
+index<-1
+for (i in sekvens){
+  modellen_rf<-randomForest(Spam ~ ., data=spam_tr, ntree=i, norm.votes=FALSE)
+
+  tr_tab<-table(predict(modellen_rf, newdata= spam_tr, type="class"), spam_tr$Spam)
+  training_errors_rf[index]<-1-sum(diag(tr_tab))/sum(tr_tab)
+
+  test_tab<-table(predict(modellen_rf, newdata= spam_te, type="class"), spam_te$Spam)
+  test_errors_rf[index]<-1-sum(diag(test_tab))/sum(test_tab)
+  index<-index+1
+}
+
+plotredo_rf<-data.frame(cbind(sekvens,training_errors_rf, test_errors_rf))
+
+ggplot(data=plotredo_rf)+geom_point(aes(x=sekvens, y=training_errors_rf, col="error train"))+
+  geom_line(aes(x=sekvens, y=training_errors_rf, col="error train"))+
+  geom_point(aes(x=sekvens, y=test_errors_rf, col="error test"))+
+  geom_line(aes(x=sekvens, y=test_errors_rf, col="error test"))+xlab("Number of trees")+
+    ylab("Error rate")+ggtitle("Evaluation of random forest")
 ```
