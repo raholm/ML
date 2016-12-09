@@ -33,6 +33,22 @@ knitr::read_chunk("../assignment1/solution.R")
 <<assign1-run>>
 ```
 
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-motivation>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-motivation-dist>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-motivation-date>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-motivation-time>>
+```
+
 \newpage
 
 # Appendix
