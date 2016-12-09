@@ -57,7 +57,9 @@ kernel.model <- function(X, lat, long, h_dist, date, h_date, time, h_time) {
     X <- filter_by_date(X, date, time)
     date <- as.Date(date)
     time <- as.POSIXct(time, format="%H:%M:%S")
-    kernel <- distance.kernel(X, lat, long, h_dist) + date.kernel(X, date, h_date) + time.kernel(X, time, h_time)
+    kernel <- (distance.kernel(X, lat, long, h_dist) +
+               date.kernel(X, date, h_date) +
+               time.kernel(X, time, h_time))
     sum(kernel * X$air_temperature) / sum(kernel)
 }
 ## ---- end-of-assign1-init
@@ -65,11 +67,11 @@ kernel.model <- function(X, lat, long, h_dist, date, h_date, time, h_time) {
 ## ---- assign1-run
 h_distance <- 100000 # These three values are up to the students
 h_date <- 7
-h_time <- 4
+h_time <- 2
 
 pred_latitude <- 58.409158 # The point to predict (up to the students)
 pred_longitude <- 15.607452
-pred_date <- "2000-06-24" # The date to predict (up to the students)
+pred_date <- "2013-06-24" # The date to predict (up to the students)
 pred_times <- c("04:00:00", "06:00:00", "08:00:00",
                 "10:00:00", "12:00:00", "14:00:00", "16:00:00",
                 "18:00:00", "20:00:00", "22:00:00", "24:00:00")
@@ -86,3 +88,27 @@ plot(y=pred_temp, x=1:length(pred_times), type="o", xaxt = "n",
      xlab="Time", ylab="Estimated Temperature")
 axis(1, at=x_breaks, labels=pred_times[x_breaks])
 ## ---- end-of-assign1-run
+
+## ---- assign1-motivation
+X <- filter_by_date(data, pred_date, pred_times[6])
+## ---- end-of-assign1-motivation
+
+## ---- assign1-motivation-dist
+X$distance <- distHaversine(X[, c("longitude", "latitude")],
+                            c(pred_longitude, pred_latitude))
+X <- X[order(X$distance),]
+plot(distance.kernel(X, pred_latitude, pred_longitude, h_distance),
+     ylab="Weight", main="Distance Kernel")
+## ---- end-of-assign1-motivation-dist
+
+## ---- assign1-motivation-date
+X <- X[order(X$date, decreasing=TRUE),]
+plot(date.kernel(X, pred_date, h_date),
+     ylab="Weight", main="Date Kernel")
+## ---- end-of-assign1-motivation-date
+
+## ---- assign1-motivation-time
+X <- X[order(X$time),]
+plot(time.kernel(X, as.POSIXct(pred_times[1], format="%H:%M:%S"), h_time),
+     ylab="Weight", main="Time Kernel")
+## ---- end-of-assign1-motivation-time
