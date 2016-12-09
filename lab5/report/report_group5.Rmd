@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Machine Learning"
 subtitle: "Lab 5"
-author: "Rasmus Holm"
+author: "Anton Persson, Emil Klasson Svensson, Mattias Karlsson, Rasmus Holm"
 date: "`r Sys.Date()`"
 fontsize: 10pt
 geometry: margin=1in
@@ -18,19 +18,13 @@ output:
 ```{r global-options, echo = FALSE, eval=TRUE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
-
-knitr::read_chunk("../assignment1/solution.R")
 ```
 
 \newpage
 
 # Assignment 1
 ```{r, echo=FALSE, eval=TRUE}
-<<assign1-init>>
-```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1-run>>
 ```
 
 \newpage
@@ -39,6 +33,5 @@ knitr::read_chunk("../assignment1/solution.R")
 
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign1-init>>
-<<assign1-run>>
+
 ```
