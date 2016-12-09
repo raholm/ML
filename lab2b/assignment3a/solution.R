@@ -3,6 +3,7 @@ library(mboost)
 
 data <- read.csv2("../data/bodyfatregression.csv")
 
+set.seed(1234567890)
 fit <- blackboost(Bodyfat_percent ~ Waist_cm + Weight_kg, data=data)
 
 cvf <- cv(model.weights(fit), type="kfold")

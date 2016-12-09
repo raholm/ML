@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Machine Learning"
 subtitle: "Lab 2 Block 2"
-author: "Rasmus Holm"
+author: "Anton Persson, Emil Klasson Svensson, Mattias Karlsson, Rasmus Holm"
 date: "`r Sys.Date()`"
 fontsize: 10pt
 geometry: margin=1in
@@ -119,10 +119,6 @@ The plot below shows the three true multivariate Bernoulli distributions from wh
 <<assign1b-EM-K2>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM-estimatepi2>>
-```
-
 The plot below shows two multivariate Bernoulli distributions estimated by the expectation-maximization (EM) algorithm. We can see that the multivariate Bernoulli with equal probabilities for each class has not affected EM particular much in order to find the other two distributions. This is probably because equal probabilities even out in the long run, i.e. the noise from that distribution are approximately equal for both sides of the coin.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
@@ -139,10 +135,6 @@ The plot below shows the log-likelihood versus the number of iterations.
 <<assign1b-EM-K3>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM-estimatepi3>>
-```
-
 The plot below shows three multivariate Bernoulli distributions estimated by the EM algorithm. The distributions found are pretty similar to the true ones with exceptation of the uniform one which have been influenced by the other two distributions or perhaps bad luck on the coin flips that have resulted in seemingly unfair coins.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
@@ -157,10 +149,6 @@ The plot below shows the log-likelihood versus the number of iterations.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1b-EM-K4>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM-estimatepi4>>
 ```
 
 The plot below shows four multivariate Bernoulli distributions estimated by the EM algorithm. The blue and red curves are quite chaotic that do not resemble any of the true ones but taking the average would approximate the multivariate Bernoulli distribution with uniform parameters pretty well. So the EM algorithm have basically modelled two distributions based on the noise from the uniform one which is not surprising given that there are only three true distributions and that one is the most unpredictable.
@@ -183,7 +171,7 @@ The plot below shows the log-likelihood versus the number of iterations.
 ```
 
 ## 1
-In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curves are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 35 iterations.
+In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curve are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 42 iterations.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign3a-plot>>
@@ -261,7 +249,6 @@ The performance of the random forest can be seen below. Same as above, the test 
 
 ## Code for Assignment 4a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign4a-init>>
 <<assign4a-tree>>
 <<assign4a-tree-plot>>
 <<assign4a-forest>>

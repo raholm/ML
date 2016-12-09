@@ -145,6 +145,10 @@ llik <- result$llik
 it <- result$it
 ## ---- end-of-assign1b-EM-K2
 
+## ----- assign1b-EM-estimatepi2
+pi
+## ----- end-of-assign1b-EM-estimatepi2
+
 ## ----- assign1b-plot-estimatemu2
 plot(mu[1,], type="o", col="blue", ylim=c(0,1),
      xlab="Class", ylab="Probability")
@@ -167,6 +171,10 @@ pi <- result$pi
 llik <- result$llik
 it <- result$it
 ## ---- end-of-assign1b-EM-K3
+
+## ----- assign1b-EM-estimatepi3
+pi
+## ----- end-of-assign1b-EM-estimatepi3
 
 ## ----- assign1b-plot-estimatemu3
 plot(mu[1,], type="o", col="blue", ylim=c(0,1),
@@ -192,6 +200,10 @@ llik <- result$llik
 it <- result$it
 ## ---- end-of-assign1b-EM-K4
 
+## ----- assign1b-EM-estimatepi4
+pi
+## ----- end-of-assign1b-EM-estimatepi4
+
 ## ----- assign1b-plot-estimatemu4
 plot(mu[1,], type="o", col="blue", ylim=c(0,1),
      xlab="Class", ylab="Probability")
@@ -205,4 +217,3 @@ points(mu[4,], type="o", col="orange")
 plot(llik[1:it], type="o", xlab="Iterations",
      ylab="Log-Likelihood")
 ## ----- end-of-assign1b-plot-llik4
-
