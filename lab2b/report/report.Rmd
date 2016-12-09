@@ -79,6 +79,7 @@ Proof:
 # Assignment 2a
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2a-init>>
+
 ```
 
 ## 1
@@ -100,6 +101,63 @@ The resulting bagging regression tree and its predicted value where data is the 
 
 ```{r, echo=TRUE, eval=TRUE}
 <<assign2a-3-bag>>
+```
+
+\newpage
+
+# Assignment 3a
+```{r, echo=FALSE, eval=TRUE}
+<<assign3a-init>>
+```
+
+## 1
+In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curves are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 35 iterations. By the elbow method we would rather choose around 15-19 iterations.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign3a-plot>>
+```
+
+## 2
+Here I used 2/3 of the data for training and 1/3 as test data and created a boosting regression tree using the optimal number of iterations, i.e. the number of trees, found above. The squared errors for the two data sets were the following.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign3a-2>>
+```
+
+\newpage
+
+# Assignment 4a
+In this exercise I have used Adaboost classification trees and random forests to evauluate their performance on spam data. The data set have been divided into two parts, 2/3 for training and 1/3 as test data.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4a-init>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4a-tree>>
+```
+
+The performance of the Adaboost classification trees can be seen below. We can see that the optimal would be roughly 40 trees then it barely decreases as the number of trees grows. At 80 trees the test error seems to halt so if you want to push the limit and create a substantially more complex model it may be preferable to use 80 trees. However, since the error on the test data stops monotonically decrease after 40 trees that is the choice I would choose.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4a-tree-plot>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4a-forest>>
+```
+
+The performance of the random forest can be seen below. Same as above, the test error seem to stop monotonically decreasing after 40 trees and that should be the prefered choice. We can see that the train error barely moves as the number of trees increases after 20 trees so the model have almost fit the training data perfectly with 20 trees.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign4a-forest-plot>>
+```
+
+\newpage
+
+# Assignment 1b
+```{r, echo=TRUE, eval=TRUE, tidy=FALSE, highlight=TRUE}
+<<assign1b-init>>
 ```
 
 \newpage
@@ -181,81 +239,17 @@ The plot below shows the log-likelihood versus the number of iterations.
 <<assign1b-plot-llik4>>
 ```
 
-\newpage
-
-# Assignment 3a
-```{r, echo=FALSE, eval=TRUE}
-<<assign3a-init>>
-```
-
-## 1
-In boosting the number of iterations is a hyper-parameter and the plot below shows estimated squared errors using 10-fold cross-validation as the number of iterations increases from 1 to 100. The gray curves are the mean squared errors from each validation set and the black curve shows the mean of the those errors. The optimal seems to be around 35 iterations.
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign3a-plot>>
-```
-
-## 2
-Here I used 2/3 of the data for training and 1/3 as test data and created a boosting regression tree using the optimal number of iterations, i.e. the number of trees, found above. The squared errors for the two data sets were the following.
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign3a-2>>
-```
-
-\newpage
-
-# Assignment 4a
-In this exercise I have used Adaboost classification trees and random forests to evauluate their performance on spam data. The data set have been divided into two parts, 2/3 for training and 1/3 as test data.
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-init>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-tree>>
-```
-
-The performance of the Adaboost classification trees can be seen below. We can see that the optimal would be roughly 40 trees then it barely decreases as the number of trees grows. At 80 trees the test error seems to halt so if you want to push the limit and create a substantially more complex model it may be preferable to use 80 trees. However, since the error on the test data stops monotonically decrease after 40 trees that is the choice I would choose.
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-tree-plot>>
-```
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-forest>>
-```
-
-The performance of the random forest can be seen below. Same as above, the test error seem to stop monotonically decreasing after 40 trees and that should be the prefered choice. We can see that the train error barely moves as the number of trees increases after 20 trees so the model have almost fit the training data perfectly with 20 trees.
-
-```{r, echo=FALSE, eval=TRUE}
-<<assign4a-forest-plot>>
-```
+The maximum log-likelihood have been found after roughly 10 iterations for all experiments which indicates that it does not really matter in terms of iterations how many distributions the EM tries to find. However, the more distributions the more flucuations in the log-likelihood after each iterations which may suggest that the threshold should be a function of the number of distributions.
 
 \newpage
 
 # Appendix
-
 ## Code for Assignment 2a
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 <<assign2a-init>>
 <<assign2a-1-upperbound>>
 <<assign2a-2-upperbound>>
 <<assign2a-3-bag>>
-```
-
-## Code for Assignment 2b
-```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-<<assign1b-init>>
-<<assign1b-plot-truemu>>
-<<assign1b-EM-K2>>
-<<assign1b-plot-estimatemu2>>
-<<assign1b-plot-llik2>>
-<<assign1b-EM-K3>>
-<<assign1b-plot-estimatemu3>>
-<<assign1b-plot-llik3>>
-<<assign1b-EM-K4>>
-<<assign1b-plot-estimatemu4>>
-<<assign1b-plot-llik4>>
 ```
 
 ## Code for Assignment 3a
@@ -272,4 +266,18 @@ The performance of the random forest can be seen below. Same as above, the test 
 <<assign4a-tree-plot>>
 <<assign4a-forest>>
 <<assign4a-forest-plot>>
+```
+
+## Code for Assignment 2b
+```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
+<<assign1b-plot-truemu>>
+<<assign1b-EM-K2>>
+<<assign1b-plot-estimatemu2>>
+<<assign1b-plot-llik2>>
+<<assign1b-EM-K3>>
+<<assign1b-plot-estimatemu3>>
+<<assign1b-plot-llik3>>
+<<assign1b-EM-K4>>
+<<assign1b-plot-estimatemu4>>
+<<assign1b-plot-llik4>>
 ```
