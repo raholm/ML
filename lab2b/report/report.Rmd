@@ -119,14 +119,16 @@ The plot below shows the three true multivariate Bernoulli distributions from wh
 <<assign1b-EM-K2>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM-estimatepi2>>
-```
-
-The plot below shows two multivariate Bernoulli distributions estimated by the expectation-maximization (EM) algorithm. We can see that the multivariate Bernoulli with equal probabilities for each class has not affected EM particular much in order to find the other two distributions. This is probably because equal probabilities even out in the long run, i.e. the noise from that distribution are approximately equal for both sides of the coin.
+The plot below shows two multivariate Bernoulli distributions estimated by the expectation-maximization (EM) algorithm. We can see that the multivariate Bernoulli with equal probabilities for each class has not affected EM particular much in order to find the other two distributions. This is probably because equal probabilities even out in the long run, i.e. the noise from that distribution is approximately equal for both sides of the coin.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu2>>
+```
+
+The prior probabilities for each distribution.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM-estimatepi2>>
 ```
 
 The plot below shows the log-likelihood versus the number of iterations.
@@ -139,14 +141,16 @@ The plot below shows the log-likelihood versus the number of iterations.
 <<assign1b-EM-K3>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM-estimatepi3>>
-```
-
-The plot below shows three multivariate Bernoulli distributions estimated by the EM algorithm. The distributions found are pretty similar to the true ones with exceptation of the uniform one which have been influenced by the other two distributions or perhaps bad luck on the coin flips that have resulted in seemingly unfair coins.
+The plot below shows three multivariate Bernoulli distributions estimated by the EM algorithm. The distributions found are pretty similar to the true ones with exceptation of the uniform one which have been influenced by the other two distributions and/or bad luck on the coin flips that have resulted in seemingly unfair coins.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu3>>
+```
+
+The prior probabilities for each distribution.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM-estimatepi3>>
 ```
 
 The plot below shows the log-likelihood versus the number of iterations.
@@ -159,14 +163,16 @@ The plot below shows the log-likelihood versus the number of iterations.
 <<assign1b-EM-K4>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-<<assign1b-EM-estimatepi4>>
-```
-
 The plot below shows four multivariate Bernoulli distributions estimated by the EM algorithm. The blue and red curves are quite chaotic that do not resemble any of the true ones but taking the average would approximate the multivariate Bernoulli distribution with uniform parameters pretty well. So the EM algorithm have basically modelled two distributions based on the noise from the uniform one which is not surprising given that there are only three true distributions and that one is the most unpredictable.
 
 ```{r, echo=FALSE, eval=TRUE, fig.cap="The estimated probabilities of the multivariate Bernoulli distributions."}
 <<assign1b-plot-estimatemu4>>
+```
+
+The prior probabilities for each distribution.
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1b-EM-estimatepi4>>
 ```
 
 The plot below shows the log-likelihood versus the number of iterations.
