@@ -36,6 +36,7 @@ ggplot(plot_data) +
     xlab("Number of classification Trees") +
     ylab("Misclassification Rate") +
     geom_line(aes(x=Trees, y=Error, color=Data)) +
+    geom_point(aes(x=Trees, y=Error, color=Data), size=2) +
     scale_x_discrete(limits=tree_counts)
 ## ---- end-of-assign4a-tree-plot
 
@@ -60,5 +61,6 @@ ggplot(plot_data) +
     xlab("Number of classification Trees") +
     ylab("Misclassification Rate") +
     geom_line(aes(x=Trees, y=Error, color=Data)) +
+    geom_point(aes(x=Trees, y=Error, color=Data), size=2) +
     scale_x_discrete(limits=tree_counts)
 ## ---- end-of-assign4a-forest-plot
