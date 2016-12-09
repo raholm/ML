@@ -57,7 +57,9 @@ kernel.model <- function(X, lat, long, h_dist, date, h_date, time, h_time) {
     X <- filter_by_date(X, date, time)
     date <- as.Date(date)
     time <- as.POSIXct(time, format="%H:%M:%S")
-    kernel <- distance.kernel(X, lat, long, h_dist) + date.kernel(X, date, h_date) + time.kernel(X, time, h_time)
+    kernel <- (distance.kernel(X, lat, long, h_dist) +
+               date.kernel(X, date, h_date) +
+               time.kernel(X, time, h_time))
     sum(kernel * X$air_temperature) / sum(kernel)
 }
 ## ---- end-of-assign1-init
@@ -95,15 +97,18 @@ X <- filter_by_date(data, pred_date, pred_times[6])
 X$distance <- distHaversine(X[, c("longitude", "latitude")],
                             c(pred_longitude, pred_latitude))
 X <- X[order(X$distance),]
-plot(distance.kernel(X, pred_latitude, pred_longitude, h_distance))
+plot(distance.kernel(X, pred_latitude, pred_longitude, h_distance),
+     ylab="Weight", main="Distance Kernel")
 ## ---- end-of-assign1-motivation-dist
 
 ## ---- assign1-motivation-date
 X <- X[order(X$date, decreasing=TRUE),]
-plot(date.kernel(X, pred_date, h_date))
+plot(date.kernel(X, pred_date, h_date),
+     ylab="Weight", main="Date Kernel")
 ## ---- end-of-assign1-motivation-date
 
 ## ---- assign1-motivation-time
 X <- X[order(X$time),]
-plot(time.kernel(X, as.POSIXct(pred_times[1], format="%H:%M:%S"), h_time))
+plot(time.kernel(X, as.POSIXct(pred_times[1], format="%H:%M:%S"), h_time),
+     ylab="Weight", main="Time Kernel")
 ## ---- end-of-assign1-motivation-time
