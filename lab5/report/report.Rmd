@@ -29,25 +29,37 @@ knitr::read_chunk("../assignment1/solution.R")
 <<assign1-init>>
 ```
 
+Below are the estimated air temperatures on Christmas Eve this year.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-run>>
 ```
+
+We can see that the estimates have a reasonable shape with colder temperatures in the morning/evening but the actual values are not realistic and the result is similar no matter what time of the year we try to predict. The Below are plots of the kernel weights to motivate my choice of smoothing factors.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-motivation>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+```{r distkern, echo=FALSE, eval=TRUE}
 <<assign1-motivation-dist>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+Since temperature is highly regional I used the smoothing factor of 100000 to convert the distance from meters to 10 Swedish miles and we can see an exponential decay as expected with roughly half of the observations having weights greater than 0.
+
+```{r datekern, echo=FALSE, eval=TRUE}
 <<assign1-motivation-date>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+We can see that not many observations for the date kernel observations have weights larger than zero which is important and the reason I choose a smoothing factor of 7. However, the date kernel is the most important in order to get good seasonal estimates and by adding the kernels together its impact is severely reduced. Would we instead multiply the kernels together we would get better estimates beacause most of the weights would be reduced to zero since most weights are zero for the date kernel.
+
+```{r timekern, echo=FALSE, eval=TRUE}
 <<assign1-motivation-time>>
 ```
+
+For the time kernel I choose a smoothing factor of 2 since I figured the last $\pm 2$ hours are the most informative and we can see that the shape is reasonable.
+
+The model is overall very bad in its current state and as I mentioned it would be more appropriate to multiply the kernels together instead of adding because as of now the date does not contribute much at all and it is the most important variable to find seasonal trends. Another way to improve the model could be to use more appropriate kernels like day/month of the year much like the time kernel.
 
 \newpage
 
@@ -57,4 +69,8 @@ knitr::read_chunk("../assignment1/solution.R")
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 <<assign1-init>>
 <<assign1-run>>
+<<assign1-motivation>>
+<<assign1-motivation-dist>>
+<<assign1-motivation-date>>
+<<assign1-motivation-time>>
 ```
