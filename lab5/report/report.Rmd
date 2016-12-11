@@ -51,7 +51,7 @@ Since temperature is highly regional I used the smoothing factor of 100000 to co
 <<assign1-motivation-date>>
 ```
 
-We can see that not many observations for the date kernel observations have weights larger than zero which is important and the reason I choose a smoothing factor of 7. However, the date kernel is the most important in order to get good seasonal estimates and by adding the kernels together its impact is severely reduced. Would we instead multiply the kernels together we would get better estimates beacause most of the weights would be reduced to zero since most weights are zero for the date kernel.
+We can see that not many observations for the date kernel observations have weights larger than zero which is important and the reason I choose a smoothing factor of 7. However, the date kernel is the most important in order to get good seasonal estimates and by adding the kernels together its impact is severely reduced due to being independent of each other. Would we instead multiply the kernels together we would get better estimates beacause most of the weights would be reduced to zero since most weights are zero for the date kernel, i.e. the kernels would be dependent on each other.
 
 ```{r timekern, echo=FALSE, eval=TRUE}
 <<assign1-motivation-time>>
