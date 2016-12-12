@@ -23,7 +23,7 @@ knitr::opts_chunk$set(fig.pos='H', fig.align='center')
 \newpage
 
 # Assignment 1
-In this assignment we were supposed to model air temperature using three Gaussian kernels that consider the geographical distance, the distance in days, and the distance in hours. Below is the predicted air temperature for Christmas Eve this year in Vadstena. We can see that the shape is reasonable with colder temperatures in the morning/evening and it follows the typical bellshape. However, the actual values for the predicted temperatures are not very realistic and it turns out that it does not really matter which time on the year we predict, similar values will be estimated. We believe this is due to the independence of the kernels since with add them up and that results in the date kernel not being very influential in the decision making but it is the most important kernel in order to detect seasonal trends, i.e. warmer in the summer and colder in the winter.
+In this assignment we were supposed to model air temperature using three Gaussian kernels that consider the geographical distance, the distance in days, and the distance in hours. Below is the predicted air temperatures for Christmas Eve this year in Vadstena. We can see that the shape is reasonable with colder temperatures in the morning/evening and it follows the typical bellshape. However, the actual values for the predicted temperatures are not very realistic and it turns out that it does not really matter which time of the year we predict, similar values will be estimated. We believe this is due to the independence of the kernels since with add them up and that results in the date kernel not being very influential in the decision making but it is the most important kernel in order to detect seasonal trends, i.e. warmer in the summer and colder in the winter.
 
 ```{r, echo=FALSE, eval=TRUE}
 set.seed(1234567890)
@@ -35,7 +35,6 @@ stations <- read.csv("../data/stations.csv",header = TRUE,
                      fileEncoding="latin1")
 temps <- read.csv("../data/temps50k.csv")
 st <- merge(stations,temps,by="station_number")
-
 
 my_magic_kernel <- function(data ,time, date,
                             longlat = c(59.4446, 13.3374),
@@ -95,7 +94,6 @@ my_magic_kernel <- function(data ,time, date,
     return(predictions)
 }
 
-
 a <- 58.4274
 b <- 14.826
 times <- c(paste0("0",seq(2,9,2),":00:00"),paste0(seq(10,24,2),":00:00"))
@@ -143,7 +141,6 @@ stations <- read.csv("../data/stations.csv",header = TRUE,
                      fileEncoding="latin1")
 temps <- read.csv("../data/temps50k.csv")
 st <- merge(stations,temps,by="station_number")
-
 
 my_magic_kernel <- function(data ,time, date,
                             longlat = c(59.4446, 13.3374),
