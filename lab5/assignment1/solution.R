@@ -21,22 +21,16 @@ distance.kernel <- function(X, lat, long, h) {
     gaussian.kernel(distances / h)
 }
 
-## distance.pred(st_filtered, pred_latitude, pred_longitude, h_distance)
-
 date.kernel <- function(X, date, h) {
     distances <- as.numeric(difftime(X$date, date, units="days"))
     gaussian.kernel(distances / h)
 }
-
-## date.pred(st_filtered, pred_date, h_date)
 
 time.kernel <- function(X, time, h) {
     distances <- abs(as.numeric(difftime(X$time, time, units="hours")))
     distances[distances > 12] <- 24 - distances[distances > 12]
     gaussian.kernel(distances / h)
 }
-
-## time.pred(st_filtered, pred_times[1], h_time)
 
 filter_by_date <- function(X, date, time) {
     complete_dates <- paste(X$date, X$time)
@@ -65,13 +59,13 @@ kernel.model <- function(X, lat, long, h_dist, date, h_date, time, h_time) {
 ## ---- end-of-assign1-init
 
 ## ---- assign1-run
-h_distance <- 100000 # These three values are up to the students
+h_distance <- 100000
 h_date <- 7
 h_time <- 2
 
-pred_latitude <- 58.409158 # The point to predict (up to the students)
+pred_latitude <- 58.409158
 pred_longitude <- 15.607452
-pred_date <- "2013-06-24" # The date to predict (up to the students)
+pred_date <- "2013-06-24"
 pred_times <- c("04:00:00", "06:00:00", "08:00:00",
                 "10:00:00", "12:00:00", "14:00:00", "16:00:00",
                 "18:00:00", "20:00:00", "22:00:00", "24:00:00")
