@@ -87,5 +87,19 @@ class_error
 ## ---- end-of-assign1-2-svm
 
 ## 3
-benjamini_hochberg <- function(data) {
+benjamini_hochberg <- function(x, y, alpha) {
+    pvalues <- apply(x, 2, function(feature) t.test(x=feature, y=y, alternative="two.sided")$p.value)
+    m <- length(pvalues)
+
+    ord <- order(pvalues)
+    sorted <- sort(pvalues)
+    values <- 1:m * alpha / m
+
+    L <- which.min(sorted < values) - 1
+    pvalues <= pvalues[which(ord == L)]
 }
+
+
+mask <- benjamini_hochberg(x=t(x), y=y, alpha=1)
+features <- names(data)[-ncol(data)][mask]
+length(features)
