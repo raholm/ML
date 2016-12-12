@@ -15,23 +15,24 @@ winit <- runif(3 * m + 1, -1, 1)
 
 errors <- rep(0, 10)
 
-for(i in 1:10) {
-    nn <- neuralnet(Sin ~ Var, data=train, threshold=i / 1000,
+for(it in 1:10) {
+    nn <- neuralnet(Sin ~ Var, data=train, threshold=it / 1000,
                     hidden=10, startweights=winit)
     predicted <- compute(nn, validation$Var)$net.result
-    errors[i] <- sum((predicted - validation$Sin)^2) / nrow(validation)
+    errors[it] <- sum((predicted - validation$Sin)^2) / nrow(validation)
 
-    if (i > 1 && errors[i] > errors[i - 1]) break
+    if (it > 1 && errors[it] > errors[it - 1]) break
 }
 
-plot(errors)
+optimal_threshold <- it / 1000
 
-## plot(nn <- neuralnet())
+nn <- neuralnet(Sin ~ Var, data=data,
+                threshold=optimal_threshold,
+                hidden=10, startweights=winit)
 
-prediction(nn)
+plot(errors[1:it])
+plot(nn)
 
 ##  Plot of the predictions (black dots) and the data (red dots)
 plot(prediction(nn)$rep1)
 points(data, col = "red")
-
-?neuralnet
