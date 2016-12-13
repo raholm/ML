@@ -87,6 +87,7 @@ class_error
 ## ---- end-of-assign1-2-svm
 
 ## 3
+## ---- assign1-2-benjhoch
 benjamini_hochberg <- function(x, y, alpha) {
     pvalues <- apply(x, 2, function(feature) t.test(x=feature, y=y, alternative="two.sided")$p.value)
     m <- length(pvalues)
@@ -99,7 +100,8 @@ benjamini_hochberg <- function(x, y, alpha) {
     pvalues <= pvalues[which(ord == L)]
 }
 
-
 mask <- benjamini_hochberg(x=t(x), y=y, alpha=1)
 features <- names(data)[-ncol(data)][mask]
 length(features)
+head(features)
+## ---- end-of-assign1-2-benjhoch
