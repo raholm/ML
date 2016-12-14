@@ -7,14 +7,13 @@ spam <- spam[ind,c(1:48,58)]
 spam$Spam <- 2 * spam$Spam - 1
 
 gaussian_k <- function(x, h) {
-    ## Gaussian kernel
     exp(-(x / h)^2)
 }
 
 euclidean_d <- function(x, xi) {
-    as.numeric(apply(x, 1, function(x) {
-        sqrt(sum((x - xi)^2))
-    }))
+    x <- as.matrix(x)
+    xi <- as.numeric(xi)
+    sqrt(colSums((t(x) - xi)^2))
 }
 
 SVM <- function(sv, i) {
