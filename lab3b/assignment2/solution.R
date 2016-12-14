@@ -60,24 +60,36 @@ run_BOSVM <- function(data, beta, M, N) {
 
         errorrate[i] <- errors / i
     }
-    errorrate
+    list(errorrate=errorrate, sv=sv)
 }
 
 N <- 500
-
-errorrate <- run_BOSVM(data=spam, beta=0, M=500, N=N)
-plot(errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=0, M=500")
-
-errorrate <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
-plot(errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=-0.05, M=500")
-
-errorrate <- run_BOSVM(data=spam, beta=0, M=20, N=N)
-plot(errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=0, M=20")
-
-errorrate <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
-plot(errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=-0.05, M=20")
 ## ---- end-of-assign2-init
+
+## ---- assign2-run1
+result <- run_BOSVM(data=spam, beta=0, M=500, N=N)
+cat(paste("Number of Suppoer Vectors:", length(result$sv)))
+plot(result$errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=0, M=500")
+## ---- end-of-assign2-run1
+
+## ---- assign2-run2
+result <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
+cat(paste("Number of Suppoer Vectors:", length(result$sv)))
+plot(result$errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=-0.05, M=500")
+## ---- end-of-assign2-run2
+
+## ---- assign2-run3
+result <- run_BOSVM(data=spam, beta=0, M=20, N=N)
+cat(paste("Number of Suppoer Vectors:", length(result$sv)))
+plot(result$errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=0, M=20")
+## ---- end-of-assign2-run3
+
+## ---- assign2-run4
+result <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
+cat(paste("Number of Suppoer Vectors:", length(result$sv)))
+plot(result$errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=-0.05, M=20")
+## ---- end-of-assign2-run4

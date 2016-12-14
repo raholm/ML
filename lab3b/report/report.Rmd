@@ -83,6 +83,22 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-init>>
 ```
 
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-run1>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-run2>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-run3>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-run4>>
+```
+
 \newpage
 
 # Appendix
@@ -108,4 +124,8 @@ knitr::read_chunk("../assignment2/solution.R")
 ## Code for Assignment 2
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 <<assign2-init>>
+<<assign2-run1>>
+<<assign2-run2>>
+<<assign2-run3>>
+<<assign2-run4>>
 ```
