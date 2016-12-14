@@ -51,6 +51,14 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-3-benjhoch>>
 ```
 
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3-features>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3-plot>>
+```
+
 \newpage
 
 # Assignment 2
@@ -68,6 +76,8 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-2-elasticnet>>
 <<assign1-2-svm>>
 <<assign1-3-benjhoch>>
+<<assign1-3-features>>
+<<assign1-3-plot>>
 ```
 
 ## Code for Assignment 2

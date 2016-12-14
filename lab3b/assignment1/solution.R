@@ -2,6 +2,7 @@
 library(pamr)
 library(glmnet)
 library(kernlab)
+library(ggplot2)
 
 data <- read.csv("../data/data.csv", sep=";", header=TRUE,
                  stringsAsFactors=FALSE, encoding="latin1")
@@ -25,7 +26,6 @@ set.seed(12345)
 
 nsc_data <- list(x=x, y=as.factor(y), geneid=as.character(1:nrow(x)), genenames=rownames(x))
 model <- pamr.train(nsc_data, threshold=seq(0,4, 0.1))
-
 cvmodel <- pamr.cv(model, nsc_data)
 
 optimal_threshold <- cvmodel$threshold[which.min(cvmodel$error)]
@@ -87,21 +87,32 @@ class_error
 ## ---- end-of-assign1-2-svm
 
 ## 3
-## ---- assign1-2-benjhoch
+## ---- assign1-3-benjhoch
 benjamini_hochberg <- function(x, y, alpha) {
-    pvalues <- apply(x, 2, function(feature) t.test(x=feature, y=y, alternative="two.sided")$p.value)
+    pvalues <- apply(x, 2, function(feature) t.test(feature ~ y, alternative="two.sided")$p.value)
     m <- length(pvalues)
 
-    ord <- order(pvalues)
     sorted <- sort(pvalues)
     values <- 1:m * alpha / m
 
     L <- which.min(sorted < values) - 1
-    pvalues <= pvalues[which(ord == L)]
+    mask <- sorted <= sorted[L]
+    list(mask=mask, pvalues=sorted, features=colnames(x)[order(pvalues)][mask])
 }
 
-mask <- benjamini_hochberg(x=t(x), y=y, alpha=1)
-features <- names(data)[-ncol(data)][mask]
-length(features)
-head(features)
-## ---- end-of-assign1-2-benjhoch
+result <- benjamini_hochberg(x=data[,-ncol(data)], y=data[, ncol(data)], alpha=0.05)
+## ---- end-of-assign1-3-benjhoch
+
+## ---- assign1-3-features
+result$features
+## ---- end-of-assign1-3-features
+
+## ---- assign1-3-plot
+ggplot() +
+    geom_point(data=data.frame(x=1:length(result$features),
+                               y=result$pvalues[result$mask]),
+               aes(x=x, y=y), col="red") +
+    geom_point(data=data.frame(x=((length(result$features) + 1):(ncol(data) -1)),
+                               y=result$pvalues[!result$mask]),
+               aes(x=x, y=y), col="blue")
+## ---- end-of-assign1-3-plot

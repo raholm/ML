@@ -17,14 +17,7 @@ euclidean_d <- function(x, xi) {
     }))
 }
 
-SVM <- function(sv, i) { # SVM on point i with support vectors sv
-    ## Your code here
-    ## Note that the labels in spambase.csv are 0/1 and SVMs need -1/+1. Then, use 2*label-1
-    ## to convert from 0/1 to -1/+1
-    ## Do not include the labels when computing the Euclidean distance between the point i
-    ## and each of the support vectors. This is the distance to use in the kernel function
-    ## You can use dist() to compute the Euclidean distance
-
+SVM <- function(sv, i) {
     h <- 1
     b <- 0
     x <- sv[, -ncol(sv)]
@@ -46,36 +39,44 @@ sv.least_important <- function(sv) {
     }))
 }
 
-h <- 1
-beta <- -0.0 # Your value here
-M <- 20 # Your value here
-N <- 500 # number of training points
+run_BOSVM <- function(data, beta, M) {
+    N <- 500
 
-errors <- 1
-errorrate <- vector(length = N)
-errorrate[1] <- 1
-sv <- c(1)
+    errors <- 1
+    errorrate <- vector(length = N)
+    errorrate[1] <- 1
+    sv <- c(1)
 
-for(i in 2:N) {
-    predicted <- SVM(spam[sv,], spam[i, -ncol(spam)])
+    for(i in 2:N) {
+        predicted <- SVM(data[sv,], data[i, -ncol(data)])
 
-    if (spam[i, "Spam"] * predicted < beta) {
-        sv <- c(sv, i)
-        errors <- errors + 1
+        if (data[i, "Spam"] * predicted < beta) {
+            sv <- c(sv, i)
+            errors <- errors + 1
 
-        if (length(sv) > M) {
-            sv <- sv[-sv.least_important(sv)]
+            if (length(sv) > M) {
+                sv <- sv[-sv.least_important(sv)]
+            }
         }
-    }
 
-    errorrate[i] <- errors / i
+        errorrate[i] <- errors / i
+    }
+    errorrate
 }
 
-print(errorrate)
-plot(errorrate)
+errorrate <- run_BOSVM(spam, beta=0, M=500)
+plot(errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=0, M=500")
 
-plot(errorrate[seq(from=1, to=N, by=10)], ylim=c(0.2,0.4), type="o")
+errorrate <- run_BOSVM(spam, beta=-0.05, M=500)
+plot(errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=-0.05, M=500")
 
-length(sv)
-errorrate[N]
+errorrate <- run_BOSVM(spam, beta=0, M=20)
+plot(errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=0, M=20")
+
+errorrate <- run_BOSVM(spam, beta=-0.05, M=20)
+plot(errorrate[seq(from=1, to=N, by=10)],
+     type="o", main="Beta=-0.05, M=20")
 ## ---- end-of-assign2-init
