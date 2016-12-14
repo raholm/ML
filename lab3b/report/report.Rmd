@@ -99,6 +99,10 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-run4>>
 ```
 
+```{r, echo=FALSE, eval=TRUE}
+<<assign2-plot>>
+```
+
 \newpage
 
 # Appendix
@@ -128,4 +132,5 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign2-run2>>
 <<assign2-run3>>
 <<assign2-run4>>
+<<assign2-plot>>
 ```
