@@ -11,9 +11,11 @@ gaussian_k <- function(x, h) {
 }
 
 euclidean_d <- function(x, xi) {
-    x <- as.matrix(x)
+    x <- t(as.matrix(x))
     xi <- as.numeric(xi)
-    sqrt(colSums((t(x) - xi)^2))
+    sqrt(colSums((x - xi)^2))
+    ## d <- dist(rbind(x, xi))
+    ## d[(length(d) - nrow(x) + 1):length(d)]
 }
 
 SVM <- function(sv, i) {
@@ -38,9 +40,7 @@ sv.least_important <- function(sv) {
     }))
 }
 
-run_BOSVM <- function(data, beta, M) {
-    N <- 500
-
+run_BOSVM <- function(data, beta, M, N) {
     errors <- 1
     errorrate <- vector(length = N)
     errorrate[1] <- 1
@@ -63,19 +63,21 @@ run_BOSVM <- function(data, beta, M) {
     errorrate
 }
 
-errorrate <- run_BOSVM(spam, beta=0, M=500)
+N <- 500
+
+errorrate <- run_BOSVM(data=spam, beta=0, M=500, N=N)
 plot(errorrate[seq(from=1, to=N, by=10)],
      type="o", main="Beta=0, M=500")
 
-errorrate <- run_BOSVM(spam, beta=-0.05, M=500)
+errorrate <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
 plot(errorrate[seq(from=1, to=N, by=10)],
      type="o", main="Beta=-0.05, M=500")
 
-errorrate <- run_BOSVM(spam, beta=0, M=20)
+errorrate <- run_BOSVM(data=spam, beta=0, M=20, N=N)
 plot(errorrate[seq(from=1, to=N, by=10)],
      type="o", main="Beta=0, M=20")
 
-errorrate <- run_BOSVM(spam, beta=-0.05, M=20)
+errorrate <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
 plot(errorrate[seq(from=1, to=N, by=10)],
      type="o", main="Beta=-0.05, M=20")
 ## ---- end-of-assign2-init

@@ -24,7 +24,9 @@ y_test <- test[, ncol(data)]
 ## ---- assign1-1-nsc
 set.seed(12345)
 
-nsc_data <- list(x=x, y=as.factor(y), geneid=as.character(1:nrow(x)), genenames=rownames(x))
+nsc_data <- list(x=x, y=as.factor(y),
+                 geneid=as.character(1:nrow(x)),
+                 genenames=rownames(x))
 model <- pamr.train(nsc_data, threshold=seq(0,4, 0.1))
 cvmodel <- pamr.cv(model, nsc_data)
 
@@ -34,26 +36,22 @@ optimal_size <- cvmodel$size[which.min(cvmodel$error)]
 class_error <- 1 - (sum(pamr.predict(model, x_test,
                                      threshold=optimal_threshold) == y_test) /
                     length(y_test))
-
-optimal_threshold
-optimal_size
-class_error
-
-pamr.plotcen(model, nsc_data, threshold=1)
-pamr.plotcen(model, nsc_data, threshold=2.5)
-pamr.plotcen(model, nsc_data, threshold=optimal_threshold)
-
-
-a <- pamr.listgenes(model, nsc_data, threshold=2.5)
-cat(paste(colnames(data)[as.numeric(a[,1])], collapse='\n' ) )
-
-a <- pamr.listgenes(model, nsc_data, threshold=optimal_threshold)
-cat(paste(colnames(data)[as.numeric(a[,1])][1:10], collapse='\n' ) )
-
-print(cvmodel)
-pamr.plotcv(cvmodel)
+genes <- pamr.listgenes(model, nsc_data, threshold=optimal_threshold)
 ## ---- end-of-assign1-1-nsc
 
+## ---- assign1-1-nsc-result
+cat(paste("Threshold:", optimal_threshold))
+cat(paste("Size:", optimal_size))
+cat(paste("Classification Error:", class_error))
+cat("Top 10 features")
+cat(paste(colnames(data)[as.numeric(genes[,1])][1:10], collapse='\n' ) )
+## ---- end-of.assign1-1-nsc-result
+
+
+## ---- assign1-1-nsc-plot
+pamr.plotcen(model, nsc_data, threshold=optimal_threshold)
+## pamr.plotcv(cvmodel)
+## ---- end-of-assign1-1-nsc-plot
 
 ## 2
 ## a
@@ -65,12 +63,18 @@ fit <- cv.glmnet(x=t(x), y=y, alpha=alpha, family="binomial")
 
 optimal_lambda <- fit$lambda[which.min(fit$cvm)]
 optimal_size <- fit$nzero[which.min(fit$cvm)]
-class_error <- 1 - (sum(predict(fit, t(x_test), type="class") == y_test) / length(y_test))
+penalty <- strsplit(fit$name, " ")[[1]][2]
 
-optimal_lambda
-optimal_size
-class_error
+class_error <- 1 - (sum(predict(fit, t(x_test), type="class") == y_test) /
+                    length(y_test))
 ## ---- end-of-assign1-2-elasticnet
+
+## ---- assign1-2-elasticnet-result
+cat(paste("Penalty", penalty))
+cat(paste("Lambda:", optimal_lambda))
+cat(paste("Size:", optimal_size))
+cat(paste("Classification Error:", class_error))
+## ---- end-of-assign1-2-elasticnet-result
 
 ## b
 ## ---- assign1-2-svm
@@ -81,15 +85,20 @@ fit <- ksvm(x=t(x), y=y, kernel="vanilladot",
 
 optimal_size <- fit@nSV
 class_error <- 1 - (sum(predict(fit, t(x_test)) == y_test) / length(y_test))
-
-optimal_size
-class_error
 ## ---- end-of-assign1-2-svm
+
+## ---- assign1-2-svm-result
+cat(paste("Size:", optimal_size))
+cat(paste("Classification Error:", class_error))
+## ---- end-of-assign1-2-svm-result
+
 
 ## 3
 ## ---- assign1-3-benjhoch
 benjamini_hochberg <- function(x, y, alpha) {
-    pvalues <- apply(x, 2, function(feature) t.test(feature ~ y, alternative="two.sided")$p.value)
+    pvalues <- apply(x, 2, function(feature) {
+        t.test(feature ~ y, alternative="two.sided")$p.value
+    })
     m <- length(pvalues)
 
     sorted <- sort(pvalues)
@@ -104,7 +113,8 @@ result <- benjamini_hochberg(x=data[,-ncol(data)], y=data[, ncol(data)], alpha=0
 ## ---- end-of-assign1-3-benjhoch
 
 ## ---- assign1-3-features
-result$features
+cat("Top 10 features")
+cat(paste(result$features[1:10], collapse='\n' ) )
 ## ---- end-of-assign1-3-features
 
 ## ---- assign1-3-plot

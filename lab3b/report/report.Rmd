@@ -35,15 +35,32 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-1-nsc>>
 ```
 
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-1-nsc-result>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-1-nsc-plot>>
+```
+
 ## 2
 ### Elastic Net
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-2-elasticnet>>
 ```
 
-### Support Vector Machine
 ```{r, echo=FALSE, eval=TRUE}
+<<assign1-2-elasticnet-result>>
+```
+
+
+### Support Vector Machine
+```{r, echo=FALSE, eval=TRUE, results="hide"}
 <<assign1-2-svm>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2-svm-result>>
 ```
 
 ## 3
@@ -72,9 +89,17 @@ knitr::read_chunk("../assignment2/solution.R")
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
 <<assign1-init>>
+
 <<assign1-1-nsc>>
+<<assign1-1-nsc-result>>
+<<assign1-1-nsc-plot>>
+
 <<assign1-2-elasticnet>>
+<<assign1-2-elasticnet-result>>
+
 <<assign1-2-svm>>
+<<assign1-2-svm-result>>
+
 <<assign1-3-benjhoch>>
 <<assign1-3-features>>
 <<assign1-3-plot>>
