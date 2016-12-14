@@ -30,16 +30,22 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-init>>
 ```
 
+In this assignment I have used the data data set that contains 64 e-mails which were manually collected from DBWorld mailing list. Each e-mail consists of 4702 features, i.e. unique words in the e-mails, and I want to predict whether the e-mail is a conference e-mail or something else. In order to do so I have divided the data set into train and test sets corresponding to 70\% respective 30\% of the data.
+
 ## 1
 ```{r, echo=FALSE, eval=TRUE, results="hide"}
 <<assign1-1-nsc>>
 ```
 
+Here I performed neastest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was 0.5 resulting in 1979 non-zero features and a classification error of 5\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seems reasonable.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-1-nsc-result>>
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+Figure \ref{fig:nsc} is the resulting centroid plot that shows the contributions of the words to each class where a conference e-mail is a 1. We can see that the words have opposite contributions to the classes, i.e. if the contribution is high for class 1 then it is low for class 0. Unfortunately were many features non-zero making the plot difficult to interpret further.
+
+```{r nsc, echo=FALSE, eval=TRUE, fig.cap="Centroid plot."}
 <<assign1-1-nsc-plot>>
 ```
 
@@ -49,24 +55,37 @@ knitr::read_chunk("../assignment2/solution.R")
 <<assign1-2-elasticnet>>
 ```
 
+Elastic net is another method for feature extraction and I let cross-validation choose the penalty measurement. In this can it can be shown below that it picked \textit{deviance} which results in 38 non-zero features and a misclassification rate of 15\%.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-2-elasticnet-result>>
 ```
-
 
 ### Support Vector Machine
 ```{r, echo=FALSE, eval=TRUE, results="hide"}
 <<assign1-2-svm>>
 ```
 
+Lastly I used the support vector machine and here the size correspond to the number of support vectors rather than features, i.e. all features are used but against a subset of training samples. The number of support vectors was 43 with a misclassification rate of 5\% which compared to elastic net is very good.
+
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-2-svm-result>>
 ```
+
+From the summary below we can see that nearest chrunken centroid and support vector machine are the best in terms of classification error. \textbf{TODO}: Which one is better? Fewer observations to check in support vector but only 43 / 64 which is not that much. The number of features are still the same while in nsc the features are reduced by half. Is elastic net really that terrible considering the number of features?
+
+\begin{center}
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-2-summary>>
+```
+\end{center}
 
 ## 3
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-benjhoch>>
 ```
+
+In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest chrunken centroid and make total sense as can be seen below.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-features>>
@@ -116,9 +135,9 @@ knitr::read_chunk("../assignment2/solution.R")
 
 <<assign1-2-elasticnet>>
 <<assign1-2-elasticnet-result>>
-
 <<assign1-2-svm>>
 <<assign1-2-svm-result>>
+<<assign1-2-summary>>
 
 <<assign1-3-benjhoch>>
 <<assign1-3-features>>

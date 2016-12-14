@@ -81,29 +81,21 @@ N <- 500
 ## ---- assign2-run1
 result1 <- run_BOSVM(data=spam, beta=0, M=500, N=N)
 cat(paste("Number of Support Vectors:", length(result1$sv)))
-## plot(result1$errorrate[seq(from=1, to=N, by=10)],
-##      type="o", main="Beta=0, M=500")
 ## ---- end-of-assign2-run1
 
 ## ---- assign2-run2
 result2 <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
 cat(paste("Number of Support Vectors:", length(result2$sv)))
-## plot(result2$errorrate[seq(from=1, to=N, by=10)],
-##      type="o", main="Beta=-0.05, M=500")
 ## ---- end-of-assign2-run2
 
 ## ---- assign2-run3
 result3 <- run_BOSVM(data=spam, beta=0, M=20, N=N)
 cat(paste("Number of Support Vectors:", length(result3$sv)))
-## plot(result3$errorrate[seq(from=1, to=N, by=10)],
-##      type="o", main="Beta=0, M=20")
 ## ---- end-of-assign2-run3
 
 ## ---- assign2-run4
 result4 <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
 cat(paste("Number of Support Vectors:", length(result4$sv)))
-## plot(result4$errorrate[seq(from=1, to=N, by=10)],
-##      type="o", main="Beta=-0.05, M=20")
 ## ---- end-of-assign2-run4
 
 ## ---- assign2-plot
