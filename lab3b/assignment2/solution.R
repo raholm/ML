@@ -1,4 +1,7 @@
 ## ---- assign2-init
+library(ggplot2)
+library(reshape2)
+
 set.seed(1234567890)
 spam <- read.csv2("../data/spambase.csv")
 
@@ -67,29 +70,44 @@ N <- 500
 ## ---- end-of-assign2-init
 
 ## ---- assign2-run1
-result <- run_BOSVM(data=spam, beta=0, M=500, N=N)
-cat(paste("Number of Suppoer Vectors:", length(result$sv)))
-plot(result$errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=0, M=500")
+result1 <- run_BOSVM(data=spam, beta=0, M=500, N=N)
+cat(paste("Number of Support Vectors:", length(result1$sv)))
+## plot(result1$errorrate[seq(from=1, to=N, by=10)],
+##      type="o", main="Beta=0, M=500")
 ## ---- end-of-assign2-run1
 
 ## ---- assign2-run2
-result <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
-cat(paste("Number of Suppoer Vectors:", length(result$sv)))
-plot(result$errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=-0.05, M=500")
+result2 <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
+cat(paste("Number of Support Vectors:", length(result2$sv)))
+## plot(result2$errorrate[seq(from=1, to=N, by=10)],
+##      type="o", main="Beta=-0.05, M=500")
 ## ---- end-of-assign2-run2
 
 ## ---- assign2-run3
-result <- run_BOSVM(data=spam, beta=0, M=20, N=N)
-cat(paste("Number of Suppoer Vectors:", length(result$sv)))
-plot(result$errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=0, M=20")
+result3 <- run_BOSVM(data=spam, beta=0, M=20, N=N)
+cat(paste("Number of Support Vectors:", length(result3$sv)))
+## plot(result3$errorrate[seq(from=1, to=N, by=10)],
+##      type="o", main="Beta=0, M=20")
 ## ---- end-of-assign2-run3
 
 ## ---- assign2-run4
-result <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
-cat(paste("Number of Suppoer Vectors:", length(result$sv)))
-plot(result$errorrate[seq(from=1, to=N, by=10)],
-     type="o", main="Beta=-0.05, M=20")
+result4 <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
+cat(paste("Number of Support Vectors:", length(result4$sv)))
+## plot(result4$errorrate[seq(from=1, to=N, by=10)],
+##      type="o", main="Beta=-0.05, M=20")
 ## ---- end-of-assign2-run4
+
+## ---- assign2-plot
+plot_data <- data.frame(
+    x=1:length(seq(from=1, to=N, by=10)),
+    res1=result1$errorrate[seq(from=1, to=N, by=10)],
+    res2=result2$errorrate[seq(from=1, to=N, by=10)],
+    res3=result3$errorrate[seq(from=1, to=N, by=10)],
+    res4=result4$errorrate[seq(from=1, to=N, by=10)])
+
+plot_data <- melt(plot_data, id="x", value.name="ErrorRate",
+                  variable.name="Res")
+
+ggplot(plot_data) +
+    geom_line(aes(x=x, y=ErrorRate, color=Res))
+## ---- end-of-assign2-plot
