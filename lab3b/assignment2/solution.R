@@ -10,7 +10,7 @@ spam <- spam[ind, c(1:48,58)]
 spam$Spam <- 2 * spam$Spam - 1
 
 gaussian_k <- function(x, h) {
-    exp(-(x / h))
+    exp(-(x / 2 * h))
 }
 
 euclideansq_d <- function(x, xi) {
@@ -54,11 +54,14 @@ run_BOSVM <- function(data, beta, M, N) {
 
         if (data[i, "Spam"] * predicted <= beta) {
             sv <- c(sv, i)
-            errors <- errors + 1
 
             if (length(sv) > M) {
                 sv <- sv[-sv.least_important(sv)]
             }
+        }
+
+        if (data[i, "Spam"] * predicted < 0) {
+            errors <- errors + 1
         }
 
         errorrate[i] <- errors / i
