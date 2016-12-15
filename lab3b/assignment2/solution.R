@@ -6,7 +6,7 @@ set.seed(1234567890)
 spam <- read.csv2("../data/spambase.csv")
 
 ind <- sample(1:nrow(spam))
-spam <- spam[ind,c(1:48,58)]
+spam <- spam[ind, c(1:48,58)]
 spam$Spam <- 2 * spam$Spam - 1
 
 gaussian_k <- function(x, h) {
@@ -35,7 +35,7 @@ sv.least_important <- function(sv) {
     which.max(lapply(sv, function(m) {
         obs <- spam[m,]
         x <- obs[, -ncol(obs)]
-        t <- obs$Spam
+        t <- obs[, ncol(obs)]
         y <- SVM(spam[sv,], x)
         h <- 1
         k <- gaussian_k(euclideansq_d(x, x), h)
@@ -66,17 +66,17 @@ run_BOSVM <- function(data, beta, M, N) {
     list(errorrate=errorrate, sv=sv)
 }
 
-sqrt(euclideansq_d(spam[1:2, -ncol(spam)], spam[3, -ncol(spam)]))
-dist(spam[1:3, -ncol(spam)])
-
-euclideansq_d(spam[1:2,], spam[3,])
-dist(spam[1:3,])^2
-
-spam[1, ncol(spam)]
-SVM(spam[1:4,], spam[5, -ncol(spam)])
-
 N <- 500
 ## ---- end-of-assign2-init
+
+## sqrt(euclideansq_d(spam[1:2, -ncol(spam)], spam[3, -ncol(spam)]))
+## dist(spam[1:3, -ncol(spam)])
+
+## euclideansq_d(spam[1:2,], spam[3,])
+## dist(spam[1:3,])^2
+
+## spam[1, ncol(spam)]
+## SVM(spam[1:4,], spam[5, -ncol(spam)])
 
 ## ---- assign2-run1
 result1 <- run_BOSVM(data=spam, beta=0, M=500, N=N)
