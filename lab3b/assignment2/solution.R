@@ -72,42 +72,37 @@ run_BOSVM <- function(data, beta, M, N) {
 N <- 500
 ## ---- end-of-assign2-init
 
-## sqrt(euclideansq_d(spam[1:2, -ncol(spam)], spam[3, -ncol(spam)]))
-## dist(spam[1:3, -ncol(spam)])
-
-## euclideansq_d(spam[1:2,], spam[3,])
-## dist(spam[1:3,])^2
-
-## spam[1, ncol(spam)]
-## SVM(spam[1:4,], spam[5, -ncol(spam)])
-
 ## ---- assign2-run1
 result1 <- run_BOSVM(data=spam, beta=0, M=500, N=N)
+cat("Beta = 0, M = 500")
 cat(paste("Number of Support Vectors:", length(result1$sv)))
 ## ---- end-of-assign2-run1
 
 ## ---- assign2-run2
 result2 <- run_BOSVM(data=spam, beta=-0.05, M=500, N=N)
+cat("Beta = -0.05, M = 500")
 cat(paste("Number of Support Vectors:", length(result2$sv)))
 ## ---- end-of-assign2-run2
 
 ## ---- assign2-run3
 result3 <- run_BOSVM(data=spam, beta=0, M=20, N=N)
+cat("Beta = 0, M = 20")
 cat(paste("Number of Support Vectors:", length(result3$sv)))
 ## ---- end-of-assign2-run3
 
 ## ---- assign2-run4
 result4 <- run_BOSVM(data=spam, beta=-0.05, M=20, N=N)
+cat("Beta = -0.05, M = 20")
 cat(paste("Number of Support Vectors:", length(result4$sv)))
 ## ---- end-of-assign2-run4
 
 ## ---- assign2-plot
 plot_data <- data.frame(
     x=1:length(seq(from=1, to=N, by=10)),
-    res1=result1$errorrate[seq(from=1, to=N, by=10)],
-    res2=result2$errorrate[seq(from=1, to=N, by=10)],
-    res3=result3$errorrate[seq(from=1, to=N, by=10)],
-    res4=result4$errorrate[seq(from=1, to=N, by=10)])
+    B0M500=result1$errorrate[seq(from=1, to=N, by=10)],
+    B5M500=result2$errorrate[seq(from=1, to=N, by=10)],
+    B0M20=result3$errorrate[seq(from=1, to=N, by=10)],
+    B5M20=result4$errorrate[seq(from=1, to=N, by=10)])
 
 plot_data <- melt(plot_data, id="x", value.name="ErrorRate",
                   variable.name="Res")

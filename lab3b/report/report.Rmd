@@ -37,7 +37,7 @@ In this assignment I have used the data data set that contains 64 e-mails which 
 <<assign1-1-nsc>>
 ```
 
-Here I performed neastest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was 0.5 resulting in 1979 non-zero features and a classification error of 5\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seems reasonable.
+Here I performed neastest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was 0.5 resulting in 1979 non-zero features and a classification error of 5\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seem reasonable.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-1-nsc-result>>
@@ -100,7 +100,9 @@ In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm u
 # Assignment 2
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-init>>
+
 ```
+In this assignment I have implemented a version of the budget online support vector machine (BOSVM) and it has parameters controlling the maximum number of support vectors that should be used in the prediction denoted $M$ and the fault tolerance $\beta$. A faulty prediction means that the sign of the prediction does not correspond with the sign of the true label. I ran the BOSVM for 500 iterations, i.e. samples, with four different settings which can be seen below with the corresponding number of final support vectors in the model.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-run1>>
@@ -117,10 +119,13 @@ In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm u
 ```{r, echo=FALSE, eval=TRUE}
 <<assign2-run4>>
 ```
+Figure \ref{fig:svm_error} shows how the error rate differ when varying the number of maximum support vectors and the fault tolerance. We can see that setting $\beta = 0$ is better in both cases which does make sense since we will adjust our model every misclassification and for the case where $M = 500$ it will start overfit the data. Using a $\beta < 0$ means we accept some misclassification without adjusting our model and this result in slightly higher error rate but with far fewer support vectors as we can see above when $M = 500$, 48 compared to 106.
 
-```{r, echo=FALSE, eval=TRUE}
+```{r svm_error, echo=FALSE, eval=TRUE, fig.cap="The error rate for different $\\beta$ and maximum number of support vectors, M. B0 means $\\beta = 0$ and B5 means $\\beta = -0.05$."}
 <<assign2-plot>>
 ```
+
+So what we can say is that when using $M = 500$ the $\beta$ controls how much the model fits the data and therefore using $\beta = 0$ are more prone to overfitting than $\beta = -0.05$ and gets a lower error rate. BOSVM with $M = 20$ and $\beta = -0.05$ has a slightly smoother error curve than with $\beta = 0$ because it does not change the support vectors for every faulty prediction and so it basically stabilizes and get a subset of more general support vectors that have greater predictive power. One problem with using $M = 20$ and $\beta = 0$ is that we have use low amounts of support vectors and every misclassification adds a new support vector which means that the calculation for removing a current support vector is executed many times and it is the most expensive operation in the algorithm hence slows down the execution time.
 
 \newpage
 
