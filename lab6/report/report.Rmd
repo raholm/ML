@@ -25,8 +25,27 @@ knitr::read_chunk("../assignment1/solution.R")
 \newpage
 
 # Assignment 1
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, results="hide"}
+<<assign1-init>>
+<<nn-plotter>>
+```
 
+In this assignment I have used a neural network with one hidden layer of 10 units to fit a sinus functions. In order to find the optimal threshold at which the gradient descent will stop as to avoid overfitting I divided the data into train and validation sets each 50\% of the data of 50 observations. In figure \ref{fig:error} we can see that the optimal threshold was found at 0.004 which I used to train a new neural network on the complete data set.
+
+```{r error, echo=FALSE, eval=TRUE, fig.cap="Mean squared error as the threshold increases."}
+<<assign1-plot-error>>
+```
+
+Figure \ref{fig:nn} shows the final neural network.
+
+```{r nn, echo=FALSE, eval=TRUE, fig.height=8, fig.width=4, fig.cap="The final neural network."}
+<<assign1-plot-nn>>
+```
+
+In figure \ref{fig:pred} we can see that the fit is very good where the red points are the predictions and the black points are the true underlying data. This result follows from the theory that a neural network with one hidden layer can fit any distribution given the right amount of data and hidden units.
+
+```{r pred, echo=FALSE, eval=TRUE, fig.cap="Predictions in red vs the true data in black."}
+<<assign1-plot-pred>>
 ```
 
 \newpage
@@ -35,5 +54,8 @@ knitr::read_chunk("../assignment1/solution.R")
 
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-
+<<assign1-init>>
+<<assign1-plot-error>>
+<<assign1-plot-nn>>
+<<assign1-plot-pred>>
 ```
