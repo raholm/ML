@@ -37,13 +37,13 @@ In this assignment I have used the data data set that contains 64 e-mails which 
 <<assign1-1-nsc>>
 ```
 
-Here I performed neastest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was 0.5 resulting in 1979 non-zero features and a classification error of 5\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seem reasonable.
+Here I performed neastest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was `r nsc_optimal_threshold` resulting in `r nsc_optimal_size` non-zero features and a classification error of `r nsc_class_error * 100`\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seem reasonable.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-1-nsc-result>>
 ```
 
-Figure \ref{fig:nsc} is the resulting centroid plot that shows the contributions of the words to each class where a conference e-mail is a 1. We can see that the words have opposite contributions to the classes, i.e. if the contribution is high for class 1 then it is low for class 0. Unfortunately were many features non-zero making the plot difficult to interpret further.
+Figure \ref{fig:nsc} is the resulting centroid plot that shows the contributions of the words to each class where a conference e-mail is a 1. We can see that the words have opposite contributions to the classes, i.e. if the contribution is high for class 1 then it is low for class 0.
 
 ```{r nsc, echo=FALSE, eval=TRUE, fig.cap="Centroid plot."}
 <<assign1-1-nsc-plot>>
@@ -85,7 +85,7 @@ From the summary below we can see that nearest chrunken centroid and support vec
 <<assign1-3-benjhoch>>
 ```
 
-In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest chrunken centroid and make total sense as can be seen below.
+In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest chrunken centroid and make total sense as seen below.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-features>>
@@ -93,6 +93,10 @@ In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm u
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-plot>>
+```
+
+```{r, echo=FALSE, eval=TRUE}
+<<assign1-3-plot-zoom>>
 ```
 
 \newpage
@@ -157,4 +161,5 @@ So what we can say is that when using $M = 500$ the $\beta$ controls how much th
 <<assign2-run3>>
 <<assign2-run4>>
 <<assign2-plot>>
+<<assign1-3-plot-zoom>>
 ```

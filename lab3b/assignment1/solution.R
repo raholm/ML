@@ -32,8 +32,8 @@ nsc_data <- list(x=x, y=as.factor(y),
 model <- pamr.train(nsc_data, threshold=seq(0,4, 0.1))
 cvmodel <- pamr.cv(model, nsc_data)
 
-nsc_optimal_threshold <- cvmodel$threshold[which.min(cvmodel$error)]
-nsc_optimal_size <- cvmodel$size[which.min(cvmodel$error)]
+nsc_optimal_threshold <- rev(cvmodel$threshold)[which.min(rev(cvmodel$error))]
+nsc_optimal_size <- rev(cvmodel$size)[which.min(rev(cvmodel$error))]
 
 nsc_class_error <- 1 - (sum(pamr.predict(model, x_test,
                                           threshold=nsc_optimal_threshold) == y_test) /
@@ -42,11 +42,11 @@ genes <- pamr.listgenes(model, nsc_data, threshold=nsc_optimal_threshold)
 ## ---- end-of-assign1-1-nsc
 
 ## ---- assign1-1-nsc-result
-cat(paste("Threshold:", nsc_optimal_threshold))
+Xcat(paste("Threshold:", nsc_optimal_threshold))
 cat(paste("Size:", nsc_optimal_size))
 cat(paste("Classification Error:", nsc_class_error))
-cat("Top 10 features")
-cat(paste(colnames(data)[as.numeric(genes[,1])][1:10], collapse='\n' ) )
+cat("Features:")
+cat(paste(colnames(data)[as.numeric(genes[,1])], collapse='\n' ) )
 ## ---- end-of.assign1-1-nsc-result
 
 ## ---- assign1-1-nsc-plot
@@ -136,3 +136,14 @@ ggplot() +
                                y=result$pvalues[!result$mask]),
                aes(x=x, y=y), col="blue")
 ## ---- end-of-assign1-3-plot
+
+## ---- assign1-3-plot-zoom
+ggplot() +
+    ylab("P-Value") + xlab("Index") +
+    geom_point(data=data.frame(x=1:length(result$features),
+                               y=result$pvalues[result$mask]),
+               aes(x=x, y=y), col="red") +
+    geom_point(data=data.frame(x=((length(result$features) + 1):150),
+                               y=result$pvalues[!result$mask][1:(150 - 39)]),
+               aes(x=x, y=y), col="blue")
+## ---- end-of-assign1-3-plot-zoom
