@@ -18,22 +18,46 @@ output:
 ```{r global-options, echo = FALSE, eval=TRUE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_chunk$set(fig.pos='H', fig.align='center')
+
+knitr::read_chunk("../assignment1/solution.R")
 ```
 
 \newpage
 
 # Assignment 1
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, results="hide"}
+<<assign1-init>>
+<<nn-plotter>>
+```
 
+In this assignment we used a neural network with one hidden layer consisting of 10 units to learn the trigonometric sine function from 25 observations without any added noise in the interval $\left[ 0, 10 \right]$. The threshold is defined as i / 1000, where i = 1, $\ldots$, 10, and we used an additional set of 25 observations for validation to stop the iterations by computing the mean squared error (MSE). The optimal threshold was found to be 4 / 1000 which can be seen in figure \ref{fig:error}.
+
+```{r error, echo=FALSE, eval=TRUE, fig.cap="Mean squared error as the threshold increases."}
+<<assign1-plot-error>>
+```
+
+With the optimal threshold we trained a new neural network on the complete data set and the final network is shown in figure \ref{fig:nn}.
+
+```{r nn, echo=FALSE, eval=TRUE, fig.height=8, fig.width=4, fig.cap="The final neural network."}
+<<assign1-plot-nn>>
+```
+
+In order to see how well the neural network could mimic the sine function we plotted the predicted values against the observed values which can be seen in figure \ref{fig:pred}. We can see that it follow the observed data very well as expected and it follows from the theory that a neural network with a single hidden layer can fit any function arbitrarily well given the right amount of data, hidden units, and iterations.
+
+```{r pred, echo=FALSE, eval=TRUE, fig.cap="Predictions in red vs the true data in black."}
+<<assign1-plot-pred>>
 ```
 
 \newpage
 
 # Appendix
-    
+
 ## Code for Assignment 1
 ```{r, echo=TRUE, eval=FALSE, tidy=FALSE, highlight=TRUE}
-
+<<assign1-init>>
+<<assign1-plot-error>>
+<<assign1-plot-nn>>
+<<assign1-plot-pred>>
 ```
 
 ## Contributions

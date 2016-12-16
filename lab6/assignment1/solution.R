@@ -46,6 +46,9 @@ plot(nn, information=FALSE)
 ## ---- assign1-plot-pred
 plot(data, type="p", pch=16, cex=2, xlab="x", ylab="Sin(x)")
 points(predictions, col="red", type="p", pch=16, cex=1)
+legend("bottomleft", legend=c("Observed", "Predicted"),
+       col=c("Black", "Red"), pch=c(16, 16),
+       pt.cex=c(2, 1))
 ## ---- end-of-assign1-plot-pred
 
 ## ---- nn-plotter
