@@ -51,7 +51,6 @@ cat(paste(colnames(data)[as.numeric(genes[,1])], collapse='\n' ) )
 
 ## ---- assign1-1-nsc-plot
 pamr.plotcen(model, nsc_data, threshold=nsc_optimal_threshold)
-## pamr.plotcv(cvmodel)
 ## ---- end-of-assign1-1-nsc-plot
 
 ## 2

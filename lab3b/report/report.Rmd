@@ -72,7 +72,7 @@ Lastly I used the support vector machine and here the size correspond to the num
 <<assign1-2-svm-result>>
 ```
 
-From the summary below we can see that nearest chrunken centroid and support vector machine are the best in terms of classification error. \textbf{TODO}: Which one is better? Fewer observations to check in support vector but only 43 / 64 which is not that much. The number of features are still the same while in nsc the features are reduced by half. Is elastic net really that terrible considering the number of features?
+From a classification error point of view in the table below the support vector is better than both elastic net and nearest shrunken centroid, but in this case we only have 20 observations in the test set which means +5\% error rate is just an additional misclassification. Given the information we have I would prefer the nearest shrunken centroid since it reduces the feature space from 4702 to just 12 features with an additional misclassification compared to the support vector machine which uses all features. The elastic net have almost 3 times the number of features as nearest shrunken centroid with an additional misclassification so it is clearly a worse model with an increased complexity.
 
 \begin{center}
 ```{r, echo=FALSE, eval=TRUE}
@@ -90,6 +90,8 @@ In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm u
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-features>>
 ```
+
+Below are plots of the p-values for each feature in sorted order and the second plot just shows the lowest 150 p-values. The red points are those features where the null hypotheses was rejected, i.e. those are statistically significant in explaining the \textit{Conference} variable given $\alpha = 0.05$.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-plot>>
@@ -129,7 +131,7 @@ Figure \ref{fig:svm_error} shows how the error rate differ when varying the numb
 <<assign2-plot>>
 ```
 
-So what we can say is that when using $M = 500$ the $\beta$ controls how much the model fits the data and therefore using $\beta = 0$ are more prone to overfitting than $\beta = -0.05$ and gets a lower error rate. BOSVM with $M = 20$ and $\beta = -0.05$ has a slightly smoother error curve than with $\beta = 0$ because it does not change the support vectors for every faulty prediction and so it basically stabilizes and get a subset of more general support vectors that have greater predictive power. One problem with using $M = 20$ and $\beta = 0$ is that we have use low amounts of support vectors and every misclassification adds a new support vector which means that the calculation for removing a current support vector is executed many times and it is the most expensive operation in the algorithm hence slows down the execution time.
+So what we can say is that when using $M = 500$ the $\beta$ controls how much the model fits the data and therefore using $\beta = 0$ are more prone to overfitting than $\beta = -0.05$ and gets a lower error rate. BOSVM with $M = 20$ and $\beta = -0.05$ has a slightly smoother error curve than with $\beta = 0$ because it does not change the support vectors for every faulty prediction and so it basically stabilizes and get a subset of more general support vectors that have greater predictive power. One problem with using $M = 20$ and $\beta = 0$ is that we have use low amounts of support vectors and every misclassification adds a new support vector which means that the calculation for removing a current support vector is executed many times and it is the most expensive operation in the algorithm hence slows down the execution time significantly.
 
 \newpage
 
