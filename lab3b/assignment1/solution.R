@@ -42,7 +42,7 @@ genes <- pamr.listgenes(model, nsc_data, threshold=nsc_optimal_threshold)
 ## ---- end-of-assign1-1-nsc
 
 ## ---- assign1-1-nsc-result
-Xcat(paste("Threshold:", nsc_optimal_threshold))
+cat(paste("Threshold:", nsc_optimal_threshold))
 cat(paste("Size:", nsc_optimal_size))
 cat(paste("Classification Error:", nsc_class_error))
 cat("Features:")
@@ -82,7 +82,7 @@ cat(paste("Classification Error:", en_class_error))
 set.seed(12345)
 
 fit <- ksvm(x=t(x), y=y, kernel="vanilladot",
-            type="C-svc", cross=10, scale=FALSE)
+            type="C-svc", scale=FALSE)
 
 svm_optimal_size <- fit@nSV
 svm_class_error <- 1 - (sum(predict(fit, t(x_test)) == y_test) / length(y_test))
