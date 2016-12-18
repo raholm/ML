@@ -95,8 +95,8 @@ cat(paste("Classification Error:", svm_class_error))
 ## ---- assign1-2-summary
 table_data <- data.frame(NSC=c(nsc_optimal_size, percent(nsc_class_error)),
                          EN=c(en_optimal_size, percent(en_class_error)),
-                         SVM=c(svm_optimal_size, percent(svm_class_error)),
-                         row.names=c("Size", "Class. Err."))
+                         SVM=c(ncol(data) - 1, percent(svm_class_error)),
+                         row.names=c("Features", "Class. Err."))
 kable(table_data, format="latex", format.args=list())
 ## ---- end-of-assign1-2-summary
 

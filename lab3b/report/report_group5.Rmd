@@ -55,7 +55,7 @@ Figure \ref{fig:nsc} is the resulting centroid plot that shows the contributions
 <<assign1-2-elasticnet>>
 ```
 
-Elastic net is another method for feature extraction and we have let cross-validation choose the penalty measurement for us. In this can it can be shown below that it picked \textit{`r en_penalty`} which results in `r en_optimal_size` non-zero features and a misclassification rate of `r en_class_error * 100`\%.
+Elastic net is another method for feature extraction and we have let cross-validation choose the penalty measurement for us. It can be shown below that it picked \textit{`r en_penalty`} which results in `r en_optimal_size` non-zero features and a misclassification rate of `r en_class_error * 100`\%.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-2-elasticnet-result>>
@@ -85,13 +85,13 @@ From a classification error point of view in the table below the support vector 
 <<assign1-3-benjhoch>>
 ```
 
-In total there were `r rejected` rejected hypothesis by the Benjamini-Hochberg algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest chrunken centroid and make total sense as seen below.
+In total there were `r rejected` rejected hypothesis by the Benjamini-Hochberg (BH) algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest chrunken centroid and make total sense as seen below.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-features>>
 ```
 
-Below are plots of the p-values for each feature in sorted order and the second plot just shows the lowest 150 p-values. The red points are those features where the null hypotheses was rejected, i.e. those are statistically significant in explaining the \textit{Conference} variable given $\alpha = 0.05$.
+Below are plots of the p-values for each feature in sorted order and the second plot just shows the lowest 150 p-values. The red points are those features where the null hypotheses was rejected, i.e. those are statistically significant in explaining the \textit{Conference} variable given $\alpha = 0.05$ according to the rules of the BH-method which put a stricter requirement on the most significant features.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-plot>>
