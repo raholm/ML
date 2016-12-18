@@ -37,7 +37,7 @@ In this assignment I have used the data data set that contains 64 e-mails which 
 <<assign1-1-nsc>>
 ```
 
-Here I performed neastest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was `r nsc_optimal_threshold` resulting in `r nsc_optimal_size` non-zero features and a classification error of `r nsc_class_error * 100`\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seem reasonable.
+Here I performed nearest shrunken centroid on the training set where the threshold was chosen by 10-fold cross-validation. Below are the results and we can see that the optimal threshold was `r nsc_optimal_threshold` resulting in `r nsc_optimal_size` non-zero features and a classification error of `r nsc_class_error * 100`\%. We can see that words like \textit{papers}, \textit{submission}, \textit{published}, and \textit{conference} are important words in order to classify an e-mail as a conference e-mail which seem reasonable.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-1-nsc-result>>
@@ -55,7 +55,7 @@ Figure \ref{fig:nsc} is the resulting centroid plot that shows the contributions
 <<assign1-2-elasticnet>>
 ```
 
-Elastic net is another method for feature extraction and I let cross-validation choose the penalty measurement. In this can it can be shown below that it picked \textit{deviance} which results in 38 non-zero features and a misclassification rate of 15\%.
+Elastic net is another method for feature extraction and I let cross-validation choose the penalty measurement. In this can it can be shown below that it picked \textit{`r en_penalty`} which results in `r en_optimal_size` non-zero features and a misclassification rate of `r en_class_error * 100`\%.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-2-elasticnet-result>>
@@ -66,7 +66,7 @@ Elastic net is another method for feature extraction and I let cross-validation 
 <<assign1-2-svm>>
 ```
 
-Lastly I used the support vector machine and here the size correspond to the number of support vectors rather than features, i.e. all features are used but against a subset of training samples. The number of support vectors was 43 with a misclassification rate of 5\% which compared to elastic net is very good.
+Lastly I used the support vector machine and here the size correspond to the number of support vectors rather than features, i.e. all features are used but against a subset of training samples. The number of support vectors was `r svm_optimal_size` with a misclassification rate of `r svm_class_error * 100`\% which compared to elastic net is very good.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-2-svm-result>>
@@ -85,7 +85,7 @@ From a classification error point of view in the table below the support vector 
 <<assign1-3-benjhoch>>
 ```
 
-In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest chrunken centroid and make total sense as seen below.
+In total there were 39 rejected hypothesis by the Benjamini-Hochberg algorithm using $\alpha = 0.05$ and the ten most significant features found are quite similar to those found by the nearest shrunken centroid and make total sense as seen below.
 
 ```{r, echo=FALSE, eval=TRUE}
 <<assign1-3-features>>
@@ -131,7 +131,7 @@ Figure \ref{fig:svm_error} shows how the error rate differ when varying the numb
 <<assign2-plot>>
 ```
 
-So what we can say is that when using $M = 500$ the $\beta$ controls how much the model fits the data and therefore using $\beta = 0$ are more prone to overfitting than $\beta = -0.05$ and gets a lower error rate. BOSVM with $M = 20$ and $\beta = -0.05$ has a slightly smoother error curve than with $\beta = 0$ because it does not change the support vectors for every faulty prediction and so it basically stabilizes and get a subset of more general support vectors that have greater predictive power. One problem with using $M = 20$ and $\beta = 0$ is that we have use set the total amount of support vectors to a low value and every misclassification adds a new support vector which means that the calculation for removing a current support vector is executed many times and it is the most expensive operation in the algorithm hence slows down the execution time significantly.
+So what we can say is that when using $M = 500$ the $\beta$ controls how much the model fits the data and therefore using $\beta = 0$ are more prone to overfitting than $\beta = -0.05$ and gets a lower error rate. BOSVM with $M = 20$ and $\beta = -0.05$ has a slightly smoother error curve than with $\beta = 0$ because it does not change the support vectors for every faulty prediction and so it basically stabilizes and get a subset of more general support vectors that have greater predictive power. One problem with using $M = 20$ and $\beta = 0$ is that we have set the total amount of support vectors to a low value and every misclassification adds a new support vector which means that the calculation for removing a current support vector is executed many times and it is the most expensive operation in the algorithm hence slows down the execution time significantly.
 
 \newpage
 

@@ -45,8 +45,8 @@ genes <- pamr.listgenes(model, nsc_data, threshold=nsc_optimal_threshold)
 cat(paste("Threshold:", nsc_optimal_threshold))
 cat(paste("Size:", nsc_optimal_size))
 cat(paste("Classification Error:", nsc_class_error))
-cat("Features:")
-cat(paste(colnames(data)[as.numeric(genes[,1])], collapse='\n' ) )
+cat("Top 10 Features:")
+cat(paste(colnames(data)[as.numeric(genes[,1])][1:10], collapse='\n' ) )
 ## ---- end-of.assign1-1-nsc-result
 
 ## ---- assign1-1-nsc-plot
@@ -63,14 +63,14 @@ fit <- cv.glmnet(x=t(x), y=y, alpha=alpha, family="binomial")
 
 en_optimal_lambda <- fit$lambda[which.min(fit$cvm)]
 en_optimal_size <- fit$nzero[which.min(fit$cvm)]
-penalty <- strsplit(fit$name, " ")[[1]][2]
+en_penalty <- strsplit(fit$name, " ")[[1]][2]
 
 en_class_error <- 1 - (sum(predict(fit, t(x_test), type="class") == y_test) /
                     length(y_test))
 ## ---- end-of-assign1-2-elasticnet
 
 ## ---- assign1-2-elasticnet-result
-cat(paste("Penalty", penalty))
+cat(paste("Penalty", en_penalty))
 cat(paste("Lambda:", en_optimal_lambda))
 cat(paste("Size:", en_optimal_size))
 cat(paste("Classification Error:", en_class_error))
@@ -117,7 +117,7 @@ benjamini_hochberg <- function(x, y, alpha) {
 }
 
 result <- benjamini_hochberg(x=data[,-ncol(data)], y=data[, ncol(data)], alpha=0.05)
-length(result$features)
+rejected <- length(result$features)
 ## ---- end-of-assign1-3-benjhoch
 
 ## ---- assign1-3-features
