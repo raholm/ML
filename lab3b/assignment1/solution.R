@@ -15,10 +15,10 @@ train_idx <- sample(nrow(data), size=floor(nrow(data) * 7 / 10))
 train <- data[train_idx,]
 test <- data[-train_idx,]
 
-x <- t(train[, -ncol(data)])
+x <- train[, -ncol(data)]
 y <- train[, ncol(data)]
 
-x_test <- t(test[, -ncol(data)])
+x_test <- test[, -ncol(data)]
 y_test <- test[, ncol(data)]
 ## ---- end-of-assign1-init
 
@@ -26,16 +26,19 @@ y_test <- test[, ncol(data)]
 ## ---- assign1-1-nsc
 set.seed(12345)
 
-nsc_data <- list(x=x, y=as.factor(y),
-                 geneid=as.character(1:nrow(x)),
-                 genenames=rownames(x))
+nsc.x <- t(x)
+nsc.x_test = t(x_test)
+
+nsc_data <- list(x=nsc.x, y=as.factor(y),
+                 geneid=as.character(1:nrow(nsc.x)),
+                 genenames=rownames(nsc.x))
 model <- pamr.train(nsc_data, threshold=seq(0,4, 0.1))
 cvmodel <- pamr.cv(model, nsc_data)
 
 nsc_optimal_threshold <- rev(cvmodel$threshold)[which.min(rev(cvmodel$error))]
 nsc_optimal_size <- rev(cvmodel$size)[which.min(rev(cvmodel$error))]
 
-nsc_class_error <- 1 - (sum(pamr.predict(model, x_test,
+nsc_class_error <- 1 - (sum(pamr.predict(model, nsc.x_test,
                                           threshold=nsc_optimal_threshold) == y_test) /
                     length(y_test))
 genes <- pamr.listgenes(model, nsc_data, threshold=nsc_optimal_threshold)
@@ -59,12 +62,12 @@ pamr.plotcen(model, nsc_data, threshold=nsc_optimal_threshold)
 set.seed(12345)
 
 alpha <- 0.5
-fit <- cv.glmnet(x=t(x), y=y, alpha=alpha, family="binomial")
+fit <- cv.glmnet(x=x, y=y, alpha=alpha, family="binomial")
 
 en_optimal_lambda <- fit$lambda[which.min(fit$cvm)]
 en_optimal_size <- fit$nzero[which.min(fit$cvm)]
 en_penalty <- strsplit(fit$name, " ")[[1]][2]
-en_class_error <- 1 - (sum(predict(fit, t(x_test), type="class") == y_test) /
+en_class_error <- 1 - (sum(predict(fit, x_test, type="class") == y_test) /
                     length(y_test))
 ## ---- end-of-assign1-2-elasticnet
 
@@ -79,11 +82,11 @@ cat(paste("Classification Error:", en_class_error))
 ## ---- assign1-2-svm
 set.seed(12345)
 
-fit <- ksvm(x=t(x), y=y, kernel="vanilladot",
+fit <- ksvm(x=x, y=y, kernel="vanilladot",
             type="C-svc", scale=FALSE)
 
 svm_optimal_size <- fit@nSV
-svm_class_error <- 1 - (sum(predict(fit, t(x_test)) == y_test) / length(y_test))
+svm_class_error <- 1 - (sum(predict(fit, x_test) == y_test) / length(y_test))
 ## ---- end-of-assign1-2-svm
 
 ## ---- assign1-2-svm-result
@@ -110,7 +113,7 @@ benjamini_hochberg <- function(x, y, alpha) {
     sorted <- sort(pvalues)
     values <- 1:m * alpha / m
 
-    L <- which.min(sorted < values) - 1
+    L <- which.min(sorted <= values) - 1
     mask <- sorted <= sorted[L]
     list(mask=mask, pvalues=sorted, features=colnames(x)[order(pvalues)][mask])
 }
@@ -142,6 +145,6 @@ ggplot() +
                                y=result$pvalues[result$mask]),
                aes(x=x, y=y), col="red") +
     geom_point(data=data.frame(x=((length(result$features) + 1):150),
-                               y=result$pvalues[!result$mask][1:(150 - 39)]),
+                               y=result$pvalues[!result$mask][1:(150 - rejected)]),
                aes(x=x, y=y), col="blue")
 ## ---- end-of-assign1-3-plot-zoom
