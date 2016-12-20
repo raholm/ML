@@ -15,10 +15,10 @@ train_idx <- sample(nrow(data), size=floor(nrow(data) * 7 / 10))
 train <- data[train_idx,]
 test <- data[-train_idx,]
 
-x <- train[, -ncol(data)]
+x <- as.matrix(train[, -ncol(data)])
 y <- train[, ncol(data)]
 
-x_test <- test[, -ncol(data)]
+x_test <- as.matrix(test[, -ncol(data)])
 y_test <- test[, ncol(data)]
 ## ---- end-of-assign1-init
 
