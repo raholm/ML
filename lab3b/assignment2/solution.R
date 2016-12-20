@@ -10,7 +10,7 @@ spam <- spam[ind, c(1:48,58)]
 spam$Spam <- 2 * spam$Spam - 1
 
 gaussian_k <- function(x, h) {
-    exp(-(x / 2 * h))
+    exp(-(x / (2 * h)))
 }
 
 euclideansq_d <- function(x, xi) {
@@ -31,12 +31,12 @@ SVM <- function(sv, xi) {
     sum(t * k) + b
 }
 
-sv.least_important <- function(sv) {
+sv.least_important <- function(data, sv) {
     which.max(lapply(sv, function(m) {
-        obs <- spam[m,]
+        obs <- data[m,]
         x <- obs[, -ncol(obs)]
         t <- obs[, ncol(obs)]
-        y <- SVM(spam[sv,], x)
+        y <- SVM(data[sv,], x)
         h <- 1
         k <- gaussian_k(euclideansq_d(x, x), h)
         t * (y - t * k)
@@ -51,16 +51,17 @@ run_BOSVM <- function(data, beta, M, N) {
 
     for(i in 2:N) {
         predicted <- SVM(data[sv,], data[i, -ncol(data)])
+        classification <- data[i, ncol(data)] * predicted
 
-        if (data[i, "Spam"] * predicted <= beta) {
+        if (classification <= beta) {
             sv <- c(sv, i)
 
             if (length(sv) > M) {
-                sv <- sv[-sv.least_important(sv)]
+                sv <- sv[-sv.least_important(data, sv)]
             }
         }
 
-        if (data[i, "Spam"] * predicted < 0) {
+        if (classification < 0) {
             errors <- errors + 1
         }
 

@@ -64,7 +64,6 @@ fit <- cv.glmnet(x=t(x), y=y, alpha=alpha, family="binomial")
 en_optimal_lambda <- fit$lambda[which.min(fit$cvm)]
 en_optimal_size <- fit$nzero[which.min(fit$cvm)]
 en_penalty <- strsplit(fit$name, " ")[[1]][2]
-
 en_class_error <- 1 - (sum(predict(fit, t(x_test), type="class") == y_test) /
                     length(y_test))
 ## ---- end-of-assign1-2-elasticnet
