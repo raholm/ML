@@ -58,7 +58,6 @@ lambda <- 0.2
 idx1 <- which(data$am == 0)
 X1 <- as.matrix(data.frame(data$qsec[idx1], data$hp[idx1]))
 Xtest1 <- as.matrix(data.frame(data$qsec, data$hp))
-
 density1 <- kernel.density(X1, Xtest1, lambda)
 
 idx2 <- which(data$am == 1)
