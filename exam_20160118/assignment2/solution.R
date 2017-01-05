@@ -70,3 +70,8 @@ prediction <- apply(densities, 1, function(x) which.max(x))
 
 prediction_error <- mean(as.numeric(data$am) != prediction)
 prediction_error
+
+plot_data <- data.frame(x=data$hp, y=data$qsec, color=as.factor(prediction - 1))
+
+ggplot() +
+    geom_point(data=plot_data, aes(x=x, y=y, color=color))
