@@ -23,18 +23,21 @@ test <- data[test_idx,]
 ## 1
 sizes <- 2:8
 validation_errors <- rep(0, length(sizes))
+train_errors <- rep(0, length(sizes))
 fit <- tree(Al ~ ., data=train)
 
 for (size in sizes) {
     fit_pruned <- prune.tree(fit, best=size)
     validation_errors[size-1] <- mean((predict(fit_pruned, newdata=validation) - validation$Al)^2)
+    train_errors[size-1] <- mean((predict(fit_pruned, newdata=train) - train$Al)^2)
 }
 
-plot_data <- data.frame(x=sizes, y=validation_errors)
+plot_data <- data.frame(x=sizes, y1=validation_errors, y2=train_errors)
 
 ggplot() +
     xlab("# of terminal nodes") + ylab("Mean Squarred Error") +
-    geom_point(data=plot_data, aes(x=x, y=y))
+geom_line(data=plot_data, aes(x=x, y=y2), color="blue") +
+    geom_line(data=plot_data, aes(x=x, y=y1), color="red")
 
 ## 2
 optimal_size <- which.min(validation_errors) + 1

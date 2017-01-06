@@ -45,6 +45,7 @@ kernel.epan <- function(u) {
 kernel.density <- function(X, Xtest, lambda) {
     apply(Xtest, 1, function(x){
         s <- 0
+
         for (i in 1:nrow(X)) {
             s <- s + kernel.epan((X[i, ] - x) / lambda)
         }
